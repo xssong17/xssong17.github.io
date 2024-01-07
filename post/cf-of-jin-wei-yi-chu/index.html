@@ -1,0 +1,321 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#0x01-%E6%88%91%E7%9A%84%E9%97%AE%E9%A2%98">0x01 我的问题</a></li>
+<li><a href="#0x02-%E7%9B%B8%E5%85%B3%E7%9A%84%E7%9F%A5%E8%AF%86">0x02 相关的知识</a></li>
+<li><a href="#0x03-%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%E5%91%A2">0x03 怎么理解呢？</a></li>
+<li><a href="#0x04-%E5%9B%9E%E5%88%B0%E9%97%AE%E9%A2%98">0x04 回到问题</a></li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">CF OF 进位 溢出</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-10-30 / 3 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://Morn-zh.github.io/post-images/cover_note.jpg" alt="">
+        
+        <div class="post-content yue">
+          <h1 id="0x01-我的问题">0x01 我的问题</h1>
+<ul>
+<li>Q：CF表示进位，OF表示溢出，那么进位是否表示溢出，又或者溢出是否就一定会有进位？</li>
+</ul>
+<p>想要直接看答案，直接跳转<strong>0x04 回到问题</strong>，想要理解过程可以接着往下看</p>
+<h1 id="0x02-相关的知识">0x02 相关的知识</h1>
+<p>解答疑问之前，先明确下，溢出是<strong>所要表示的数值</strong>超出了<strong>本身能够表示的范围</strong></p>
+<p>以8位寄存器为例，来看看在将<strong>操作数</strong>视为<strong>无符号数</strong>和<strong>有符号数</strong>时能够表示的范围</p>
+<p>操作数 xxxx xxxx</p>
+<p>无符号数 xxxx xxxx</p>
+<p>有符号数 符号位+xxx xxxx</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无符号数</td>
+<td>0~2<sup>8</sup>-1</td>
+</tr>
+<tr>
+<td>有符号数</td>
+<td>-2<sup>7</sup>~2<sup>7</sup>-1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>标志位CF/OF为1时，表示的含义</strong></p>
+<table>
+<thead>
+<tr>
+<th>标志位</th>
+<th>含义</th>
+<th>表示结果是否正确（将进位值作为权值考虑在内）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CF=1</td>
+<td><strong>无符号数</strong>运算超出范围</td>
+<td><strong>依旧正确</strong></td>
+</tr>
+<tr>
+<td>OF=1</td>
+<td><strong>有符号数</strong>运算超出范围</td>
+<td>错误</td>
+</tr>
+</tbody>
+</table>
+<p>例1：操作数看做无符号数，关注CF<br>
+<img src="https://xssong17.github.io/post-images/1604056428774.png" alt="" loading="lazy"></p>
+<p>例2：操作数看做无符号数，关注CF</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/1604056465337.png" alt="" loading="lazy"></figure>
+<p>将例1看做有符号数，关注OF</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/1604056485295.png" alt="" loading="lazy"></figure>
+<p>将例2看做有符号数，关注OF</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/1604056493045.png" alt="" loading="lazy"></figure>
+<h1 id="0x03-怎么理解呢">0x03 怎么理解呢？</h1>
+<p>处理器会<strong>同时</strong>按照<strong>无符号</strong>和<strong>有符号</strong>运算法则进行运算，并且设置CF和OF两个标志位</p>
+<p>==&gt;也就是说操作数进入运算器后，运算器会进行两次运算，分别设置CF和OF标志位</p>
+<p><strong>至于如何利用这两个设置好的标志位，这将取决于程序员</strong></p>
+<ul>
+<li>如果程序员想要进行<strong>有符号数运算</strong>，那么将关注<strong>OF</strong>的情况，通过OF标志位判断计算结果是否溢出</li>
+<li>如果程序员想要进行<strong>无符号数运算</strong>，那么将关注<strong>CF</strong>的情况，通过CF标志位判断是否需要进位</li>
+</ul>
+<p>另外，还可以这样说</p>
+<ul>
+<li>对于<strong>无符号数</strong>来说，只有是否<strong>进位</strong>，不存在溢出</li>
+<li>对于<strong>有符号数</strong>来说，只有是否<strong>溢出</strong>，不存在进位</li>
+</ul>
+<p>存在这样的关系</p>
+<p>无符号数 &lt;------&gt; 进位 &lt;------&gt; CF</p>
+<p>有符号数 &lt;------&gt; 溢出 &lt;------&gt; OF</p>
+<h1 id="0x04-回到问题">0x04 回到问题</h1>
+<p>Q：CF表示进位，OF表示溢出，那么进位是否表示溢出，又或者溢出是否就一定会有进位？</p>
+<p>A：进位不一定溢出，溢出也不一定进位，因为这两个概念对应两个不同的标志位CF、OF，而这两个标志位又是相对有符号数和无符号数来说的。</p>
+<ul>
+<li>
+<p>如果我们将操作数看做无符号数，此时只需要考虑是否进位，与是否溢出的无关</p>
+</li>
+<li>
+<p>如果将操作数看做有符号数，此时我们应该关心运算结果是否溢出，与是否进位无关</p>
+</li>
+</ul>
+<p>如果看不懂，可以回看理解的过程</p>
+<p>如果理解或者解答有误，请及时联系，我将第一时间进行更正，万分谢谢！</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/3JJciZzrl/">
+            <span class="flex-auto">汇编</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/zhuan-zai-hu-lian-wang-xie-yi-ru-men-yi/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  （转载）互联网协议入门（一）
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/gunicorngevent-bu-shu-flask/">
+                <h3 class="post-title">
+                  gunicorn+gevent部署flask
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

@@ -1,0 +1,332 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85vmoshttpcanary">安卓11手机+非root+微信小程序抓包（vmos+HttpCanary）</a>
+<ul>
+<li><a href="#0x01-%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6">0x01 安装软件</a></li>
+<li><a href="#0x02-%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83">0x02 配置环境</a>
+<ul>
+<li><a href="#step1-%E5%9C%A8%E7%9C%9F%E6%9C%BA%E4%B8%AD%E5%AF%BC%E5%87%BA%E7%B3%BB%E7%BB%9F%E8%AF%81%E4%B9%A6">step1 在真机中导出系统证书</a></li>
+<li><a href="#step2-%E5%9C%A8%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E5%AF%BC%E5%85%A5%E7%B3%BB%E7%BB%9F%E8%AF%81%E4%B9%A6%E4%BB%A5%E5%8F%8A%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6">step2 在虚拟机中导入系统证书以及必要软件</a>
+<ul>
+<li><a href="#1-%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F">1、创建镜像</a></li>
+<li><a href="#2-%E5%AF%BC%E5%85%A5%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6">2、导入相关文件</a></li>
+<li><a href="#3-%E5%A4%8D%E5%88%B6%E8%AF%81%E4%B9%A6%E5%88%B0%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%A4%B9%E4%BD%BF%E5%85%B6%E7%94%9F%E6%95%88">3、复制证书到目标文件夹使其生效</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#0x03-%E6%A3%80%E9%AA%8C%E6%88%90%E6%9E%9C">0x03 检验成果</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">安卓11手机+非root+微信小程序抓包（vmos+HttpCanary）</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-11-05 / 3 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="安卓11手机非root微信小程序抓包vmoshttpcanary">安卓11手机+非root+微信小程序抓包（vmos+HttpCanary）</h1>
+<p>写在前面：</p>
+<p>因为各种各样的原因，安卓抓包需要安装两个证书——用户证书、系统证书</p>
+<p>但是，自从安卓几更新后（具体版本记不得了），系统证书的安装就必须root之后才能完成安装，为了不root（偷懒），因此找到了标题中的方式</p>
+<h2 id="0x01-安装软件">0x01 安装软件</h2>
+<p>安装以下清单中的软件</p>
+<p>软件清单:</p>
+<ul>
+<li>
+<p>VMOS Pro</p>
+</li>
+<li>
+<p>HttpCanary</p>
+</li>
+<li>
+<p>ES文件浏览器</p>
+</li>
+</ul>
+<p>用途说明：</p>
+<p>VMOS Pro：用于创建虚拟机</p>
+<p>HttpCanary：抓包使用到的软件</p>
+<p>ES文件浏览器：虚拟机中没有管理文件的软件，因此需要下载个实现该功能的软件用于虚拟机文件管理（其他拥有类似功能的软件都可）</p>
+<p>下载地址：</p>
+<p>VMOS Pro破解版：</p>
+<p>http://112.74.58.65:83/#/s/zYcp</p>
+<p>密码：unj6wc</p>
+<p>HttpCanary破解版：</p>
+<p>http://112.74.58.65:83/#/s/y7Uz</p>
+<p>密码：4wqwyf</p>
+<p>ES文件浏览器：自行下载</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Screenshot_20211105-193820.jpg" alt="Screenshot_20211105-193820" loading="lazy"></figure>
+<h2 id="0x02-配置环境">0x02 配置环境</h2>
+<p>以下叙述会涉及到如下简称：</p>
+<p>真机：当前你使用到的实体机</p>
+<p>虚拟机：使用VMOS创建的虚拟机</p>
+<p>小黄鸟：之前安装的抓包软件——HttpCanary</p>
+<h3 id="step1-在真机中导出系统证书">step1 在真机中导出系统证书</h3>
+<p>真机环境下：打开小黄鸟，按图示依次点击，导出系统证书，默认导出到目录是<code>/HttpCanary/cert/</code>，稍微眼熟下就行</p>
+<p>1、点击目录</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-39-41.png" alt="Snipaste_2021-11-05_20-39-41" loading="lazy"></figure>
+<p>2、点击设置</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-39-52.png" alt="Snipaste_2021-11-05_20-39-52" loading="lazy"></figure>
+<p>3、点击SSL证书设置</p>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-40-01.png" alt="Snipaste_2021-11-05_20-40-01" loading="lazy"></figure>
+<p>4、选择导出证书，并选择系统证书</p>
+<figure data-type="image" tabindex="5"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-40-17.png" alt="Snipaste_2021-11-05_20-40-17" loading="lazy"></figure>
+<p>5、默认导出的文件所在位置</p>
+<figure data-type="image" tabindex="6"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-44-21.png" alt="Snipaste_2021-11-05_20-44-21" loading="lazy"></figure>
+<h3 id="step2-在虚拟机中导入系统证书以及必要软件">step2 在虚拟机中导入系统证书以及必要软件</h3>
+<h4 id="1-创建镜像">1、创建镜像</h4>
+<p>打开VMOS，点击“+”号，按照图示，创建<strong>64位的镜像</strong>（微信必须在64位的环境下才能运行）</p>
+<figure data-type="image" tabindex="7"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-38-00.png" alt="Snipaste_2021-11-05_20-38-00" loading="lazy"></figure>
+<h4 id="2-导入相关文件">2、导入相关文件</h4>
+<p>打开VMOS，进入上面创建的镜像中</p>
+<p>按照图示，导入step1中导出的系统证书以及后续需要用的软件：微信、ES文件浏览器</p>
+<p>1）打开文件传输</p>
+<figure data-type="image" tabindex="8"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-47-23.png" alt="Snipaste_2021-11-05_20-47-23" loading="lazy"></figure>
+<p>2）选择“我要导入”</p>
+<figure data-type="image" tabindex="9"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-47-31.png" alt="Snipaste_2021-11-05_20-47-31" loading="lazy"></figure>
+<p>3）导入证书</p>
+<figure data-type="image" tabindex="10"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-48-04.png" alt="Snipaste_2021-11-05_20-48-04" loading="lazy"></figure>
+<p>4）导入ES文件浏览器</p>
+<figure data-type="image" tabindex="11"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-48-28.png" alt="Snipaste_2021-11-05_20-48-28" loading="lazy"></figure>
+<p>5）导入微信</p>
+<figure data-type="image" tabindex="12"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-48-37.png" alt="Snipaste_2021-11-05_20-48-37" loading="lazy"></figure>
+<h4 id="3-复制证书到目标文件夹使其生效">3、复制证书到目标文件夹使其生效</h4>
+<p>在虚拟机中，打开<code>ES文件浏览器</code>，将导入的系统证书复制到系统证书生效的目录，使其生效，具体步骤如下</p>
+<p>1）找到刚刚导入的系统证书（导入地址在<code>VMOSfiletransferstation</code>这个文件夹中）：</p>
+<figure data-type="image" tabindex="13"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-58-48.png" alt="Snipaste_2021-11-05_20-58-48" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-59-36.png" alt="Snipaste_2021-11-05_20-59-36" loading="lazy"></figure>
+<p>2）复制这个系统证书到<code>/system/etc/secrity/cacerts/</code>目录下</p>
+<figure data-type="image" tabindex="15"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-00-09.png" alt="Snipaste_2021-11-05_21-00-09" loading="lazy"></figure>
+<p>3）粘贴到图示目录下：<code>/system/etc/secrity/cacerts/</code></p>
+<figure data-type="image" tabindex="16"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-01-55.png" alt="Snipaste_2021-11-05_21-01-55" loading="lazy"></figure>
+<h2 id="0x03-检验成果">0x03 检验成果</h2>
+<p>虚拟机中，登录微信并打开小程序</p>
+<p>真机中，小黄鸟中选择仅抓取VMOS Pro，开启抓取，即可</p>
+<p>1、点击设置</p>
+<figure data-type="image" tabindex="17"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-06-58.png" alt="Snipaste_2021-11-05_21-06-58" loading="lazy"></figure>
+<p>2、点击目标应用</p>
+<figure data-type="image" tabindex="18"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-21.png" alt="Snipaste_2021-11-05_21-07-21" loading="lazy"></figure>
+<p>3、选择VMOS</p>
+<figure data-type="image" tabindex="19"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-32.png" alt="Snipaste_2021-11-05_21-07-32" loading="lazy"></figure>
+<p>4、选择后的样子</p>
+<figure data-type="image" tabindex="20"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-38.png" alt="Snipaste_2021-11-05_21-07-38" loading="lazy"></figure>
+<p>5、点击小飞机，开始抓包吧</p>
+<figure data-type="image" tabindex="21"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-56.png" alt="Snipaste_2021-11-05_21-07-56" loading="lazy"></figure>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/2JMIppg0P/">
+            <span class="flex-auto">随记</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/git-xiang-mu-shang-chuan-cao-gao/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  git项目上传（草稿）
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/gridea-geng-xin-shi-bai-jie-jue-ban-fa/">
+                <h3 class="post-title">
+                  Gridea同步失败解决办法
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

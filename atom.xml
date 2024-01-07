@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://xssong17.github.io</id>
+    <title>xssong17</title>
+    <updated>2024-01-07T13:45:36.704Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://xssong17.github.io"/>
+    <link rel="self" href="https://xssong17.github.io/atom.xml"/>
+    <subtitle>我等着，等着你</subtitle>
+    <logo>https://xssong17.github.io/images/avatar.png</logo>
+    <icon>https://xssong17.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, xssong17</rights>
+    <entry>
+        <title type="html"><![CDATA[conda安装及环境移植]]></title>
+        <id>https://xssong17.github.io/post/conda-an-zhuang-ji-huan-jing-yi-zhi/</id>
+        <link href="https://xssong17.github.io/post/conda-an-zhuang-ji-huan-jing-yi-zhi/">
+        </link>
+        <updated>2023-11-25T15:11:46.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-conda安装">1、conda安装</h2>
+<p>安装miniconda</p>
+<pre><code class="language-bash">sudo su
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+sudo bash ./Miniconda3-latest-Linux-x86_64.sh
+# 都选择yes即可
+source /root/miniconda3/bin/activate
+vim ~/.bashrc
+export PATH=&quot;/root/miniconda3/bin:$PATH&quot;
+source ~/.bashrc
+conda config --set auto_activate_base false
+</code></pre>
+<p>使用miniconda</p>
+<pre><code class="language-bash">conda create -n envname python==3.10
+conda activate envname
+conda deactivate
+</code></pre>
+<p>其他命令</p>
+<pre><code class="language-bash">conda env list
+conda remove -n envname --all
+</code></pre>
+<h2 id="2-环境移植">2、环境移植</h2>
+<pre><code class="language-bash">conda pack -n envname
+</code></pre>
+<p>打包成一个envname.tar.gz的压缩包</p>
+<h2 id="3-环境使用">3、环境使用</h2>
+<pre><code class="language-bash">env_name=torch_gpu_1.12
+conda create -n $env_name python==3.9 -y
+pip cache purge
+pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
+
+pip install tqdm pillow matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip freeze &gt; packages.txt
+conda pack -n $env_name
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[cloudreve网盘安装及aria离线下载配置]]></title>
+        <id>https://xssong17.github.io/post/cloudreve-wang-pan-an-zhuang-ji-aria-chi-xian-xia-zai-pei-zhi/</id>
+        <link href="https://xssong17.github.io/post/cloudreve-wang-pan-an-zhuang-ji-aria-chi-xian-xia-zai-pei-zhi/">
+        </link>
+        <updated>2023-11-25T15:06:36.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="根据官方文档进行cloudreve网盘安装及aria离线下载配置">根据官方文档进行cloudreve网盘安装及aria离线下载配置</h1>
+<h2 id="环境说明">环境说明</h2>
+<p>系统：ubuntu20.04</p>
+<h2 id="cloudreve网盘安装">cloudreve网盘安装</h2>
+<p>官方文档地址：https://docs.cloudreve.org/v/en/getting-started/install</p>
+<p>程序下载地址：https://github.com/cloudreve/Cloudreve/releases</p>
+<h3 id="程序安装及启动">程序安装及启动</h3>
+<pre><code>#解压获取到的主程序
+tar -zxvf cloudreve_VERSION_OS_ARCH.tar.gz
+
+# 赋予执行权限
+chmod +x ./cloudreve
+
+# 启动 Cloudreve
+./cloudreve
+</code></pre>
+<p>注意！！！</p>
+<p>此时屏幕上会出现账户的初始密码信息，请记录！</p>
+<pre><code>#初始账号
+admin@cloudreve.org
+</code></pre>
+<p>默认配置为仅限本地访问，若想外网也能访问需修改配置文件，并指定配置文件</p>
+<pre><code># 创建配置文件
+vim conf.ini
+</code></pre>
+<pre><code>[System]
+Debug = false
+Mode = master
+Listen = 0.0.0.0:5212
+</code></pre>
+<pre><code>./cloudreve -c /&lt;YOUR_PATH&gt;/conf.ini
+</code></pre>
+<h3 id="修改初始密码">修改初始密码</h3>
+<p>浏览器访问<code>&lt;ip地址&gt;:5212</code>，登录后访问如下地址</p>
+<pre><code>ip:5212/admin/basic
+</code></pre>
+<p>将站点url修改为<code>http://ip:port</code></p>
+<p>保存即可</p>
+<h3 id="进程守护">进程守护</h3>
+<p>本次安装选择<strong>Systemd</strong></p>
+<p>将下文 <code>PATH_TO_CLOUDREVE</code> 更换为程序所在目录：</p>
+<pre><code>[Unit]
+Description=Cloudreve
+Documentation=https://docs.cloudreve.org
+After=network.target
+After=mysqld.service
+Wants=network.target
+
+[Service]
+WorkingDirectory=/PATH_TO_CLOUDREVE
+ExecStart=/PATH_TO_CLOUDREVE/cloudreve
+Restart=on-abnormal
+RestartSec=5s
+KillMode=mixed
+
+StandardOutput=null
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<pre><code># 更新配置
+systemctl daemon-reload
+
+# 启动服务
+systemctl start cloudreve
+
+# 设置开机启动
+systemctl enable cloudreve
+</code></pre>
+<p>管理命令</p>
+<pre><code># 启动服务
+systemctl start cloudreve
+
+# 停止服务
+systemctl stop cloudreve
+
+# 重启服务
+systemctl restart cloudreve
+
+# 查看状态
+systemctl status cloudreve
+</code></pre>
+<h3 id="反向代理可选">反向代理（可选）</h3>
+<p>本次安装过程选择<strong>nginx</strong></p>
+<pre><code>location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://127.0.0.1:5212;
+
+    # 如果您要使用本地存储策略，请将下一行注释符删除，并更改大小为理论最大文件尺寸
+    # client_max_body_size 20000m;
+}
+</code></pre>
+<h2 id="aria安装">aria安装</h2>
+<p>官方地址：https://github.com/aria2/aria2</p>
+<p>参考readme进行编译安装，若需要进行进程守护，参考cloudreve进程守护部分</p>
+<p>配置cloudreve中的aria部分即可</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[cloudreve安装指南——docker安装]]></title>
+        <id>https://xssong17.github.io/post/cloudreve-cao-zuo-zhi-nan-an-zhuang/</id>
+        <link href="https://xssong17.github.io/post/cloudreve-cao-zuo-zhi-nan-an-zhuang/">
+        </link>
+        <updated>2023-11-25T15:04:29.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="cloudreve安装指南docker安装">cloudreve安装指南——docker安装</h1>
+<h2 id="1-安装docker">1、安装docker</h2>
+<p>略</p>
+<h2 id="2-安装cloudreve的镜像">2、安装cloudreve的镜像</h2>
+<pre><code>docker pull xavierniu/cloudreve
+</code></pre>
+<h2 id="3-创建需要的文件夹文件">3、创建需要的文件夹/文件</h2>
+<ul>
+<li>
+<p>创建文件夹</p>
+<pre><code>mkdir -p /cloudreve/uploads
+</code></pre>
+<pre><code>mkdir -p /cloudreve/config
+</code></pre>
+<pre><code>mkdir -p /cloudreve/db
+</code></pre>
+<pre><code>mkdir -p /cloudreve/avatar
+</code></pre>
+</li>
+<li>
+<p>创建配置文件</p>
+<pre><code>vim /cloudreve/config/conf.ini
+</code></pre>
+<pre><code>[Database]
+DBFile = /cloudreve/db/cloudreve.db
+</code></pre>
+</li>
+</ul>
+<h2 id="4-运行镜像">4、运行镜像</h2>
+<pre><code>docker run -d \
+  --name cloudreve \
+  -e PUID=0 \
+  -e PGID=0 \
+  -e TZ=&quot;Asia/Shanghai&quot; \
+  -p 5212:5212 \
+  --restart=unless-stopped \
+  -v /cloudreve/uploads:/cloudreve/uploads \
+  -v /cloudreve/config:/cloudreve/config \
+  -v /cloudreve/db:/cloudreve/db \
+  -v /cloudreve/avatar:/cloudreve/avatar \
+  xavierniu/cloudreve
+</code></pre>
+<p>ps：其中 PUID 和 PGID是通过<code>id root</code>命令获取，一般root用户是0，不需要更改上述命令，直接复制即可</p>
+<h2 id="5-查看初始密码">5、查看初始密码</h2>
+<pre><code>docker logs -f cloudreve
+</code></pre>
+<h2 id="6-修改密码">6、修改密码</h2>
+<p><strong>浏览器访问</strong>，登录网盘的管理界面</p>
+<pre><code>ip:5212/admin
+</code></pre>
+<p>找到用户修改即可</p>
+<h2 id="7-修改配置信息">7、修改配置信息</h2>
+<p><strong>浏览器访问</strong>，要求当前处于管理员登录状态（如若未登录，先登录管理员账号再访问如下网址）</p>
+<pre><code>ip:5212/admin/basic
+</code></pre>
+<p>将站点url修改为<code>http://ip:port</code></p>
+<p>保存即可</p>
+<h2 id="8-开始使用吧">8、开始使用吧</h2>
+<pre><code>ip:5212
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[mongoDB docker镜像安装]]></title>
+        <id>https://xssong17.github.io/post/an-zhuang-docker-ban-mongodb/</id>
+        <link href="https://xssong17.github.io/post/an-zhuang-docker-ban-mongodb/">
+        </link>
+        <updated>2023-11-25T15:03:25.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="mongodb-docker镜像安装">mongoDB docker镜像安装</h1>
+<h2 id="安装docker镜像">安装docker镜像</h2>
+<p>1、安装指定版本docker镜像</p>
+<pre><code>docker pull mongo:4.4
+</code></pre>
+<p>2、查看是否拉取成功</p>
+<pre><code>docker images
+</code></pre>
+<p>3、启动镜像</p>
+<pre><code>docker run -itd --name mongo -p 27017:27017 mongo:4.4 -auth
+</code></pre>
+<p>4、使用admin身份登录mongodb</p>
+<pre><code>docker exec -it mongo mongo admin
+</code></pre>
+<p>5、创建用户</p>
+<p>管理用户</p>
+<pre><code>db.createUser({ user:'root',pwd:'123456',roles:[ { role:'userAdminAnyDatabase', db: 'admin'},&quot;readWriteAnyDatabase&quot;]});
+</code></pre>
+<p>普通用户</p>
+<pre><code>db.createUser({user: &quot;bb&quot;, pwd: &quot;123456&quot;,
+roles: [{ role: &quot;readWrite&quot;, db: &quot;admin&quot; }]})
+</code></pre>
+<p>6、验证登录是否成功</p>
+<pre><code>db.auth('root', '123456')
+</code></pre>
+<p><code>ctrl+p+q</code>退出容器（命令不确定）</p>
+<p>此时<strong>服务器本地</strong>已经可以通过默认端口直接访问mongoDB了。<strong>远程连接</strong>因安全原因无法进行，需进行额外配置。</p>
+<h2 id="配置mongodb数据库">配置mongoDB数据库</h2>
+<p>进入容器，修改mongoDB配置文件</p>
+<p>1、查看dockerID</p>
+<pre><code>docker ps
+</code></pre>
+<p>2、进入容器</p>
+<pre><code>docker exec -it &lt;dockerID&gt; /bin/bash
+</code></pre>
+<p>3、修改配置文件</p>
+<p>安装vim</p>
+<pre><code>apt-get update
+apt-get install vim
+apt install vim -y
+</code></pre>
+<p>编辑配置文件</p>
+<pre><code>vim /etc/mongod.conf.orig
+</code></pre>
+<p>1）注释掉<code>bindIp: 127.0.0.1</code> 或者改成<code>bindIp: 0.0.0.0</code> 即可开启远程连接</p>
+<pre><code># bindIp: 127.0.0.1
+# 或
+bindIp: 0.0.0.0
+</code></pre>
+<p>2）开启权限认证</p>
+<pre><code>#注意缩进，参照其他的值来改，若是缩进不对可能导致后面服务不能重启
+security:
+  authorization: enabled
+</code></pre>
+<p>保存并退出容器</p>
+<p>4、重启容器</p>
+<pre><code>docker restart &lt;dockerID&gt;
+</code></pre>
+<h2 id="studio3t远程连接">Studio3T远程连接</h2>
+<p>使用Stdio3T连接目标数据库</p>
+<p>依次填写ssh连接、数据库账号密码、用户数据库（admin）</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git项目上传（草稿）]]></title>
+        <id>https://xssong17.github.io/post/git-xiang-mu-shang-chuan-cao-gao/</id>
+        <link href="https://xssong17.github.io/post/git-xiang-mu-shang-chuan-cao-gao/">
+        </link>
+        <updated>2023-09-13T15:58:39.000Z</updated>
+        <content type="html"><![CDATA[<p>一直都是本地git战士，突然某天想“上网”了，于是有了该篇文章，仅做记录，方便日后查阅。</p>
+<h1 id="github仓库创建">Github仓库创建</h1>
+<ul>
+<li>
+<p>进入仓库列表</p>
+</li>
+<li>
+<p>新建仓库</p>
+</li>
+<li>
+<p>填写信息</p>
+</li>
+</ul>
+<h1 id="goland项目创建与git配置">Goland项目创建与Git配置</h1>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[安卓11手机+非root+微信小程序抓包（vmos+HttpCanary）]]></title>
+        <id>https://xssong17.github.io/post/an-zhuo-11-shou-ji-fei-rootwei-xin-xiao-cheng-xu-zhua-bao-vmoshttpcanary/</id>
+        <link href="https://xssong17.github.io/post/an-zhuo-11-shou-ji-fei-rootwei-xin-xiao-cheng-xu-zhua-bao-vmoshttpcanary/">
+        </link>
+        <updated>2021-11-05T13:19:07.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="安卓11手机非root微信小程序抓包vmoshttpcanary">安卓11手机+非root+微信小程序抓包（vmos+HttpCanary）</h1>
+<p>写在前面：</p>
+<p>因为各种各样的原因，安卓抓包需要安装两个证书——用户证书、系统证书</p>
+<p>但是，自从安卓几更新后（具体版本记不得了），系统证书的安装就必须root之后才能完成安装，为了不root（偷懒），因此找到了标题中的方式</p>
+<h2 id="0x01-安装软件">0x01 安装软件</h2>
+<p>安装以下清单中的软件</p>
+<p>软件清单:</p>
+<ul>
+<li>
+<p>VMOS Pro</p>
+</li>
+<li>
+<p>HttpCanary</p>
+</li>
+<li>
+<p>ES文件浏览器</p>
+</li>
+</ul>
+<p>用途说明：</p>
+<p>VMOS Pro：用于创建虚拟机</p>
+<p>HttpCanary：抓包使用到的软件</p>
+<p>ES文件浏览器：虚拟机中没有管理文件的软件，因此需要下载个实现该功能的软件用于虚拟机文件管理（其他拥有类似功能的软件都可）</p>
+<p>下载地址：</p>
+<p>VMOS Pro破解版：</p>
+<p>http://112.74.58.65:83/#/s/zYcp</p>
+<p>密码：unj6wc</p>
+<p>HttpCanary破解版：</p>
+<p>http://112.74.58.65:83/#/s/y7Uz</p>
+<p>密码：4wqwyf</p>
+<p>ES文件浏览器：自行下载</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Screenshot_20211105-193820.jpg" alt="Screenshot_20211105-193820" loading="lazy"></figure>
+<h2 id="0x02-配置环境">0x02 配置环境</h2>
+<p>以下叙述会涉及到如下简称：</p>
+<p>真机：当前你使用到的实体机</p>
+<p>虚拟机：使用VMOS创建的虚拟机</p>
+<p>小黄鸟：之前安装的抓包软件——HttpCanary</p>
+<h3 id="step1-在真机中导出系统证书">step1 在真机中导出系统证书</h3>
+<p>真机环境下：打开小黄鸟，按图示依次点击，导出系统证书，默认导出到目录是<code>/HttpCanary/cert/</code>，稍微眼熟下就行</p>
+<p>1、点击目录</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-39-41.png" alt="Snipaste_2021-11-05_20-39-41" loading="lazy"></figure>
+<p>2、点击设置</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-39-52.png" alt="Snipaste_2021-11-05_20-39-52" loading="lazy"></figure>
+<p>3、点击SSL证书设置</p>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-40-01.png" alt="Snipaste_2021-11-05_20-40-01" loading="lazy"></figure>
+<p>4、选择导出证书，并选择系统证书</p>
+<figure data-type="image" tabindex="5"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-40-17.png" alt="Snipaste_2021-11-05_20-40-17" loading="lazy"></figure>
+<p>5、默认导出的文件所在位置</p>
+<figure data-type="image" tabindex="6"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-44-21.png" alt="Snipaste_2021-11-05_20-44-21" loading="lazy"></figure>
+<h3 id="step2-在虚拟机中导入系统证书以及必要软件">step2 在虚拟机中导入系统证书以及必要软件</h3>
+<h4 id="1-创建镜像">1、创建镜像</h4>
+<p>打开VMOS，点击“+”号，按照图示，创建<strong>64位的镜像</strong>（微信必须在64位的环境下才能运行）</p>
+<figure data-type="image" tabindex="7"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-38-00.png" alt="Snipaste_2021-11-05_20-38-00" loading="lazy"></figure>
+<h4 id="2-导入相关文件">2、导入相关文件</h4>
+<p>打开VMOS，进入上面创建的镜像中</p>
+<p>按照图示，导入step1中导出的系统证书以及后续需要用的软件：微信、ES文件浏览器</p>
+<p>1）打开文件传输</p>
+<figure data-type="image" tabindex="8"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-47-23.png" alt="Snipaste_2021-11-05_20-47-23" loading="lazy"></figure>
+<p>2）选择“我要导入”</p>
+<figure data-type="image" tabindex="9"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-47-31.png" alt="Snipaste_2021-11-05_20-47-31" loading="lazy"></figure>
+<p>3）导入证书</p>
+<figure data-type="image" tabindex="10"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-48-04.png" alt="Snipaste_2021-11-05_20-48-04" loading="lazy"></figure>
+<p>4）导入ES文件浏览器</p>
+<figure data-type="image" tabindex="11"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-48-28.png" alt="Snipaste_2021-11-05_20-48-28" loading="lazy"></figure>
+<p>5）导入微信</p>
+<figure data-type="image" tabindex="12"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-48-37.png" alt="Snipaste_2021-11-05_20-48-37" loading="lazy"></figure>
+<h4 id="3-复制证书到目标文件夹使其生效">3、复制证书到目标文件夹使其生效</h4>
+<p>在虚拟机中，打开<code>ES文件浏览器</code>，将导入的系统证书复制到系统证书生效的目录，使其生效，具体步骤如下</p>
+<p>1）找到刚刚导入的系统证书（导入地址在<code>VMOSfiletransferstation</code>这个文件夹中）：</p>
+<figure data-type="image" tabindex="13"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-58-48.png" alt="Snipaste_2021-11-05_20-58-48" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_20-59-36.png" alt="Snipaste_2021-11-05_20-59-36" loading="lazy"></figure>
+<p>2）复制这个系统证书到<code>/system/etc/secrity/cacerts/</code>目录下</p>
+<figure data-type="image" tabindex="15"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-00-09.png" alt="Snipaste_2021-11-05_21-00-09" loading="lazy"></figure>
+<p>3）粘贴到图示目录下：<code>/system/etc/secrity/cacerts/</code></p>
+<figure data-type="image" tabindex="16"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-01-55.png" alt="Snipaste_2021-11-05_21-01-55" loading="lazy"></figure>
+<h2 id="0x03-检验成果">0x03 检验成果</h2>
+<p>虚拟机中，登录微信并打开小程序</p>
+<p>真机中，小黄鸟中选择仅抓取VMOS Pro，开启抓取，即可</p>
+<p>1、点击设置</p>
+<figure data-type="image" tabindex="17"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-06-58.png" alt="Snipaste_2021-11-05_21-06-58" loading="lazy"></figure>
+<p>2、点击目标应用</p>
+<figure data-type="image" tabindex="18"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-21.png" alt="Snipaste_2021-11-05_21-07-21" loading="lazy"></figure>
+<p>3、选择VMOS</p>
+<figure data-type="image" tabindex="19"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-32.png" alt="Snipaste_2021-11-05_21-07-32" loading="lazy"></figure>
+<p>4、选择后的样子</p>
+<figure data-type="image" tabindex="20"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-38.png" alt="Snipaste_2021-11-05_21-07-38" loading="lazy"></figure>
+<p>5、点击小飞机，开始抓包吧</p>
+<figure data-type="image" tabindex="21"><img src="https://xssong17.github.io/post-images/%E5%AE%89%E5%8D%9311%E6%89%8B%E6%9C%BA%E9%9D%9Eroot%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8A%93%E5%8C%85%EF%BC%88vmos+HttpCanary%EF%BC%89/Snipaste_2021-11-05_21-07-56.png" alt="Snipaste_2021-11-05_21-07-56" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea同步失败解决办法]]></title>
+        <id>https://xssong17.github.io/post/gridea-geng-xin-shi-bai-jie-jue-ban-fa/</id>
+        <link href="https://xssong17.github.io/post/gridea-geng-xin-shi-bai-jie-jue-ban-fa/">
+        </link>
+        <updated>2021-10-19T10:21:55.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="gridea同步失败解决办法">Gridea同步失败解决办法</h1>
+<h2 id="0x01更新最新的客户端并手动设置代理推荐">0x01更新最新的客户端，并手动设置代理（推荐）</h2>
+<pre><code>https://github.com/getgridea/gridea/releases
+</code></pre>
+<p>文章更新时最新客户端版本v0.9.3</p>
+<h2 id="0x02-更改本地hosts文件">0x02 更改本地hosts文件</h2>
+<p>1、访问站长之家，寻找可以使用的ip</p>
+<pre><code>http://ping.chinaz.com/github.com
+</code></pre>
+<p>2、修改本地hosts文件</p>
+<pre><code>C:\Windows\System32\drivers\etc
+</code></pre>
+<p>3、末尾添加</p>
+<pre><code>ip github.com
+</code></pre>
+<p>保存即可</p>
+<p>ps：该方法再同步时也有可能失败，可能为网络波动，多试一两次即可</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常见linux命令（个人使用、不定时更新）]]></title>
+        <id>https://xssong17.github.io/post/chang-jian-linux-ming-ling-ge-ren-shi-yong-bu-ding-shi-geng-xin/</id>
+        <link href="https://xssong17.github.io/post/chang-jian-linux-ming-ling-ge-ren-shi-yong-bu-ding-shi-geng-xin/">
+        </link>
+        <updated>2021-10-19T10:16:24.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="常见linux命令个人使用-不定时更新">常见linux命令（个人使用、不定时更新）</h1>
+<h2 id="linux">linux</h2>
+<h3 id="防火墙">防火墙</h3>
+<p>开启防火墙的某个端口</p>
+<pre><code>firewall-cmd --zone=public --add-port=5212/tcp --permanent
+</code></pre>
+<p>重启防火墙</p>
+<pre><code>firewall-cmd --reload
+</code></pre>
+<p>列出当前使用的端口</p>
+<pre><code>firewall-cmd --list-ports
+</code></pre>
+<p>系统开启防火墙</p>
+<pre><code>systemctl start firewalld
+</code></pre>
+<h3 id="centos换源">centos换源</h3>
+<p>https://morn-zh.github.io/post/centos-huan-yuan-yi-ji-dockerdocker-compose-an-zhuang/</p>
+<h2 id="windows">windows</h2>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何将clash设置为linux的系统代理]]></title>
+        <id>https://xssong17.github.io/post/ru-he-jiang-clash-she-zhi-wei-linux-de-xi-tong-dai-li/</id>
+        <link href="https://xssong17.github.io/post/ru-he-jiang-clash-she-zhi-wei-linux-de-xi-tong-dai-li/">
+        </link>
+        <updated>2021-10-19T09:41:25.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="如何将clash设置为linux的系统代理">如何将clash设置为linux的系统代理</h1>
+<h2 id="0x01-下载客户端">0x01 下载客户端</h2>
+<p>1、在用户目录下创建 clash 文件夹</p>
+<pre><code>cd &amp;&amp; mkdir clash
+</code></pre>
+<p>2、进入新建的目录下</p>
+<pre><code>cd ~/clash
+</code></pre>
+<p>3、下载客户端并放到<code>~/clash</code>目录下</p>
+<p>下载地址：https://github.com/Dreamacro/clash/releases</p>
+<p>4、解压下载的压缩包文件</p>
+<pre><code>gunzip xxx.gz
+</code></pre>
+<p>5、将解压出来的文件重命名为clash</p>
+<pre><code>mv xxx clash
+</code></pre>
+<p>6、下载配置文件<code>config.yaml</code>，一般由商家提供</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/linux%E5%B0%86clash%E8%AE%BE%E7%BD%AE%E4%B8%BA%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86/Snipaste_2021-10-17_22-06-55.png" alt="Snipaste_2021-10-17_22-06-55" loading="lazy"></figure>
+<p>ps：上图中的<code>Country.mmdb</code>，是后续启动代理时自动生成的</p>
+<h2 id="0x02-将clash设置为本地代理">0x02 将clash设置为本地代理</h2>
+<p>1、编辑<code>~/.bashrc</code></p>
+<pre><code>vim ~/.bashrc
+</code></pre>
+<p>2、添加如下代码</p>
+<pre><code>export http_proxy=&quot;http://127.0.0.1:7890&quot;
+export https_proxy=&quot;http://127.0.0.1:7890&quot;
+</code></pre>
+<p>以上都为默认端口</p>
+<p>3、更新设置</p>
+<pre><code>source ~/.bashrc
+</code></pre>
+<p>0x03 启动代理</p>
+<pre><code>./clash -d .
+</code></pre>
+<p>运行时如果出现对应端口被占用，杀掉端口的服务即可</p>
+<pre><code>kill $(lsof -i:9090|awk '{if(NR==2)print $2}')
+</code></pre>
+<h2 id="0x03-控制面板操控可选">0x03 控制面板操控（可选）</h2>
+<p>1、访问网址：http://clash.razord.top</p>
+<p>访问后，会自动弹出窗口，要求输入ip，端口，秘钥</p>
+<p>2、输入在<code>config.yaml</code>中的端口以及秘钥（端口默认为9090，秘钥默认为空）</p>
+<p>如果无法访问，试着关闭下防火墙或者查看下服务器的安全组是否开放对应端口（9090）</p>
+<pre><code>systemctl stop firewalld
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[centos换源以及docker+docker-compose安装]]></title>
+        <id>https://xssong17.github.io/post/centos-huan-yuan-yi-ji-dockerdocker-compose-an-zhuang/</id>
+        <link href="https://xssong17.github.io/post/centos-huan-yuan-yi-ji-dockerdocker-compose-an-zhuang/">
+        </link>
+        <updated>2021-10-19T09:40:53.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="centos换源以及dockerdocker-compose安装">centos换源以及docker+docker-compose安装</h1>
+<h2 id="centos换源">centos换源</h2>
+<p>备份源</p>
+<pre><code>cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base-repo.bak
+</code></pre>
+<p>查看自己系统版本</p>
+<pre><code>cat /etc/redhat-release
+</code></pre>
+<p>根据版本下载对应的源（阿里源）</p>
+<pre><code>CentOS 5
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-5.repo
+
+CentOS 6
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-6.repo
+
+CentOS 7
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+CentOS 8
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo
+</code></pre>
+<p>清理本地缓存</p>
+<pre><code>yum clean all
+</code></pre>
+<p>重新生成缓存</p>
+<pre><code>yum makecache
+</code></pre>
+<h2 id="docker安装">docker安装</h2>
+<h3 id="安装前的准备">安装前的准备</h3>
+<p>卸载可能存在的旧包</p>
+<pre><code>yum remove docker \
+docker-client \
+docker-client-latest \
+docker-common \
+docker-latest \
+docker-latest-logrotate \
+docker-logrotate \
+docker-engine
+</code></pre>
+<p>安装需要用到的包</p>
+<pre><code>yum install -y vim wget epel-release
+</code></pre>
+<pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2
+</code></pre>
+<p>添加docker需要的源（直接使用阿里云的docker镜像）</p>
+<pre><code>yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre>
+<h3 id="安装docker">安装docker</h3>
+<pre><code>yum install docker-ce
+</code></pre>
+<h3 id="启动docker服务">启动docker服务</h3>
+<p>启动服务</p>
+<pre><code>systemctl start docker
+</code></pre>
+<p>设为开机启动</p>
+<pre><code>systemctl enable docker
+</code></pre>
+<p>查看docker版本，如果能查看成功，则安装成功</p>
+<pre><code>docker version
+</code></pre>
+<h2 id="docker-compose安装">docker-compose安装</h2>
+<p>docker-compose需要用到pip，因此先安装pip</p>
+<pre><code>yum install epel-release
+</code></pre>
+<pre><code>yum -U install python-pip
+</code></pre>
+<p>安装docker-compose</p>
+<pre><code>pip install -U docker-compose
+</code></pre>
+<p>如果安装报错，直接忽略报错</p>
+<pre><code>pip install docker-compose --ignore-installed requests 
+</code></pre>
+]]></content>
+    </entry>
+</feed>

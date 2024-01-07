@@ -1,0 +1,291 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#mongodb-docker%E9%95%9C%E5%83%8F%E5%AE%89%E8%A3%85">mongoDB docker镜像安装</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85docker%E9%95%9C%E5%83%8F">安装docker镜像</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEmongodb%E6%95%B0%E6%8D%AE%E5%BA%93">配置mongoDB数据库</a></li>
+<li><a href="#studio3t%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5">Studio3T远程连接</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">mongoDB docker镜像安装</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2023-11-25 / 2 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="mongodb-docker镜像安装">mongoDB docker镜像安装</h1>
+<h2 id="安装docker镜像">安装docker镜像</h2>
+<p>1、安装指定版本docker镜像</p>
+<pre><code>docker pull mongo:4.4
+</code></pre>
+<p>2、查看是否拉取成功</p>
+<pre><code>docker images
+</code></pre>
+<p>3、启动镜像</p>
+<pre><code>docker run -itd --name mongo -p 27017:27017 mongo:4.4 -auth
+</code></pre>
+<p>4、使用admin身份登录mongodb</p>
+<pre><code>docker exec -it mongo mongo admin
+</code></pre>
+<p>5、创建用户</p>
+<p>管理用户</p>
+<pre><code>db.createUser({ user:'root',pwd:'123456',roles:[ { role:'userAdminAnyDatabase', db: 'admin'},&quot;readWriteAnyDatabase&quot;]});
+</code></pre>
+<p>普通用户</p>
+<pre><code>db.createUser({user: &quot;bb&quot;, pwd: &quot;123456&quot;,
+roles: [{ role: &quot;readWrite&quot;, db: &quot;admin&quot; }]})
+</code></pre>
+<p>6、验证登录是否成功</p>
+<pre><code>db.auth('root', '123456')
+</code></pre>
+<p><code>ctrl+p+q</code>退出容器（命令不确定）</p>
+<p>此时<strong>服务器本地</strong>已经可以通过默认端口直接访问mongoDB了。<strong>远程连接</strong>因安全原因无法进行，需进行额外配置。</p>
+<h2 id="配置mongodb数据库">配置mongoDB数据库</h2>
+<p>进入容器，修改mongoDB配置文件</p>
+<p>1、查看dockerID</p>
+<pre><code>docker ps
+</code></pre>
+<p>2、进入容器</p>
+<pre><code>docker exec -it &lt;dockerID&gt; /bin/bash
+</code></pre>
+<p>3、修改配置文件</p>
+<p>安装vim</p>
+<pre><code>apt-get update
+apt-get install vim
+apt install vim -y
+</code></pre>
+<p>编辑配置文件</p>
+<pre><code>vim /etc/mongod.conf.orig
+</code></pre>
+<p>1）注释掉<code>bindIp: 127.0.0.1</code> 或者改成<code>bindIp: 0.0.0.0</code> 即可开启远程连接</p>
+<pre><code># bindIp: 127.0.0.1
+# 或
+bindIp: 0.0.0.0
+</code></pre>
+<p>2）开启权限认证</p>
+<pre><code>#注意缩进，参照其他的值来改，若是缩进不对可能导致后面服务不能重启
+security:
+  authorization: enabled
+</code></pre>
+<p>保存并退出容器</p>
+<p>4、重启容器</p>
+<pre><code>docker restart &lt;dockerID&gt;
+</code></pre>
+<h2 id="studio3t远程连接">Studio3T远程连接</h2>
+<p>使用Stdio3T连接目标数据库</p>
+<p>依次填写ssh连接、数据库账号密码、用户数据库（admin）</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/cloudreve-cao-zuo-zhi-nan-an-zhuang/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  cloudreve安装指南——docker安装
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/git-xiang-mu-shang-chuan-cao-gao/">
+                <h3 class="post-title">
+                  git项目上传（草稿）
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

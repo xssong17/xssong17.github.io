@@ -1,0 +1,363 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E7%BB%95%E8%BF%87cdn%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9Eip">绕过CDN查找真实IP</a>
+<ul>
+<li><a href="#%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E4%BD%BF%E7%94%A8cdn">验证是否使用CDN</a>
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%9C%B0ping%E6%9C%8D%E5%8A%A1">使用多地ping服务</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8nslookup%E6%A3%80%E6%B5%8B">使用nslookup检测</a></li>
+</ul>
+</li>
+<li><a href="#%E5%A6%82%E4%BD%95%E7%BB%95%E8%BF%87cdn%E6%89%BE%E5%88%B0%E7%9B%AE%E6%A0%87%E7%AB%99%E7%82%B9%E7%9C%9F%E5%AE%9Eip">如何绕过CDN找到目标站点真实IP？</a>
+<ul>
+<li><a href="#%E8%AE%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E6%88%91%E4%BB%AC">让服务器主动连接我们</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2dns%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95">查询DNS历史记录</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%AD%90%E5%9F%9F%E5%90%8D">查询子域名</a></li>
+<li><a href="#%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E">网络空间搜索引擎</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87ssl%E8%AF%81%E4%B9%A6">通过SSL证书</a></li>
+<li><a href="#%E6%A3%80%E7%B4%A2header%E4%BF%A1%E6%81%AF">检索header信息</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8%E5%93%8D%E5%BA%94%E4%B8%AD%E4%BF%A1%E6%81%AF">利用响应中信息</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%A4%96%E4%B8%BB%E6%9C%BA%E8%A7%A3%E6%9E%90%E5%9F%9F%E5%90%8D">使用国外主机解析域名</a></li>
+<li></li>
+<li><a href="#%E7%BD%91%E7%AB%99%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE">网站漏洞查找</a></li>
+<li><a href="#%E7%94%A8-zmap-%E6%89%AB%E5%85%A8%E7%BD%91">用 Zmap 扫全网</a></li>
+<li></li>
+<li><a href="#f5-ltm%E8%A7%A3%E7%A0%81%E6%B3%95">F5 LTM解码法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">绕过CDN查找真实IP</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-05-09 / 9 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="绕过cdn查找真实ip">绕过CDN查找真实IP</h1>
+<p>CDN的全称是 Content Delivery Network，即内容分发网络</p>
+<p>开启CDN后，网站会根据用户所处的位置，让用户访问邻近的CND服务器，避免直接访问主站，减少网站服务器宽带资源,降低服务器压力。</p>
+<p>所以会出现，不同地区ping百度,不同地区得到的反馈ip不一样的情形。</p>
+<p>（我可以理解是镜像吗？</p>
+<h2 id="验证是否使用cdn">验证是否使用CDN</h2>
+<h3 id="使用多地ping服务">使用多地ping服务</h3>
+<pre><code>http://ping.chinaz.com/
+http://ping.aizhan.com/
+http://ce.cloud.360.cn/
+https://www.17ce.com/
+</code></pre>
+<h3 id="使用nslookup检测">使用nslookup检测</h3>
+<p>如果返回域名解析对应多个 IP 地址多半是使用了 CDN。</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9EIP/Snipaste_2021-05-07_21-41-45.png" alt="Snipaste_2021-05-07_21-41-45" loading="lazy"></figure>
+<h2 id="如何绕过cdn找到目标站点真实ip">如何绕过CDN找到目标站点真实IP？</h2>
+<h3 id="让服务器主动连接我们">让服务器主动连接我们</h3>
+<p>方法有</p>
+<ul>
+<li>让它发邮件给我们，我们查看邮件源代码，可以看到目标IP</li>
+<li>RSS邮件订阅（？</li>
+<li>利用网站漏洞：比如有代码执行漏洞、SSRF、存储型的XSS都可以让服务器主动访问我们预设的web服务器，那么就能在日志里面看见目标网站服务器的真实IP。</li>
+</ul>
+<h3 id="查询dns历史记录">查询DNS历史记录</h3>
+<p>查询网站</p>
+<p>微步社区 https://x.threatbook.cn/（允许的查询次数少）</p>
+<p>ipip整合不同的地区的信息：https://tools.ipip.net/cdn.php</p>
+<p>国外的查询网站：</p>
+<p>http://toolbar.netcraft.com/site_report?url=</p>
+<p>https://viewdns.info/</p>
+<p>https://securitytrails.com/（推荐）</p>
+<h3 id="查询子域名">查询子域名</h3>
+<p>通过子站点（可能没有CDN），查询对应IP，从而辅助查找目标真实IP</p>
+<p>使用子域名扫描器、谷歌搜索都可</p>
+<h3 id="网络空间搜索引擎">网络空间搜索引擎</h3>
+<p>1、钟馗之眼：https://www.zoomeye.org/</p>
+<p>2、Shodan：https://www.shodan.io/</p>
+<p>3、FOFA：https://fofa.so/</p>
+<h3 id="通过ssl证书">通过SSL证书</h3>
+<blockquote>
+<p>摘自：https://www.hackliu.com/?p=448</p>
+</blockquote>
+<p>假如你在xyz123boot.com上托管了一个服务，原始服务器IP是136.23.63.44。 而CloudFlare则会为你提供DDoS保护，Web应用程序防火墙和其他一些安全服务，以保护你的服务免受攻击。为此，你的Web服务器就必须支持SSL并具有证书，此时CloudFlare与你的服务器之间的通信，就像你和CloudFlare之间的通信一样，会被加密（即没有灵活的SSL存在）。</p>
+<blockquote>
+<p><strong>Cloudflare</strong>（<a href="https://zh.wikipedia.org/wiki/%E7%BA%BD%E7%BA%A6%E8%AF%81%E5%88%B8%E4%BA%A4%E6%98%93%E6%89%80">NYSE</a>：<a href="http://www.nyse.com/quote/XNYS:NET">NET</a>）是一家总部位于<a href="https://zh.wikipedia.org/wiki/%E8%88%8A%E9%87%91%E5%B1%B1">旧金山</a>的<a href="https://zh.wikipedia.org/wiki/%E7%BE%8E%E5%9C%8B">美国</a>跨国科技企业，以向客户提供基于<a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86">反向代理</a>的<a href="https://zh.wikipedia.org/wiki/%E5%85%A7%E5%AE%B9%E5%82%B3%E9%81%9E%E7%B6%B2%E8%B7%AF">内容分发网络</a>（Content Delivery Network, CDN）及<a href="https://zh.wikipedia.org/wiki/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F">分布式域名解析服务</a>（Distributed Domain Name Server）为主要业务。</p>
+</blockquote>
+<p>这看起来很安全，但问题是，当你在端口443（https://136.23.63.44:443）上直接连接到IP时，SSL证书就会被暴露。</p>
+<p>此时，如果攻击者扫描0.0.0.0/0，即整个互联网，他们就可以在端口443上获取在xyz123boot.com上的有效证书，进而获取提供给你的Web服务器IP。</p>
+<blockquote>
+<p>Censys：https://censys.io/</p>
+</blockquote>
+<p>目前Censys工具就能实现对整个互联网的扫描，Censys是一款用以搜索联网设备信息的新型搜索引擎，安全专家可以使用它来评估他们实现方案的安全性，而黑客则可以使用它作为前期侦查攻击目标、收集目标信息的强大利器。</p>
+<p>Censys搜索引擎能够扫描整个互联网，Censys每天都会扫描IPv4地址空间，以搜索所有联网设备并收集相关的信息，并返回一份有关资源（如设备、网站和证书）配置和部署信息的总体报告。</p>
+<p>而攻击者唯一需要做的就是把上面用文字描述的搜索词翻译成实际的搜索查询参数。</p>
+<p>xyz123boot.com证书的搜索查询参数为：parsed.names：xyz123boot.com</p>
+<p>只显示有效证书的查询参数为：tags.raw：trusted</p>
+<p>攻击者可以在Censys上实现多个参数的组合，这可以通过使用简单的布尔逻辑来完成。</p>
+<p>组合后的搜索参数为：parsed.names: xyz123boot.com and tags.raw: trusted</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9EIP/1559276469987432.png" alt="1058583-20181009230838766-860479177.png" loading="lazy"></figure>
+<p>Censys将向你显示符合上述搜索条件的所有标准证书，以上这些证书是在扫描中找到的。</p>
+<p>要逐个查看这些搜索结果，攻击者可以通过单击右侧的“Explore”，打开包含多个工具的下拉菜单。What's using this certificate? &gt; IPv4 Hosts</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9EIP/1559276494363607.png" alt="1058583-20181009230838766-860479177.png" loading="lazy"></figure>
+<p>此时，攻击者将看到一个使用特定证书的IPv4主机列表，而真实原始 IP就藏在其中。</p>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9EIP/1559276514702250.png" alt="1058583-20181009230838766-860479177.png" loading="lazy"></figure>
+<p>你可以通过导航到端口443上的IP来验证，看它是否重定向到xyz123boot.com，或它是否直接在IP上显示网站？</p>
+<p>使用给定的SSL证书</p>
+<p>如果你是执法部门的人员，想要找出一个隐藏在cheesecp5vaogohv.onion下的儿童色情网站。做好的办法，就是找到其原始IP，这样你就可以追踪到其托管的服务器，甚至查到背后的运营商以及金融线索。</p>
+<p>隐藏服务具有SSL证书，要查找它使用的IPv4主机，只需将&quot;SHA1 fingerprint&quot;（签名证书的sha1值）粘贴到Censys IPv4主机搜索中，即可找到证书，使用此方法可以轻松找到配置错误的Web服务器。</p>
+<blockquote>
+<p>这里有个疑问，既然在网上有办法找到签名证书的sha1，也能对应到某个IP，是不是每个人都是裸奔上网？</p>
+</blockquote>
+<h3 id="检索header信息">检索header信息</h3>
+<p>借助SecurityTrails这样的平台，任何人都可以在茫茫的大数据搜索到自己的目标，甚至可以通过比较HTTP标头来查找到原始服务器。</p>
+<p>特别是当用户拥有一个非常特别的服务器名称与软件名称时，攻击者找到你就变得更容易。</p>
+<p>如果要搜索的数据相当多，如上所述，攻击者可以在Censys上组合搜索参数。假设你正在与1500个Web服务器共享你的服务器HTTP标头，这些服务器都发送的是相同的标头参数和值的组合。而且你还使用新的PHP框架发送唯一的HTTP标头（例如：X-Generated-Via：XYZ框架），目前约有400名网站管理员使用了该框架。而最终由三个服务器组成的交集，只需手动操作就可以找到了IP，整个过程只需要几秒钟。</p>
+<p>例如，Censys上用于匹配服务器标头的搜索参数是80.http.get.headers.server :</p>
+<p>查找由CloudFlare提供服务的网站的参数如下：</p>
+<p>80.http.get.headers.server:cloudflare</p>
+<figure data-type="image" tabindex="5"><img src="https://xssong17.github.io/post-images/%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9EIP/1559276536427745.png" alt="1058583-20181009230838766-860479177.png" loading="lazy"></figure>
+<h3 id="利用响应中信息">利用响应中信息</h3>
+<p>浏览网站源代码，寻找独特的代码片段。在JavaScript中使用具有访问或标识符参数的第三方服务（例如Google Analytics，reCAPTCHA）是攻击者经常使用的方法。</p>
+<p>以下是从HackTheBox网站获取的Google Analytics跟踪代码示例：</p>
+<p>ga（'create'，'UA-93577176-1'，'auto'）;<br>
+可以使用80.http.get.body：参数通过body/source过滤Censys数据，不幸的是，正常的搜索字段有局限性，但你可以在Censys请求研究访问权限，该权限允许你通过Google BigQuery进行更强大的查询。</p>
+<p>Shodan是一种类似于Censys的服务，也提供了http.html搜索参数。</p>
+<p>搜索示例：https://www.shodan.io/search?query=http.html%3AUA-32023260-1</p>
+<figure data-type="image" tabindex="6"><img src="https://xssong17.github.io/post-images/%E7%BB%95%E8%BF%87CDN%E6%9F%A5%E6%89%BE%E7%9C%9F%E5%AE%9EIP/1559276559939859.png" alt="1058583-20181009230838766-860479177.png" loading="lazy"></figure>
+<p>在JS⽂件中寻找敏感接⼝：</p>
+<blockquote>
+<p>https://github.com/Threezh1/JSFinder</p>
+<p>https://github.com/GerbenJavado/LinkFinder</p>
+</blockquote>
+<h3 id="使用国外主机解析域名">使用国外主机解析域名</h3>
+<p>国内很多 CDN 厂商因为各种原因只做了国内的线路，而针对国外的线路可能几乎没有，此时我们使用国外的主机直接访问可能就能获取到真实IP。</p>
+<h3 id=""></h3>
+<h3 id="网站漏洞查找">网站漏洞查找</h3>
+<p>1）目标敏感文件泄露，例如：phpinfo之类的探针、GitHub信息泄露等。<br>
+2）XSS盲打，命令执行反弹shell，SSRF等。<br>
+3）无论是用社工还是其他手段，拿到了目标网站管理员在CDN的账号，从而在从CDN的配置中找到网站的真实IP。</p>
+<h3 id="用-zmap-扫全网">用 Zmap 扫全网</h3>
+<p>（未实践</p>
+<pre><code>wget http://www.ipdeny.com/ipblocks/data/countries/hk.zone #香港IP 
+zmap -w hk.zone -p 80 -B 100M -o hk.res
+./zgrab -input-file=hk.res -senders=2000 -data-&quot;./http-reg&quot; | grep -E 'memberlogin' &gt;&gt; x.txt
+</code></pre>
+<pre><code>wget -c http://ftp.apnic.net/stats/apnic/delegated-apnic-latest #全网IP,天朝好像扫不到
+</code></pre>
+<h3 id="-2"></h3>
+<h3 id="f5-ltm解码法">F5 LTM解码法</h3>
+<p>（看不懂</p>
+<p>当服务器使用F5 LTM做负载均衡时，通过对set-cookie关键字的解码真实ip也可被获取，例如：Set-Cookie: BIGipServerpool_8.29_8030=487098378.24095.0000，先把第一小节的十进制数即487098378取出来，然后将其转为十六进制数1d08880a，接着从后至前，以此取四位数出来，也就是0a.88.08.1d，最后依次把他们转为十进制数10.136.8.29，也就是最后的真实ip。</p>
+<p>（难道是通过某种类型的cookie中暴露的信息得出IP</p>
+<p>https://www.fujieace.com/penetration-test/cdn-find-ip.html</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/xin-xi-shou-ji-zhi-shodan/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  信息收集之shodan
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/xin-xi-shou-ji/">
+                <h3 class="post-title">
+                  信息收集
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

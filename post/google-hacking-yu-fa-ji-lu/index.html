@@ -1,0 +1,312 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#google-hacking">Google Hacking</a>
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%A3%80%E7%B4%A2">基本检索</a></li>
+<li><a href="#%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2">高级检索</a>
+<ul>
+<li><a href="#site">site</a></li>
+<li><a href="#inurl">inurl</a></li>
+<li><a href="#intitle">intitle</a></li>
+<li><a href="#intext">intext</a></li>
+<li><a href="#allinurl">allinurl</a></li>
+<li><a href="#filetype">filetype</a></li>
+<li><a href="#link">link</a></li>
+<li><a href="#related">related</a></li>
+<li><a href="#cache">cache</a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8">常见的一些使用</a>
+<ul>
+<li><a href="#%E6%9F%A5%E6%89%BE%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0">查找网站后台</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E7%A8%8B%E5%BA%8F">查看服务器使用的程序</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E">查看上传漏洞</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E7%9A%84%E7%BD%91%E7%AB%99">查看可能存在SQL注入的网站</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">Google Hacking语法记录</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-22 / 2 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="google-hacking">Google Hacking</h1>
+<p>其实就是谷歌搜索的语法，某些参数在其他搜索引擎中也适用</p>
+<h2 id="基本检索">基本检索</h2>
+<ul>
+<li>逻辑与：and</li>
+<li>逻辑或： or</li>
+<li>逻辑非： -</li>
+<li>完整匹配：&quot;关键词&quot;</li>
+<li>通配符：* ?</li>
+</ul>
+<pre><code>&quot;好玩的&quot; or &quot;好笑的&quot; -zhihu.com
+</code></pre>
+<p>完整匹配“好玩的”或者“好笑的”，排除知乎的结果</p>
+<h2 id="高级检索">高级检索</h2>
+<h3 id="site">site</h3>
+<p>指定站点</p>
+<h3 id="inurl">inurl</h3>
+<p>指定url中的信息</p>
+<h3 id="intitle">intitle</h3>
+<p>指定标题中的信息</p>
+<pre><code>site:bilibili.com inurl:搞笑 intitle:up主
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/Google_Hacking/Snipaste_2021-04-22_20-17-56.png" alt="Snipaste_2021-04-22_20-17-56" loading="lazy"></figure>
+<p>查看织梦cms的特征</p>
+<pre><code>inurl:dede
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/Google_Hacking/Snipaste_2021-04-22_20-52-25.png" alt="Snipaste_2021-04-22_20-52-25" loading="lazy"></figure>
+<p><br>以上三个是经常遇到的，都是字面意思</p>
+<br>
+<h3 id="intext">intext</h3>
+<p>在文本中</p>
+<h3 id="allinurl">allinurl</h3>
+<p>类似inurl，只不过可以指定多个关键词</p>
+<h3 id="filetype">filetype</h3>
+<p>指定文件类型</p>
+<h3 id="link">link</h3>
+<p>返回所有指向该url的页面</p>
+<h3 id="related">related</h3>
+<p>返回与该url类似的所有网站</p>
+<h3 id="cache">cache</h3>
+<p>返回关于该url的缓存页面</p>
+<h2 id="常见的一些使用">常见的一些使用</h2>
+<h3 id="查找网站后台">查找网站后台</h3>
+<p>site:xx.com intext:管理<br>
+site:xx.com inurl:login<br>
+site:xx.com intitle:后台</p>
+<h3 id="查看服务器使用的程序">查看服务器使用的程序</h3>
+<p>site:xx.com filetype:asp<br>
+site:xx.com filetype:php<br>
+site:xx.com filetype:jsp<br>
+site:xx.com filetype:aspx</p>
+<h3 id="查看上传漏洞">查看上传漏洞</h3>
+<p>site:xx.com inurl:file<br>
+site:xx.com inurl:load</p>
+<h3 id="查看可能存在sql注入的网站">查看可能存在SQL注入的网站</h3>
+<pre><code>inurl:id=1
+</code></pre>
+<h2 id="后记">后记</h2>
+<p>本篇主要是用来记录谷歌搜索引擎的相关语法，方便以后的信息收集</p>
+<p>参考：</p>
+<p>https://blog.csdn.net/qq_36119192/article/details/84029809（强烈推荐）</p>
+<p>http://www.williamlong.info/archives/150.html</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/dedecms-v57-sp2-qian-tai-wen-jian-shang-chuan-lou-dong-cve-2018-20129fu-xian/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  DedeCMS V5.7 SP2前台文件上传漏洞(CVE-2018-20129)复现
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/chang-jian-web-lou-dong-fang-yu-cuo-shi-hui-zong/">
+                <h3 class="post-title">
+                  常见web漏洞防御措施汇总
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

