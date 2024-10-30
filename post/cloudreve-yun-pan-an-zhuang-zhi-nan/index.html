@@ -1,0 +1,299 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#cloudreve%E4%BA%91%E7%9B%98%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97">cloudreve云盘安装指南</a>
+<ul>
+<li><a href="#1-%E5%AE%89%E8%A3%85docker">1、安装docker</a></li>
+<li><a href="#2-%E5%AE%89%E8%A3%85cloudreve%E7%9A%84%E9%95%9C%E5%83%8F">2、安装cloudreve的镜像</a></li>
+<li><a href="#3-%E5%88%9B%E5%BB%BA%E9%9C%80%E8%A6%81%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9%E6%96%87%E4%BB%B6">3、创建需要的文件夹/文件</a></li>
+<li><a href="#4-%E8%BF%90%E8%A1%8C%E9%95%9C%E5%83%8F">4、运行镜像</a></li>
+<li><a href="#5-%E6%9F%A5%E7%9C%8B%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81">5、查看初始密码</a></li>
+<li><a href="#6-%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81">6、修改密码</a></li>
+<li><a href="#7-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF">7、修改配置信息</a></li>
+<li><a href="#8-%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E5%90%A7">8、开始使用吧</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">cloudreve云盘安装指南</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-10-19 / 2 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="cloudreve云盘安装指南">cloudreve云盘安装指南</h1>
+<h2 id="1-安装docker">1、安装docker</h2>
+<p>略</p>
+<h2 id="2-安装cloudreve的镜像">2、安装cloudreve的镜像</h2>
+<pre><code>docker pull xavierniu/cloudreve
+</code></pre>
+<h2 id="3-创建需要的文件夹文件">3、创建需要的文件夹/文件</h2>
+<ul>
+<li>
+<p>创建文件夹</p>
+<pre><code>mkdir -p /cloudreve/uploads
+</code></pre>
+<pre><code>mkdir -p /cloudreve/config
+</code></pre>
+<pre><code>mkdir -p /cloudreve/db
+</code></pre>
+<pre><code>mkdir -p /cloudreve/avatar
+</code></pre>
+</li>
+<li>
+<p>创建配置文件</p>
+<pre><code>vim /cloudreve/config/conf.ini
+</code></pre>
+<pre><code>[Database]
+DBFile = /cloudreve/db/cloudreve.db
+</code></pre>
+</li>
+</ul>
+<h2 id="4-运行镜像">4、运行镜像</h2>
+<pre><code>docker run -d \
+  --name cloudreve \
+  -e PUID=0 \
+  -e PGID=0 \
+  -e TZ=&quot;Asia/Shanghai&quot; \
+  -p 5212:5212 \
+  --restart=unless-stopped \
+  -v /cloudreve/uploads:/cloudreve/uploads \
+  -v /cloudreve/config:/cloudreve/config \
+  -v /cloudreve/db:/cloudreve/db \
+  -v /cloudreve/avatar:/cloudreve/avatar \
+  xavierniu/cloudreve
+</code></pre>
+<p>ps：其中 PUID 和 PGID是通过<code>id root</code>命令获取，一般root用户是0，不需要更改上述命令，直接复制即可</p>
+<h2 id="5-查看初始密码">5、查看初始密码</h2>
+<pre><code>docker logs -f cloudreve
+</code></pre>
+<h2 id="6-修改密码">6、修改密码</h2>
+<p><strong>浏览器访问</strong>，登录网盘的管理界面</p>
+<pre><code>ip:5212/admin
+</code></pre>
+<p>找到用户修改即可</p>
+<h2 id="7-修改配置信息">7、修改配置信息</h2>
+<p><strong>浏览器访问</strong>，要求当前处于管理员登录状态（如若未登录，先登录管理员账号再访问如下网址）</p>
+<pre><code>ip:5212/admin/basic
+</code></pre>
+<p>将站点url修改为<code>http://ip:port</code></p>
+<p>保存即可</p>
+<h2 id="8-开始使用吧">8、开始使用吧</h2>
+<pre><code>ip:5212
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/N9qpwM1o4/">
+            <span class="flex-auto">部署</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/chang-jian-linux-ming-ling-ge-ren-shi-yong-bu-ding-shi-geng-xin/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  常见linux命令（个人使用、不定时更新）
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/ru-he-jiang-clash-she-zhi-wei-linux-de-xi-tong-dai-li/">
+                <h3 class="post-title">
+                  如何将clash设置为linux的系统代理
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

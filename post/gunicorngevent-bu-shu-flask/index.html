@@ -1,0 +1,361 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#ox00-%E7%8E%AF%E5%A2%83%E4%BB%A5%E5%8F%8A%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84">ox00 环境以及文件结构</a>
+<ul>
+<li><a href="#%E5%BD%93%E5%89%8D%E7%8E%AF%E5%A2%83">当前环境</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84">文件结构</a></li>
+</ul>
+</li>
+<li><a href="#ox01-%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">ox01 创建虚拟环境</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85virtualenv">安装virtualenv</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">创建虚拟环境</a></li>
+<li><a href="#%E6%BF%80%E6%B4%BB%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">激活虚拟环境</a></li>
+</ul>
+</li>
+<li><a href="#ox02-%E5%AE%89%E8%A3%85gunicorngevent">ox02 安装gunicorn+gevent</a></li>
+<li><a href="#ox03-%E9%85%8D%E7%BD%AEgunicorn">ox03 配置gunicorn</a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">创建配置文件</a></li>
+<li><a href="#%E8%BF%90%E8%A1%8Cgunicorn">运行gunicorn</a></li>
+<li><a href="#%E8%A7%A3%E9%87%8A%E8%AF%B4%E6%98%8E">解释说明</a></li>
+</ul>
+</li>
+<li><a href="#ox04-%E5%90%8E%E7%BB%AD">ox04 后续</a></li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">gunicorn+gevent部署flask</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2020-09-15 / 4 min read
+        </div>
+        
+          <img class="post-feature-image rounded-lg mx-auto my-4" src="https://xssong17.github.io/post-images/cover_code.jpg" alt="">
+        
+        <div class="post-content yue">
+          <p>之前试过用<strong>uwsgi+nginx+supervisor</strong>部署flask项目，最近因为舍友需要，帮着搭建一个flask的api，同样是需要部署上线的，趁此机会尝试另外一种部署方式<strong>gunicorn+gevent</strong></p>
+<p>提前说结论，<strong>gunicorn+gevent</strong>部署更加简单</p>
+<h1 id="ox00-环境以及文件结构">ox00 环境以及文件结构</h1>
+<h2 id="当前环境">当前环境</h2>
+<ul>
+<li>centos 7.3</li>
+<li>python3.8.1</li>
+</ul>
+<h2 id="文件结构">文件结构</h2>
+<p>最终的的文件结构是这样的，其中<strong>myproject</strong>是我们的项目文件，里面包含了虚拟环境的文件夹<strong>venv</strong>，flask的主体文件<strong>main.py</strong>，以及gunicorn的配置文件<strong>gunicorn.conf.py</strong>，具体内容会在后面一一展示</p>
+<pre><code>.
+└── myproject
+    ├── gunicorn.conf.py
+    ├── main.py
+    └── venv
+        ├── bin
+        ├── lib
+        └── pyvenv.cfg
+
+4 directories, 3 files
+</code></pre>
+<p>先进入我们的项目文件夹内，假设项目文件位于/home/myproject，进入项目文件并进行后续操作</p>
+<pre><code>cd /home/myproject
+</code></pre>
+<h1 id="ox01-创建虚拟环境">ox01 创建虚拟环境</h1>
+<p>为了不污染当前的环境，安装并创建虚拟环境</p>
+<h2 id="安装virtualenv">安装virtualenv</h2>
+<pre><code>pip install virtualenv
+</code></pre>
+<p>测试安装是否成功，输入后如果显示所有命令，则成功</p>
+<pre><code>virtualenv --version
+</code></pre>
+<p>如果显示没有找到该命令，可能需要去配置下环境变量，步骤如下</p>
+<pre><code>vim /etc/profile
+# 将下面内容添加到文件的最下面,添加内容为python3的安装目录，根据实际情况进行更改
+PATH=$PATH:/usr/local/python3/bin
+
+# 更新配置
+source /etc/profile
+</code></pre>
+<h2 id="创建虚拟环境">创建虚拟环境</h2>
+<pre><code>virtualenv --python=python3  venv
+</code></pre>
+<p>其中venv是自定义的，运行后会出现venv的文件夹，之后需要的包都会被安装在里面</p>
+<h2 id="激活虚拟环境">激活虚拟环境</h2>
+<pre><code>source venv/bin/activate
+</code></pre>
+<p>激活成功能看到命令行前面出现我们命名的虚拟环境的名字<strong>venv</strong>，此时已经处于虚拟环境中，后续操作<strong>将在虚拟环境中进行</strong></p>
+<p>ps：退出虚拟环境的命令</p>
+<pre><code>deactivate
+</code></pre>
+<h1 id="ox02-安装gunicorngevent">ox02 安装gunicorn+gevent</h1>
+<p><strong>在虚拟环境中</strong>安装下flask程序中需要用到的库</p>
+<p>你说你不知道需要哪些？直接运行下flask不就知道了，依次安装下需要用到的库</p>
+<pre><code># main.py 为flask的主体文件，后面会展示
+python main.py
+</code></pre>
+<p>安装今天的主角gunicorn+gevent</p>
+<pre><code class="language-bash">pip install gunicorn gevent
+</code></pre>
+<p>展示下main.py吧，就是最简单的那种falsk程序</p>
+<pre><code># main.py
+# 文件名main，后面启动时会用到
+from flask import Flask
+
+# 变量名app，后面启动时会用到
+app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return 'here is index'
+
+if __name__ == '__main__':
+	# 运行在0.0.0.0，端口为9000,端口号会在后面验证是否部署成功时用到
+    app.run(debug=True,host = '0.0.0.0',port=9000)
+</code></pre>
+<h1 id="ox03-配置gunicorn">ox03 配置gunicorn</h1>
+<h2 id="创建配置文件">创建配置文件</h2>
+<p>创建<strong>gunicorn.conf.py</strong>文件，并且将以下内容<strong>直接复制</strong>进去</p>
+<pre><code>vim gunicorn.conf.py
+</code></pre>
+<pre><code>import multiprocessing
+import gevent.monkey
+gevent.monkey.patch_all()
+
+workers = multiprocessing.cpu_count()*2    # 定义同时开启的处理请求的进程数量，根据网站流量适当调整
+worker_class = &quot;gevent&quot;   # 采用gevent库，支持异步处理请求，提高吞吐量
+bind = &quot;0.0.0.0:9000&quot;
+daemon = True
+# daemon为true意味着开启后台运行，默认为False
+
+# 以下为日志配置，可选内容，选取的话需要在项目文件内载创建个log文件夹，mkdir log
+# loglevel = 'debug'
+# pidfile = &quot;log/gunicorn.pid&quot;
+# accesslog = &quot;log/access.log&quot;
+# errorlog = &quot;log/debug.log&quot;
+
+</code></pre>
+<h2 id="运行gunicorn">运行gunicorn</h2>
+<pre><code>gunicorn main:app -c gunicorn.conf.py
+</code></pre>
+<h2 id="解释说明">解释说明</h2>
+<p>main为flask主体文件名，app为创建flask对象时使用的变量名，gunicorn.conf.py为gunicorn的配置文件</p>
+<p>至此，部署完毕，可以试着访问下你的外网ip地址加端口，例:47.100.91.124:9000</p>
+<h1 id="ox04-后续">ox04 后续</h1>
+<p>因为gunicorn只有启动的选项，需要关闭的话，你可能会用到如下指令</p>
+<pre><code>kill $(lsof -i:9000|awk '{if(NR==2)print $2}')
+</code></pre>
+<p>原理是筛选端口，关闭对应的服务，其中9000就是之前设置的端口号</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/N9qpwM1o4/">
+            <span class="flex-auto">部署</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/cf-of-jin-wei-yi-chu/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  CF OF 进位 溢出
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/zhe-teng-centos-sui-ji/">
+                <h3 class="post-title">
+                  折腾Centos随记
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

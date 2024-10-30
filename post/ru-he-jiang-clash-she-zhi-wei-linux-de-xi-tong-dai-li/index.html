@@ -1,0 +1,278 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E5%A6%82%E4%BD%95%E5%B0%86clash%E8%AE%BE%E7%BD%AE%E4%B8%BAlinux%E7%9A%84%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86">如何将clash设置为linux的系统代理</a>
+<ul>
+<li><a href="#0x01-%E4%B8%8B%E8%BD%BD%E5%AE%A2%E6%88%B7%E7%AB%AF">0x01 下载客户端</a></li>
+<li><a href="#0x02-%E5%B0%86clash%E8%AE%BE%E7%BD%AE%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86">0x02 将clash设置为本地代理</a></li>
+<li><a href="#0x03-%E6%8E%A7%E5%88%B6%E9%9D%A2%E6%9D%BF%E6%93%8D%E6%8E%A7%E5%8F%AF%E9%80%89">0x03 控制面板操控（可选）</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">如何将clash设置为linux的系统代理</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-10-19 / 2 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="如何将clash设置为linux的系统代理">如何将clash设置为linux的系统代理</h1>
+<h2 id="0x01-下载客户端">0x01 下载客户端</h2>
+<p>1、在用户目录下创建 clash 文件夹</p>
+<pre><code>cd &amp;&amp; mkdir clash
+</code></pre>
+<p>2、进入新建的目录下</p>
+<pre><code>cd ~/clash
+</code></pre>
+<p>3、下载客户端并放到<code>~/clash</code>目录下</p>
+<p>下载地址：https://github.com/Dreamacro/clash/releases</p>
+<p>4、解压下载的压缩包文件</p>
+<pre><code>gunzip xxx.gz
+</code></pre>
+<p>5、将解压出来的文件重命名为clash</p>
+<pre><code>mv xxx clash
+</code></pre>
+<p>6、下载配置文件<code>config.yaml</code>，一般由商家提供</p>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/linux%E5%B0%86clash%E8%AE%BE%E7%BD%AE%E4%B8%BA%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86/Snipaste_2021-10-17_22-06-55.png" alt="Snipaste_2021-10-17_22-06-55" loading="lazy"></figure>
+<p>ps：上图中的<code>Country.mmdb</code>，是后续启动代理时自动生成的</p>
+<h2 id="0x02-将clash设置为本地代理">0x02 将clash设置为本地代理</h2>
+<p>1、编辑<code>~/.bashrc</code></p>
+<pre><code>vim ~/.bashrc
+</code></pre>
+<p>2、添加如下代码</p>
+<pre><code>export http_proxy=&quot;http://127.0.0.1:7890&quot;
+export https_proxy=&quot;http://127.0.0.1:7890&quot;
+</code></pre>
+<p>以上都为默认端口</p>
+<p>3、更新设置</p>
+<pre><code>source ~/.bashrc
+</code></pre>
+<p>0x03 启动代理</p>
+<pre><code>./clash -d .
+</code></pre>
+<p>运行时如果出现对应端口被占用，杀掉端口的服务即可</p>
+<pre><code>kill $(lsof -i:9090|awk '{if(NR==2)print $2}')
+</code></pre>
+<h2 id="0x03-控制面板操控可选">0x03 控制面板操控（可选）</h2>
+<p>1、访问网址：http://clash.razord.top</p>
+<p>访问后，会自动弹出窗口，要求输入ip，端口，秘钥</p>
+<p>2、输入在<code>config.yaml</code>中的端口以及秘钥（端口默认为9090，秘钥默认为空）</p>
+<p>如果无法访问，试着关闭下防火墙或者查看下服务器的安全组是否开放对应端口（9090）</p>
+<pre><code>systemctl stop firewalld
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/N9qpwM1o4/">
+            <span class="flex-auto">部署</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/cloudreve-yun-pan-an-zhuang-zhi-nan/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  cloudreve云盘安装指南
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/centos-huan-yuan-yi-ji-dockerdocker-compose-an-zhuang/">
+                <h3 class="post-title">
+                  centos换源以及docker+docker-compose安装
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

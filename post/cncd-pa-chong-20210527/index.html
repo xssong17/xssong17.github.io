@@ -1,0 +1,563 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#cnvd%E7%88%AC%E8%99%AB-2021-06-04">cnvd爬虫-2021-06-04</a>
+<ul>
+<li><a href="#%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">思维导图</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86">代码部分</a>
+<ul>
+<li><a href="#%E7%88%AC%E8%99%AB%E4%B8%BB%E4%BD%93%E6%96%87%E4%BB%B6">爬虫主体文件</a></li>
+<li><a href="#cookie%E6%B1%A0">cookie池</a></li>
+<li><a href="#%E4%B8%AD%E9%97%B4%E4%BB%B6">中间件</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE">设置</a></li>
+</ul>
+</li>
+<li><a href="#%E9%99%84%E5%BD%95">附录</a><br>
+*
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">使用方法</a></li>
+<li><a href="#%E4%B8%8B%E8%BD%BD">下载</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">cnvd爬虫-20210604</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-05-27 / 9 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="cnvd爬虫-2021-06-04">cnvd爬虫-2021-06-04</h1>
+<h2 id="思维导图">思维导图</h2>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/cnkv%E7%88%AC%E8%99%AB/QQ%E6%88%AA%E5%9B%BE20210604184512.png" alt="cnvd爬虫—20210525" loading="lazy"></figure>
+<h2 id="代码部分">代码部分</h2>
+<p>项目结构</p>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/cnkv%E7%88%AC%E8%99%AB/QQ%E6%88%AA%E5%9B%BE20210604193234-1622806411352.png" alt="QQ截图20210604193234" loading="lazy"></figure>
+<h3 id="爬虫主体文件">爬虫主体文件</h3>
+<pre><code># -*- coding: utf-8 -*-
+# work.py 爬虫主体文件
+import scrapy, pdb
+from ..cookie_db import *
+from ..tools import *
+
+
+class WorkSpider(scrapy.Spider):
+    name = 'work'
+
+    def start_requests(self):
+        cookie_dict = get_one_cookie()  # get_cookie_dict()
+        if cookie_dict:
+            yield scrapy.Request(url='https://www.cnvd.org.cn/flaw/list.htm', callback=self.parse,
+                                 meta={&quot;ref&quot;: &quot;strat_request&quot;, &quot;current_cookie&quot;: ''}, dont_filter=True)
+
+    def parse(self, response):
+        sum = int(re.findall(&quot;共(.*?)条&quot;, response.text)[0].replace(&quot;&amp;nbsp;&quot;, &quot;&quot;))
+        print(f&quot;=================================获得总条数:{sum}，开始分发请求================================&quot;)
+        for i in range(int(sum / 20)):
+            off_set = i * 20
+            post_data = {&quot;max&quot;: str(20), &quot;offset&quot;: str(off_set)}
+            # pdb.set_trace()
+            yield scrapy.FormRequest(url='https://www.cnvd.org.cn/flaw/list.htm', formdata=post_data,
+                                     callback=self.parse_list,
+                                     meta={&quot;page&quot;: i, &quot;post_data&quot;: post_data, &quot;ref&quot;: &quot;parse&quot;,&quot;item&quot;:{}}, dont_filter=True)
+
+
+    def parse_list(self, response):
+        page = response.meta['page']
+        if str(response.status) == &quot;403&quot;:
+            with open(f&quot;./txt/error_{page + 1}.txt&quot;, &quot;w&quot;) as f:
+                f.write(response.text)
+
+        current_cookie = str(response.request.headers.getlist('Cookie')[0], encoding=&quot;utf-8&quot;)
+        print(&quot;parse_list&quot;, current_cookie)
+        print(&quot;===================================页面解析===========================================&quot;)
+        print(f&quot;第 {int(page) + 1} 页&quot;)
+        tr = response.xpath(&quot;//*[@class='tlist']/*[2]/tbody/tr&quot;)
+        for each in tr:
+            item = {}
+            item['title'] = clean_data(each.xpath(&quot;./td[1]/a/text()&quot;).extract()[0])
+            item['href'] = clean_data(&quot;https://www.cnvd.org.cn&quot; + each.xpath(&quot;./td[1]/a/@href&quot;).extract()[0])
+            try:
+                item['level'] = get_character(each.xpath(&quot;./td[2]/text()&quot;).extract()[1])
+            except:
+                pass
+            item['click_num'] = clean_data(each.xpath(&quot;./td[3]/text()&quot;).extract()[0])
+            item['comment_num'] = clean_data(each.xpath(&quot;./td[4]/text()&quot;).extract()[0])
+            item['follow_num'] = clean_data(each.xpath(&quot;./td[5]/text()&quot;).extract()[0])
+            item['time'] = clean_data(each.xpath(&quot;./td[6]/text()&quot;).extract()[0])
+            yield scrapy.Request(url=item['href'],
+                                 meta={&quot;item&quot;: item, &quot;page&quot;: page,  &quot;ref&quot;: &quot;parse_list&quot;},
+                                 callback=self.parse_detail, dont_filter=True)
+
+
+    def parse_detail(self, response):
+        page = response.meta['page']
+        item = response.meta['item']
+        tbody = response.xpath(&quot;//*[@class='gg_detail']/tbody/tr&quot;)
+        box = response.xpath('//*[@id=&quot;showDiv&quot;]/table/tbody')
+
+        item['攻击途径'] = box.xpath(&quot;./tr[1]/td[1]/text()&quot;).extract()[0]
+        item['攻击复杂性'] = box.xpath(&quot;./tr[1]/td[2]/text()&quot;).extract()[0]
+        item['认证'] = box.xpath(&quot;./tr[2]/td[1]/text()&quot;).extract()[0]
+        item['机密性'] = box.xpath(&quot;./tr[2]/td[2]/text()&quot;).extract()[0]
+        item['完整性'] = box.xpath(&quot;./tr[3]/td[1]/text()&quot;).extract()[0]
+        item['可用性'] = box.xpath(&quot;./tr[3]/td[2]/text()&quot;).extract()[0]
+        for tr in tbody:
+            try:
+                name = tr.xpath(&quot;./td[1]/text()&quot;).extract()[0]
+                if name == &quot;厂商补丁&quot;:
+                    item['厂商补丁_name'] = tr.xpath(&quot;./td[2]/a/text()&quot;).extract()[0]
+                    item['厂商补丁_href'] = &quot;https://www.cnvd.org.cn/&quot; + tr.xpath(&quot;./td[2]/a/@href&quot;).extract()[0]
+                    continue
+                if name == '漏洞类型':
+                    content = tr.xpath(&quot;./td[2]/a/text()&quot;).extract()[0].replace(&quot; &quot;, &quot;&quot;)
+                    item[name] = content
+                    continue
+                if name == &quot;CVE ID&quot; or name == &quot;参考链接&quot;:
+                    content = tr.xpath(&quot;./td[2]/a/text()&quot;).extract()[0]
+                elif name == &quot;漏洞解决方案&quot; or name == &quot;漏洞描述&quot;:
+                    content = ''.join(tr.xpath(&quot;./td[2]/text()&quot;).extract())
+                else:
+                    content = tr.xpath(&quot;./td[2]/text()&quot;).extract()[0]
+                item[name] = content
+            except:
+                pass
+
+        item[&quot;危害级别&quot;] = item['level']
+        for each in item:
+            item[each] = clean_data(item[each])
+        # 执行完下一步之后，将进入管道，后续的入库操作可自行到管道文件中进行操作
+        yield item
+
+</code></pre>
+<h3 id="cookie池">cookie池</h3>
+<pre><code># cookie池
+import time
+import pymongo
+import requests
+import re
+import execjs
+import hashlib
+import json
+from requests.utils import add_dict_to_cookiejar
+
+
+MONGODB_HOST = &quot;127.0.0.1&quot;
+MONGODB_PORT = 27017
+MONGODB_DBNAME = &quot;cnvd_cookie&quot;
+MONGODB_SHEETNAME = &quot;form&quot;
+
+host = MONGODB_HOST
+port = MONGODB_PORT
+dbname = MONGODB_DBNAME
+sheetname = MONGODB_SHEETNAME
+client = pymongo.MongoClient(host=host, port=port)
+db = client[dbname]
+collection = db[sheetname]
+
+
+def encrypt(data):
+    chars = len(data['chars'])
+    for i in range(chars):
+        for j in range(chars):
+            clearance = data['bts'][0] + data['chars'][i] + data['chars'][j] + data['bts'][1]
+            encrypt = None
+            if data['ha'] == 'md5':
+                encrypt = hashlib.md5()
+            elif data['ha'] == 'sha1':
+                encrypt = hashlib.sha1()
+            elif data['ha'] == 'sha256':
+                encrypt = hashlib.sha256()
+            encrypt.update(clearance.encode())
+            result = encrypt.hexdigest()
+            if result == data['ct']:
+                return clearance
+
+
+def get_cookie_dict():
+    url = 'https://www.cnvd.org.cn/flaw/list.htm'
+    header = {
+        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36&quot;}
+    session = requests.session()
+    res1 = session.get(url, headers=header)
+    jsl_clearance_s = re.findall(r'cookie=(.*?);location', res1.text)[0]
+    jsl_clearance_s = str(execjs.eval(jsl_clearance_s)).split('=')[1].split(';')[0]
+    # add_dict_to_cookiejar方法添加cookie
+    add_dict_to_cookiejar(session.cookies, {'__jsl_clearance_s': jsl_clearance_s})
+    res2 = session.get(url, headers=header)
+    # 提取go方法中的参数
+    data = json.loads(re.findall(r';go\((.*?)\)', res2.text)[0])
+    jsl_clearance_s = encrypt(data)
+    # 修改cookie
+    add_dict_to_cookiejar(session.cookies, {'__jsl_clearance_s': jsl_clearance_s})
+    # 插入到数据库
+    insert_db(session.cookies.get_dict())
+    return session.cookies.get_dict()
+
+
+def insert_db(cookie_dict):
+    collection.insert(cookie_dict)
+
+
+def delete_db(__jsluid_s):
+    sum=collection.find().count()
+    collection.remove({'__jsluid_s': __jsluid_s})
+    next_sum=collection.find().count()
+    print(&quot;之前：&quot;,sum,&quot; 之后：&quot;,next_sum)
+
+def get_one_cookie():
+    db_dict = list(collection.aggregate([{'$sample': {'size': 1}}]))
+    if db_dict:
+        del db_dict[0]['_id']
+        return db_dict[0]
+    else:
+        return None
+
+
+def run():
+    while 1:
+        if collection.find().count() &lt; 20:
+            get_cookie_dict()
+            print(&quot;更新时间：&quot;,time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;, time.localtime()))
+            print(&quot;当前cookie池cookie条数：&quot;, collection.find().count())
+            time.sleep(0.5)
+        else:
+            print(&quot;更新时间：&quot;,time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;, time.localtime()))
+            time.sleep(0.5)
+            
+if __name__ == '__main__':
+    run()
+
+</code></pre>
+<h3 id="中间件">中间件</h3>
+<pre><code># middlewares.py
+import re
+from .cookie_db import *
+from scrapy import FormRequest
+import pdb
+
+class MyCookieMiddleware(object):
+    def get_new_cookie(self,request):
+        # 接收爬虫文件传过来的当前cookie，提取某个key，为后续的删除操作做铺垫
+        try:
+            current_cookie = request.meta['current_cookie']
+            __jsluid_s = re.findall(r&quot;__jsluid_s=(\w+)&quot;, current_cookie)[0]
+        except:
+            __jsluid_s=''
+        # 删除当前cookie
+        try:
+            delete_cookie=request.meta['delete_cookie']
+            if delete_cookie:
+                delete_db(__jsluid_s)
+        except:
+            pass
+
+        # 获取一个新的cookie
+        temp = get_one_cookie()#get_cookie_dict()#
+        keys = list(temp.keys())
+        values = list(temp.values())
+        # 组装cookie
+        cookie_ = keys[0] + '=' + values[0] + '; ' + keys[1] + '=' + values[1]
+        return bytes(cookie_, encoding=&quot;utf-8&quot;)
+
+    def process_request(self, request, spider):
+        print(&quot;cookie_ref:&quot;,request.meta['ref'])
+        new_cooke=self.get_new_cookie(request)
+        request.headers['Cookie'] = new_cooke
+        return None
+
+
+    def process_response(self, request, response, spider):
+        if response.status == 403:
+            item=request.meta['item']
+            page=request.meta['page']
+            current_cookie=str(request.headers.getlist('Cookie')[0], encoding=&quot;utf-8&quot;)
+            ref=request.meta['ref']
+            if request.meta['ref']=='parse':
+                callback=spider.parse_list
+            elif request.meta['ref']=='parse_list' or request.meta['ref']=='parse_detail':
+                callback=spider.parse_detail
+            else:
+                pdb.set_trace()
+                callback=''
+
+            return FormRequest(url=request.url,headers=request.headers,meta={&quot;ref&quot;: ref, &quot;current_cookie&quot;: current_cookie,'page':page,&quot;delete_cookie&quot;: 1,&quot;item&quot;:item}, dont_filter=True,callback=callback)
+        return response
+</code></pre>
+<h3 id="设置">设置</h3>
+<pre><code># -*- coding: utf-8 -*-
+# settings.py
+
+BOT_NAME = 'cnvd'
+
+SPIDER_MODULES = ['cnvd.spiders']
+NEWSPIDER_MODULE = 'cnvd.spiders'
+
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+
+ROBOTSTXT_OBEY = False
+
+DOWNLOAD_DELAY = 1
+CONCURRENT_REQUESTS = 10
+
+COOKIES_ENABLED = True
+COOKIES_DEBUG = True
+
+DOWNLOADER_MIDDLEWARES = {
+    'cnvd.middlewares.MyCookieMiddleware': 800,
+}
+HTTPERROR_ALLOWED_CODES = [521,403]
+
+
+
+</code></pre>
+<h2 id="附录">附录</h2>
+<ul>
+<li>
+<p>被ban页面详情：</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/cnkv%E7%88%AC%E8%99%AB/QQ%E6%88%AA%E5%9B%BE20210529000250.png" alt="QQ截图20210529000250" loading="lazy"></figure>
+</li>
+</ul>
+<h3 id=""></h3>
+<ul>
+<li>
+<p>如何提高爬取速度</p>
+<p>爬取速度可以通过提高线程数和降低下载延迟来提速</p>
+</li>
+<li>
+<p>运行情况</p>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/cnkv%E7%88%AC%E8%99%AB/QQ%E6%88%AA%E5%9B%BE20210604193959-1622806845324-1622806858988-1622806899107-1622806957802-1622806973409.png" alt="QQ截图20210604193959" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://xssong17.github.io/post-images/cnkv%E7%88%AC%E8%99%AB/QQ%E6%88%AA%E5%9B%BE20210604194021-1622806864842-1622806875098-1622806883554.png" alt="QQ截图20210604194021" loading="lazy"></figure>
+</li>
+</ul>
+<h3 id="使用方法">使用方法</h3>
+<p>先运行cookie池</p>
+<pre><code>python cookie_db.py
+</code></pre>
+<p>然后开启爬虫</p>
+<pre><code>scrapy crawl work
+</code></pre>
+<h3 id="下载">下载</h3>
+<p>项目文件打包下载</p>
+<p>http://112.74.58.65:83/#/s/mOsK</p>
+<p>密码：cz8a4q</p>
+<p>最后的最后，本项目仅用于学习！</p>
+<p>请勿非法使用，避免造成网站的损失！</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/KPZ0fYA3g/">
+            <span class="flex-auto">爬虫</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/centos-huan-yuan-yi-ji-dockerdocker-compose-an-zhuang/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  centos换源以及docker+docker-compose安装
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/csrf-rao-guo/">
+                <h3 class="post-title">
+                  CSRF绕过
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

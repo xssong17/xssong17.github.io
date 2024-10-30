@@ -1,0 +1,367 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xssong17</title>
+<meta name="description" content="我等着，等着你" />
+<link rel="shortcut icon" href="https://xssong17.github.io/favicon.ico?v=1730294755423">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://xssong17.github.io/styles/main.css">
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://xssong17.github.io">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://xssong17.github.io/images/avatar.png?v=1730294755423" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">xssong17</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%93%AA%E4%BA%9B%E8%B7%AF%E5%BE%84%E6%88%96%E6%98%AF%E6%8E%A5%E5%8F%A3%E6%98%AF%E6%9C%89%E4%BB%B7%E5%80%BC%E7%9A%84">哪些路径或是接口是有价值的？</a></li>
+<li><a href="#%E5%AF%BB%E6%89%BE%E6%96%B9%E5%BC%8F">寻找方式</a>
+<ul>
+<li><a href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F">目录扫描</a>
+<ul>
+<li><a href="#wfuzz">wfuzz</a>
+<ul>
+<li><a href="#-u">-u</a></li>
+<li><a href="#-w">-w</a></li>
+<li><a href="#%E8%BF%87%E6%BB%A4">过滤</a>
+<ul>
+<li><a href="#-hccode">--hc(code)</a></li>
+<li><a href="#-hlline">--hl(line)</a></li>
+<li><a href="#-hwword">--hw(word)</a></li>
+<li><a href="#-hhchar">--hh(char)</a></li>
+</ul>
+</li>
+<li><a href="#-h">-H</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%9C%A8js%E6%96%87%E4%BB%B6%E4%B8%AD%E5%AF%BB%E6%89%BE%E6%95%8F%E6%84%9F%E6%8E%A5%E5%8F%A3">在JS⽂件中寻找敏感接⼝</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
+    
+      
+        <a href="/" class="menu" style="animation-delay: 0s">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://xssong17.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">信息收集之敏感路径</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2021-05-13 / 3 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h2 id="哪些路径或是接口是有价值的">哪些路径或是接口是有价值的？</h2>
+<ul>
+<li>
+<p>未授权直接访问的登录页⾯</p>
+</li>
+<li>
+<p>⽆需登录即可操作的上传页⾯</p>
+</li>
+<li>
+<p>编辑器</p>
+</li>
+<li>
+<p>后台</p>
+</li>
+<li>
+<p>历史版本</p>
+</li>
+<li>
+<p>错误页⾯导致应⽤版本等信息泄露</p>
+</li>
+<li>
+<p>phpinfo页⾯</p>
+</li>
+</ul>
+<p>……</p>
+<h2 id="寻找方式">寻找方式</h2>
+<h3 id="目录扫描">目录扫描</h3>
+<p>字典+目录扫描工具</p>
+<ul>
+<li>
+<p>御剑</p>
+</li>
+<li>
+<p>dirbuster</p>
+</li>
+<li>
+<p>burp</p>
+</li>
+<li>
+<p>wfuzz</p>
+</li>
+</ul>
+<p>....</p>
+<h4 id="wfuzz">wfuzz</h4>
+<p>wfuzz是⼀款为了评估WEB应⽤⽽⽣的Fuzz（Fuzz是爆破的⼀种⼿段）⼯具，它基于⼀个简单的理念，即⽤给定的Payload 去f uzz。它允许在HTTP请求⾥注⼊任何输⼊的值，针对不同的WEB应⽤组件进⾏多种复杂的爆破攻击。⽐如：参数、认 证、表单、⽬录/⽂件、头部等等，这款⼯具在kali⾥⾯⾃带</p>
+<p>https://github.com/xmendez/wfuzz</p>
+<p>windows或其他linux系统直接pip安装即可</p>
+<pre><code>pip install wfuzz
+</code></pre>
+<h5 id="-u">-u</h5>
+<p>指定目标</p>
+<pre><code>wfuzz -u 
+</code></pre>
+<h5 id="-w">-w</h5>
+<p>指定字典</p>
+<pre><code>wfuzz -w fuzz1.txt -w fuzz2.txt -u https://morn-zh.github.io/FUZZ/FUZ2Z/
+</code></pre>
+<p>fuzz1.txt</p>
+<pre><code>post
+xxx
+ket
+ada
+</code></pre>
+<p>fuzz2.txt</p>
+<pre><code>post
+xxx
+ket
+ada
+phpinfo-zhong-zhi-de-zhu-yi-de-dian
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://xssong17.github.io/post-images/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B9%8B%E6%95%8F%E6%84%9F%E8%B7%AF%E5%BE%84/Snipaste_2021-05-07_20-59-22.png" alt="Snipaste_2021-05-07_20-59-22" loading="lazy"></figure>
+<h5 id="过滤">过滤</h5>
+<p>为了防止大面积的打印信息，需要对信息进行过滤</p>
+<h6 id="-hccode">--hc(code)</h6>
+<p>过滤响应码</p>
+<h6 id="-hlline">--hl(line)</h6>
+<p>通过响应报文行数进行过滤</p>
+<h6 id="-hwword">--hw(word)</h6>
+<p>通过响应报文字数进行隐藏</p>
+<h6 id="-hhchar">--hh(char)</h6>
+<p>通过响应报文字符数进行过滤</p>
+<p>wfuzz会在窗口处展示行数、字数、字符数，你可以先大致的看一眼，把那些没用的记录下过滤掉即可</p>
+<pre><code>wfuzz -w fuzz1.txt -w fuzz2.txt -u https://morn-zh.github.io/FUZZ/FUZ2Z/ --hh 88
+</code></pre>
+<pre><code>wfuzz -w fuzz1.txt -w fuzz2.txt -u https://morn-zh.github.io/FUZZ/FUZ2Z/ --hc 404
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://xssong17.github.io/post-images/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B9%8B%E6%95%8F%E6%84%9F%E8%B7%AF%E5%BE%84/Snipaste_2021-05-07_21-00-19.png" alt="Snipaste_2021-05-07_21-00-19" loading="lazy"></figure>
+<p>这里有个比较好用的</p>
+<p>先列出命令</p>
+<pre><code>wfuzz -w fuzz2.txt -u https://morn-zh.github.io/post/FUZZ{phpinfo-zhong-zhi-de-zhu-yi-de-dian}/ --hh BBB
+</code></pre>
+<p>可以看见多了个参数--hh BBB（这是固定的），还多了个花括号</p>
+<p>大致流程是这样的，wfuzz会先查请求<code>https://morn-zh.github.io/post/phpinfo-zhong-zhi-de-zhu-yi-de-dian</code>，得到响应报文，后续与<strong>这次请求的报文相同</strong>的payload就会被隐藏</p>
+<figure data-type="image" tabindex="3"><img src="https://xssong17.github.io/post-images/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B9%8B%E6%95%8F%E6%84%9F%E8%B7%AF%E5%BE%84/Snipaste_2021-05-07_21-18-21.png" alt="Snipaste_2021-05-07_21-18-21" loading="lazy"></figure>
+<p>也就是说，我们可以手动发送一个不存在的请求，然后只要后续失败的payload取得的响应与这个相同，就会自动隐藏掉了~</p>
+<p>举个例子，发送个错误的请求</p>
+<pre><code>wfuzz -w fuzz2.txt -u https://morn-zh.github.io/post/FUZZ{AA}/ --hh BBB
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://xssong17.github.io/post-images/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B9%8B%E6%95%8F%E6%84%9F%E8%B7%AF%E5%BE%84/Snipaste_2021-05-07_21-25-05.png" alt="Snipaste_2021-05-07_21-25-05" loading="lazy"></figure>
+<p>和这个不一样的就会被隐藏！</p>
+<h5 id="-h">-H</h5>
+<p>指定请求头</p>
+<p>每个参数都需要指定一次，有点麻烦（可能是操作原因</p>
+<pre><code>wfuzz -H &quot;host:xx.xx.xx.xx&quot; -H &quot;cookie:xxxxxx&quot; -u &quot;http://www.xxx.com&quot;
+</code></pre>
+<p>更详细的参数：</p>
+<p>https://blog.csdn.net/qq_17204441/article/details/102279118</p>
+<p>https://blog.csdn.net/bylfsj/article/details/102630816</p>
+<p>0507继续看上面的文章</p>
+<h3 id="在js文件中寻找敏感接口">在JS⽂件中寻找敏感接⼝</h3>
+<p>待定~</p>
+
+        </div>
+
+        
+          <a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 " href="https://xssong17.github.io/tag/wgo_p-85C/">
+            <span class="flex-auto">渗透</span>
+          </a>
+        
+
+
+        <div class="flex justify-between py-8">
+          
+            <div class="prev-post">
+              <a href="https://xssong17.github.io/post/iis-duan-wen-jian-ming-xie-lu/">
+                <h3 class="post-title">
+                  <i class="ri-arrow-left-line"></i>
+                  IIS短文件名泄露
+                </h3>
+              </a>
+            </div>
+          
+
+          
+            <div class="next-post">
+              <a href="https://xssong17.github.io/post/xss/">
+                <h3 class="post-title">
+                  XSS
+                  <i class="ri-arrow-right-line"></i>
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <script src="https://xssong17.github.io/media/prism.js"></script>  
+<script>
+
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
+
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
+
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
+      });
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
+  </body>
+</html>
